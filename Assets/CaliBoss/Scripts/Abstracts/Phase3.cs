@@ -9,6 +9,11 @@ namespace Caliodore
     abstract public class Phase3 : State
     {
         public Phase3(BossStateMachine thisSM) : base(thisSM) { }
+        
+        public Phase3() : base() { }
+        
+        public static int hitsTakenWithoutRetaliation;
+
         public override void OnStateEnter()
         {
             stateName = "Phase3_";

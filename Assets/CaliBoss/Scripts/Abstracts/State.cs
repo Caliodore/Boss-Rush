@@ -10,6 +10,8 @@ namespace Caliodore
     {
         [Header("Consistent Vars")]
         public bool stateComplete { get; protected set; }
+        public UnityEvent HitPlayerSuccess { get; protected set; }
+        public UnityEvent DamagedByPlayer { get; protected set; }
 
         [Header("Protected Vars")]
         protected float stateStartTime;
@@ -25,6 +27,11 @@ namespace Caliodore
             attachedSM = thisSM;    
         }
 
+        public State()
+        { 
+            attachedSM = gameObject.GetComponentInParent<BossStateMachine>();    
+        }
+
         public virtual void OnStateEnter() 
         {
             print($"Entered state: {stateName}");
@@ -32,5 +39,10 @@ namespace Caliodore
         }
         public virtual void OnUpdate() { }
         public virtual void OnStateExit() { }
+
+        
+        public virtual void DamageTaken() { }
+
+        public virtual void PlayerDamaged() { }
     }
 }

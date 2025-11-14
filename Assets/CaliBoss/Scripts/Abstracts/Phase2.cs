@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Caliodore
 {
@@ -9,6 +10,11 @@ namespace Caliodore
     abstract public class Phase2 : State
     {
         public Phase2(BossStateMachine thisSM) : base(thisSM) { }
+        
+        public Phase2() : base() { }
+
+        public static int hitsTakenWithoutRetaliation;
+
         public override void OnStateEnter()
         {
             stateName = "Phase2_";
@@ -24,5 +30,6 @@ namespace Caliodore
         { 
             base.OnUpdate();
         }
+
     }
 }

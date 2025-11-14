@@ -10,6 +10,8 @@ namespace Caliodore
     {
         public Phase1(BossStateMachine thisSM) : base(thisSM) { }
 
+        public Phase1() : base() { }
+
         public bool isChosen { get; private set; }
 
         public override void OnStateEnter()
