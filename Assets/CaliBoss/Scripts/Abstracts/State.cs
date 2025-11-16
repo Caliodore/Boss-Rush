@@ -16,11 +16,13 @@ namespace Caliodore
         [Header("Protected Vars")]
         protected float stateStartTime;
         public float time => Time.time - stateStartTime;
+        protected float currentStateDuration;
         protected string stateName;
+        protected State defaultGoToState;
 
         [Header("References")]
         [SerializeField] static GameObject playerObj;
-        [SerializeField] BossStateMachine attachedSM;
+        [SerializeField] public BossStateMachine attachedSM;
 
         public State(BossStateMachine thisSM)
         { 
@@ -35,12 +37,17 @@ namespace Caliodore
         public virtual void OnStateEnter() 
         {
             print($"Entered state: {stateName}");
-            stateStartTime = 0;    
+            stateStartTime = 0;
+            currentStateDuration = 0;
         }
-        public virtual void OnUpdate() { }
+        public virtual void OnUpdate() 
+        { 
+            currentStateDuration += Time.deltaTime;
+        }
         public virtual void OnStateExit() { }
 
-        
+        public virtual void StateDurationElapsed() { }
+
         public virtual void DamageTaken() { }
 
         public virtual void PlayerDamaged() { }

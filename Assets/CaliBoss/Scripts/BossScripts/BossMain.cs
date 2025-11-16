@@ -7,12 +7,13 @@ namespace Caliodore
 {
     public class BossMain : MonoBehaviour
     {
-        BossStateMachine attachedSM;
+        [SerializeField] BossStateMachine attachedSM;
 
         private void Start()
         {
-            attachedSM = new BossStateMachine(this);
-            attachedSM.ChangeState(new States_Phase1.Entry());
+            attachedSM = GetComponent<BossStateMachine>();
+            //attachedSM = new BossStateMachine(this);
+            //attachedSM.ChangeState(new States_Phase1.Entry());
         }
     }
 }

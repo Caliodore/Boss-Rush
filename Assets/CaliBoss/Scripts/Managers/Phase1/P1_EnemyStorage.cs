@@ -1,13 +1,36 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Caliodore
 {
+    /// <summary>
+    /// Centralizes references to total enemy count, including queued/inactive enemies. </br>
+    /// Mainly for use with SpawnManager and BossOverseer.
+    /// </summary>
     public class P1_EnemyStorage : MonoBehaviour
     {
-        /*
-         * Script to collect and reference all enemies currently within the scene, including those queued and inactive.
-         * Should have methods for spawning new enemies, communicating that enough have spawned, and choosing new chosen when one dies.
-         * 
-         */
+        [Header("References")]
+        [SerializeField] P1_SpawnManager attSpawnManager;
+
+        [Header("Collections")]
+        public Dictionary<string,GameObject> currentlyActiveEnemies = new Dictionary<string, GameObject>();     //For storing the singular chosen and all the regular clergy.
+        public Queue<GameObject> dyingEnemies = new Queue<GameObject>();                                        //Queue that provides a buffer for the player.
+        public Queue<GameObject> inactiveEnemyQueue = new Queue<GameObject>();                                  //For SpawnManager to pull from/reference.
+
+        [Header("Properties for Other Scripts")]
+        private int enemiesActive;
+        private int queuedEnemies;
+
+        public int QueuedEnemies {  get { return queuedEnemies; } }
+        public int EnemiesActive {  get { return enemiesActive; } }
+
+        public void Start()
+        {
+            
+        }
+
+
     }
 }

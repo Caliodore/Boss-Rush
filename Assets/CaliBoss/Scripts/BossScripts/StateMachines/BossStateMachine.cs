@@ -5,7 +5,7 @@ using Caliodore.States_Phase3;
 
 namespace Caliodore
 {
-    public class BossStateMachine : MonoBehaviour
+    public abstract class BossStateMachine : MonoBehaviour
     {
         /*
          * Script for object that will persist through phases on any entity considered part of the boss.
@@ -14,18 +14,25 @@ namespace Caliodore
          */
 
         State currentState;
-        BossMain attachedBM;
+        public virtual BossMain AttachedBM { get; protected set; }
 
-        public int currentPhase { get; private set; }
+        public virtual int CurrentPhase { get => CurrentPhase; protected set => CurrentPhase = 0; }
+
+        public BossStateMachine() { }
 
         public BossStateMachine(BossMain thisBM)
         { 
-            attachedBM = thisBM;
+            AttachedBM = thisBM;
+        }
+
+        private void Start()
+        {
+            AttachedBM = GetComponent<BossMain>();
         }
 
         public void Update()
         {
-            currentState.OnUpdate();
+            //currentState.OnUpdate();
         }
 
         public void ChangeState(State changeToState)

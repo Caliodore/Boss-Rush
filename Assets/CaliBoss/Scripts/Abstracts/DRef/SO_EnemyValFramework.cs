@@ -10,7 +10,7 @@ public abstract class SO_EnemyValFramework : ScriptableObject
     [SerializeField] public int MaxHealth = 100;
     [SerializeField] public int CurrentHealth = 100;
     [SerializeField] public int CurrentPhase = 1;
-    [SerializeField] public State CurrentState = new Caliodore.States_Phase1.Entry();
+    //[SerializeField] public State CurrentState = new Caliodore.States_Phase1.Entry();
 
     public virtual int maxHealth { get; protected set; }
     public virtual int currentHealth { get; protected set; }
@@ -22,12 +22,12 @@ public abstract class SO_EnemyValFramework : ScriptableObject
         maxHealth = 100;
         currentHealth = maxHealth;
         currentPhase = 1;
-        currentState = new Caliodore.States_Phase1.Entry();
+        //currentState = new Caliodore.States_Phase1.Entry();
 
         MaxHealth = maxHealth;
         CurrentHealth = currentHealth;
         CurrentPhase = currentPhase;
-        CurrentState = currentState;
+        //CurrentState = currentState;
     }
 
     /*public SO_EnemyValFramework(int phaseInt)
