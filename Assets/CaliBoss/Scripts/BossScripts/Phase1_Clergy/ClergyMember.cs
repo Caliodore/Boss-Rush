@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Caliodore
 {
-public class ClergyMember : MonoBehaviour
-{
-
-}
+    public class ClergyMember : BossMain
+    {
+        public ClergyMember() : base(1) { }
+    }
 }

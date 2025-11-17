@@ -12,7 +12,8 @@ namespace Caliodore
 
         public Phase1() : base() { }
 
-        public bool isChosen { get; private set; }
+        public bool isAlerted { get; protected set; } = false;
+        public bool isChosen { get; protected set; } = false;
 
         public override void OnStateEnter()
         {

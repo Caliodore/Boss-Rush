@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18e8d924504d25147b7bf36cb6348876, type: 3}
+  m_Name: SO_P2
+  m_EditorClassIdentifier: Assembly-CSharp::SO_P2
+  MaxHealth: 0
+  CurrentHealth: 0
+  MoveSpeed: 0
+  TurnSpeed: 0
+  RecoveryTime: 0
+  DamageDealt: 0
+  MeleeCooldown: 0
+  RangedCooldown: 0
+  InRangeOfPlayer: 0
+  IsRecovering: 0
+  IsTransitioning: 0
+  IsAttacking: 0
+  IsTurning: 0
+  IntendedPhase: 0
+  AwareOfPlayer: 0
+  IsEmitting: 0
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  ChargeAttackArenaPercentage: 0
+  IsComboing: 0
+  IsStationary: 0
+  IsDefending: 0
+  ChargeBuildUpTimer: 0
+  ChargeAttackRadius: 0
+  ChargeAttackAngle: 0
+  AoERadius: 0
+  ComboDecayTimer: 0
+  PummelPumishDecayTimer: 0
+  BloodBarrierDecayTimer: 0
+  PillarSpawnAmount: 0
+  ComboCounter: 0

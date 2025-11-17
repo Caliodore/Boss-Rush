@@ -2,6 +2,10 @@ using UnityEngine;
 using Caliodore;
 using Caliodore.States_Phase1;
 
+/// <summary>
+/// BossStateMachine child that is specific to Phase 1 of boss fight. <br/>
+/// Handles swapping between states and signifying to the BossMain of Phase 1 when to transition.
+/// </summary>
 public class BSM_P1 : BossStateMachine
 {
     //BossMain attachedBM;
