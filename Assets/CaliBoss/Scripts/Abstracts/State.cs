@@ -24,16 +24,6 @@ namespace Caliodore
         [SerializeField] static GameObject playerObj;
         [SerializeField] public BossStateMachine attachedSM;
 
-        public State(BossStateMachine thisSM)
-        { 
-            attachedSM = thisSM;    
-        }
-
-        public State()
-        {
-
-        }
-
         public virtual void OnStateEnter() 
         {
             print($"Entered state: {stateName}");

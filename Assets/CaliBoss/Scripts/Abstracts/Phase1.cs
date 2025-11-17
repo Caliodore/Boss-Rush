@@ -8,10 +8,6 @@ namespace Caliodore
     /// </summary>
     abstract public class Phase1 : State
     {
-        public Phase1(BossStateMachine thisSM) : base(thisSM) { }
-
-        public Phase1() : base() { }
-
         public bool isAlerted { get; protected set; } = false;
         public bool isChosen { get; protected set; } = false;
 

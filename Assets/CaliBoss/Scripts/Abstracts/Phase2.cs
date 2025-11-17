@@ -9,11 +9,7 @@ namespace Caliodore
     /// </summary>
     abstract public class Phase2 : State
     {
-        public Phase2(BossStateMachine thisSM) : base(thisSM) { }
-        
-        public Phase2() : base() { }
-
-        public static int hitsTakenWithoutRetaliation;
+        //public static int hitsTakenWithoutRetaliation;
 
         public override void OnStateEnter()
         {

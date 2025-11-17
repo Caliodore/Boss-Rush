@@ -2,6 +2,11 @@ using UnityEngine;
 using Caliodore.States_Phase1;
 using Caliodore.States_Phase2;
 using Caliodore.States_Phase3;
+using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.AI;
+using System.IO;
 
 namespace Caliodore
 {
@@ -33,6 +38,8 @@ namespace Caliodore
         private Damageable attDamageable;
         private Navigator attNavigator;
         private Sensor attSensor;
+        private NavMeshAgent attNavAgent;
+        private EnemyFramework_SO attachedSO;
         //~~Ints~~//
         private int currentPhase;        
 
@@ -54,7 +61,10 @@ namespace Caliodore
 
         public Sensor AttachedSensor {  get { return attSensor; } set { attSensor = value;} }
         //UnityEvents: OnEnter, OnExit
+        
+        public NavMeshAgent AttachedNavMeshAgent { get { return attNavAgent; } set { attNavAgent = value; } }
 
+        public virtual EnemyFramework_SO AttachedSO { get { return attachedSO; } set { attachedSO = value; } }
 
         //~~Ints~~//
         public int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
@@ -62,20 +72,35 @@ namespace Caliodore
         //Begin logic
         private void Start()
         {
-            SetRefs();
+            //SetRefs();
         }
-        private void SetRefs() 
-        { 
+        protected void SetRefs(bool isOverseer) 
+        {
             attStateMachine = gameObject.GetComponent<BossStateMachine>();
-            attDamager = gameObject.GetComponent<Damager>();
-            attDamageable = gameObject.GetComponent<Damageable>();
-            attNavigator = gameObject.GetComponent<Navigator>();
-            attSensor = gameObject.GetComponent<Sensor>();
+            if(!isOverseer)
+            { 
+                attDamager = gameObject.GetComponent<Damager>();
+                attDamageable = gameObject.GetComponent<Damageable>();
+                attNavigator = gameObject.GetComponent<Navigator>();
+                attSensor = gameObject.GetComponent<Sensor>();
+                attNavAgent = gameObject.GetComponent<NavMeshAgent>();
+            }
         }
 
-        private void MoveTo()
-        { 
-            
+        private void MoveTo(Vector3 targetLocation)
+        {
+            if(attNavigator == null)
+            { 
+                print("There is no NavMeshAgent and/or Navigator attached to this GameObject.");
+                return;
+            }
+            else if(attNavigator.CalculatePathToPosition(targetLocation))
+            { 
+                List<Vector3> outputList = attNavigator.PathNodes;
+                //AttachedNavMeshAgent.path = outputList;
+            }
+            else
+                print("Enemy could not find path to target location.");
         }
 
     }
