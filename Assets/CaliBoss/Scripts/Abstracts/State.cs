@@ -30,8 +30,8 @@ namespace Caliodore
         }
 
         public State()
-        { 
-            attachedSM = gameObject.GetComponentInParent<BossStateMachine>();    
+        {
+
         }
 
         public virtual void OnStateEnter() 

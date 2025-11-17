@@ -13,21 +13,23 @@ namespace Caliodore
          * Intakes a state, then determines actions based on phase, and type of boss enemy (i.e.: if clergy or chosen). 
          */
 
-        State currentState;
-        public virtual BossMain AttachedBM { get; protected set; }
+        private State currentState;
+        private int currentPhase;
 
-        public virtual int CurrentPhase { get => CurrentPhase; protected set => CurrentPhase = 0; }
+        public virtual BossBrain AttachedBM { get; protected set; }
+
+        public virtual int CurrentPhase { get { return currentPhase;} protected set { currentPhase = value;} }
 
         public BossStateMachine() { }
 
-        public BossStateMachine(BossMain thisBM)
+        public BossStateMachine(BossBrain thisBM)
         { 
             AttachedBM = thisBM;
         }
 
         private void Start()
         {
-            AttachedBM = GetComponent<BossMain>();
+            AttachedBM = GetComponent<BossBrain>();
         }
 
         public void Update()

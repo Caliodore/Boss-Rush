@@ -9,7 +9,7 @@ namespace Caliodore
     /// To be used alongside BossStateMachine per phase to handle enacting logic. <br/>
     /// I.e.: BossStateMachine swaps states and then invokes events and BossMain does stuff accordingly.
     /// </summary>
-    public abstract class BossMain : MonoBehaviour
+    public abstract class BossBrain : MonoBehaviour
     {
         /*
          * What kinds of things would BSM need to call, but not do itself? i.e.: influenced by states, but not directly tied.
@@ -39,6 +39,23 @@ namespace Caliodore
         //-----Properties-----//
         //~~Refs~~//
         public BossStateMachine AttachedStateMachine {  get { return attStateMachine; } set { attStateMachine = value;} }
+
+        public Damager AttachedDamager {  get { return attDamager; } set { attDamager = value;} }
+        //Methods: { public void SetDamageAmount(int amount) } 
+        //UnityEvents: OnContact, OnSuccessfulHit
+
+        public Damageable AttachedDamageable {  get { return attDamageable; } set { attDamageable = value;} }
+        //Methods: bool Hit(Damage damage), void ResetIFrames(), void StartHitFlash(), void TestHit(), 
+        //UnityEvent: <int>OnInitialize, <Damage>OnHit, OnDeath, <int, int>OnHealthChanged
+         
+
+        public Navigator AttachedNavigator {  get { return attNavigator; } set { attNavigator = value;} }
+        //Methods: { public bool CalculatePathToPosition(Vector3 targetPosition) }
+
+        public Sensor AttachedSensor {  get { return attSensor; } set { attSensor = value;} }
+        //UnityEvents: OnEnter, OnExit
+
+
         //~~Ints~~//
         public int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
         
@@ -47,15 +64,18 @@ namespace Caliodore
         {
             SetRefs();
         }
-
-        public BossMain(int currentPhase)
-        {
-            this.CurrentPhase = currentPhase;
-        }
         private void SetRefs() 
         { 
             attStateMachine = gameObject.GetComponent<BossStateMachine>();
+            attDamager = gameObject.GetComponent<Damager>();
+            attDamageable = gameObject.GetComponent<Damageable>();
+            attNavigator = gameObject.GetComponent<Navigator>();
+            attSensor = gameObject.GetComponent<Sensor>();
+        }
 
+        private void MoveTo()
+        { 
+            
         }
 
     }

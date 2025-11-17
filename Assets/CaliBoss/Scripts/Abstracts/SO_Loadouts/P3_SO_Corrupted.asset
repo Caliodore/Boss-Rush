@@ -10,44 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adb15c67db3366d45b8bfef7b15d3cb9, type: 3}
-  m_Name: SO_P3
+  m_Name: P3_SO_Corrupted
   m_EditorClassIdentifier: Assembly-CSharp::SO_P3
-  MaxHealth: 0
-  CurrentHealth: 0
-  MoveSpeed: 0
-  TurnSpeed: 0
-  RecoveryTime: 0
-  DamageDealt: 0
-  MeleeCooldown: 0
-  RangedCooldown: 0
+  MaxHealth: 100
+  CurrentHealth: 100
+  MoveSpeed: 4
+  TurnSpeed: 2.5
+  RecoveryTime: 2.3
+  DamageDealt: 6
+  MeleeCooldown: 0.5
+  RangedCooldown: 1.25
   InRangeOfPlayer: 0
   IsRecovering: 0
   IsTransitioning: 0
   IsAttacking: 0
   IsTurning: 0
-  IntendedPhase: 0
+  IntendedPhase: 3
   AwareOfPlayer: 0
   IsEmitting: 0
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
   IsLeaping: 0
   IsEnraged: 0
   IsEncircling: 0
-  CatchUpTimer: 0
-  EnragedMovementMod: 0
-  EnragedAnimMod: 0
-  EnragedDamageMod: 0
-  LeapDistanceMax: 0
-  LeapTravelSpeed: 0
-  BloodShardAmount: 0
+  CatchUpTimer: 1.5
+  EnragedMovementMod: 1.5
+  EnragedAnimMod: 1.25
+  EnragedDamageMod: 2
+  LeapDistanceMax: 10
+  LeapTravelSpeed: 6
+  BloodShardAmount: 6
   IsComboing: 0
   IsStationary: 0
   IsDefending: 0
-  ChargeBuildUpTimer: 0
-  ChargeAttackRadius: 0
-  ChargeAttackAngle: 0
-  AoERadius: 0
-  ComboDecayTimer: 0
-  PummelPumishDecayTimer: 0
-  BloodBarrierDecayTimer: 0
-  PillarSpawnAmount: 0
+  ChargeBuildUpTimer: 2.25
+  ChargeAttackRadius: 6
+  ChargeAttackAngle: 25
+  AoERadius: 3
+  ComboDecayTimer: 2.25
+  PummelPumishDecayTimer: 0.75
+  BloodBarrierDecayTimer: 0.65
+  PillarSpawnAmount: 4
   ComboCounter: 0

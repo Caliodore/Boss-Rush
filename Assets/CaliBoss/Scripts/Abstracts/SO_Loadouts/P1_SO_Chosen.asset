@@ -10,20 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad80f11774fede44b80ec9c624d05c01, type: 3}
-  m_Name: SO_P1
+  m_Name: P1_SO_Chosen
   m_EditorClassIdentifier: Assembly-CSharp::SO_P1
-  MaxHealth: 0
-  CurrentHealth: 0
-  MoveSpeed: 0
-  TurnSpeed: 0
-  RecoveryTime: 0
-  DamageDealt: 0
-  MeleeCooldown: 0
-  RangedCooldown: 0
+  MaxHealth: 10
+  CurrentHealth: 10
+  MoveSpeed: 3
+  TurnSpeed: 2
+  RecoveryTime: 3
+  DamageDealt: 1
+  MeleeCooldown: 0.75
+  RangedCooldown: 1.25
   InRangeOfPlayer: 0
   IsRecovering: 0
   IsTransitioning: 0
-  IntendedPhase: 0
+  IsAttacking: 0
+  IsTurning: 0
+  IntendedPhase: 1
   AwareOfPlayer: 0
   IsEmitting: 0
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  IsAware: 0
+  IsBuffing: 0
+  IsChosen: 0
+  IsDying: 0
+  BuffMod: 1
+  BodyScale: 1
+  HealthBarPercent: 7.5

@@ -10,35 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18e8d924504d25147b7bf36cb6348876, type: 3}
-  m_Name: SO_P2
+  m_Name: P2_SO_Awakened
   m_EditorClassIdentifier: Assembly-CSharp::SO_P2
-  MaxHealth: 0
-  CurrentHealth: 0
+  MaxHealth: 100
+  CurrentHealth: 100
   MoveSpeed: 0
-  TurnSpeed: 0
-  RecoveryTime: 0
-  DamageDealt: 0
-  MeleeCooldown: 0
-  RangedCooldown: 0
+  TurnSpeed: 3
+  RecoveryTime: 4
+  DamageDealt: 4
+  MeleeCooldown: 1.25
+  RangedCooldown: 0.5
   InRangeOfPlayer: 0
   IsRecovering: 0
   IsTransitioning: 0
   IsAttacking: 0
   IsTurning: 0
-  IntendedPhase: 0
+  IntendedPhase: 2
   AwareOfPlayer: 0
   IsEmitting: 0
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-  ChargeAttackArenaPercentage: 0
+  ChargeAttackArenaPercentage: 20
   IsComboing: 0
   IsStationary: 0
   IsDefending: 0
-  ChargeBuildUpTimer: 0
-  ChargeAttackRadius: 0
-  ChargeAttackAngle: 0
-  AoERadius: 0
-  ComboDecayTimer: 0
-  PummelPumishDecayTimer: 0
-  BloodBarrierDecayTimer: 0
-  PillarSpawnAmount: 0
+  ChargeBuildUpTimer: 2.25
+  ChargeAttackRadius: 8
+  ChargeAttackAngle: 45
+  AoERadius: 5
+  ComboDecayTimer: 3.25
+  PummelPumishDecayTimer: 0.75
+  BloodBarrierDecayTimer: 1.05
+  PillarSpawnAmount: 8
   ComboCounter: 0

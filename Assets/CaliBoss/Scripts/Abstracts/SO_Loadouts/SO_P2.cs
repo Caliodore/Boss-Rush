@@ -21,5 +21,4 @@ public class SO_P2 : EnemyFramework_SO
     [SerializeField] public float BloodBarrierDecayTimer;
     //Ints
     [SerializeField] public int PillarSpawnAmount;
-    [SerializeField] public int ComboCounter;
 }
