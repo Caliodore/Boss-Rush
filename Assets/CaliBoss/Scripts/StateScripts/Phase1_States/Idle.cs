@@ -5,21 +5,15 @@ namespace Caliodore
 {
     namespace States_Phase1
     {
-        /// <summary>
-        /// State that handles when clergy members are dequeued and spawned into the upper pews of the arena. <br/>
-        /// Also will handle the opening logic and checks when the player first starts fight.
-        /// </summary>
-        public class Entry : Phase1
+        public class Idle : Phase1
         {
             public override bool IsAlerted { get => isAlerted; set => isAlerted = value; }
             public override bool IsChosen { get => isChosen; set => isChosen = value; }
 
             public override void OnStateEnter()
             {
-                stateName += "Entry";
+                stateName += "Idle";
             }
-
-
         } 
     }
 }

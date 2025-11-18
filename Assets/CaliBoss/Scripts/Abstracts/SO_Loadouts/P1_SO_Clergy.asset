@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad80f11774fede44b80ec9c624d05c01, type: 3}
   m_Name: P1_SO_Clergy
   m_EditorClassIdentifier: Assembly-CSharp::SO_P1
-  MaxHealth: 15
-  CurrentHealth: 15
-  MoveSpeed: 3
-  TurnSpeed: 2
+  MaxHealth: 5
+  CurrentHealth: 5
+  MoveSpeed: 2
+  TurnSpeed: 1.5
   RecoveryTime: 4
   DamageDealt: 1
   MeleeCooldown: 1.25

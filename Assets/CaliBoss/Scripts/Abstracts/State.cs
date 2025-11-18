@@ -6,7 +6,7 @@ namespace Caliodore
     /// <summary>
     /// The abstract class for which the state machine references to determine behaviour.
     /// </summary>
-    abstract public class State : MonoBehaviour
+    public abstract class State : MonoBehaviour
     {
         [Header("Consistent Vars")]
         public bool stateComplete { get; protected set; }
@@ -18,7 +18,6 @@ namespace Caliodore
         public float time => Time.time - stateStartTime;
         protected float currentStateDuration;
         protected string stateName;
-        protected State defaultGoToState;
 
         [Header("References")]
         [SerializeField] static GameObject playerObj;

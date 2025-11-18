@@ -6,10 +6,12 @@ namespace Caliodore
     /// Framework for state classes for first boss phase.<br/>
     /// Inherited from base State class.
     /// </summary>
-    abstract public class Phase1 : State
+    public abstract class Phase1 : State
     {
-        public bool isAlerted { get; protected set; } = false;
-        public bool isChosen { get; protected set; } = false;
+        protected bool isAlerted;
+        protected bool isChosen;
+        public virtual bool IsAlerted { get { return isAlerted; } set { isAlerted = value; } }
+        public virtual bool IsChosen { get { return isChosen; } set { isChosen = value; } }
 
         public override void OnStateEnter()
         {

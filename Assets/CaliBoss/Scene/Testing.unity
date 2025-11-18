@@ -549,121 +549,6 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
---- !u!1 &1494782447
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1494782448}
-  - component: {fileID: 1494782454}
-  - component: {fileID: 1494782453}
-  - component: {fileID: 1494782452}
-  - component: {fileID: 1494782451}
-  - component: {fileID: 1494782450}
-  - component: {fileID: 1494782449}
-  m_Layer: 0
-  m_Name: StateScripts
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1494782448
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2034914741}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1494782449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed1163ab777a2c149879a0038a20c92c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Pursuit
-  attachedSM: {fileID: 0}
---- !u!114 &1494782450
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff93cfd1690ae4948a4b5482a1e47af6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Melee
-  attachedSM: {fileID: 0}
---- !u!114 &1494782451
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fa0477774cbdc447bd99a5db3f7e80b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Entry
-  attachedSM: {fileID: 0}
---- !u!114 &1494782452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a733d3566d45c9443b8a94cb6eee69c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Dying
-  attachedSM: {fileID: 0}
---- !u!114 &1494782453
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de7efbb472015b944822728ff75d1638, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Chanting
-  attachedSM: {fileID: 0}
---- !u!114 &1494782454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1494782447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c9a2b92ae929a54296c78b508b2c8f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Buffing
-  attachedSM: {fileID: 0}
 --- !u!1001 &1595812663
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -725,6 +610,93 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e4a147e124dd8f4ab5d82f7492c3cc3, type: 3}
+--- !u!1 &1620558779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1620558780}
+  - component: {fileID: 1620558784}
+  - component: {fileID: 1620558783}
+  - component: {fileID: 1620558782}
+  - component: {fileID: 1620558781}
+  m_Layer: 0
+  m_Name: StateScripts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1620558780
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620558779}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2034914741}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1620558781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620558779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30c04341b7cdbde4eb2383a2dfb4fb66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Idle
+  attachedSM: {fileID: 2034914744}
+--- !u!114 &1620558782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620558779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fa0477774cbdc447bd99a5db3f7e80b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Entry
+  attachedSM: {fileID: 2034914744}
+--- !u!114 &1620558783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620558779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a733d3566d45c9443b8a94cb6eee69c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Dying
+  attachedSM: {fileID: 2034914744}
+--- !u!114 &1620558784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1620558779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd068dfabce2f9f438c0e17a5434d537, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Aggro
+  attachedSM: {fileID: 2034914744}
 --- !u!1 &1809992903
 GameObject:
   m_ObjectHideFlags: 0
@@ -2196,6 +2168,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c15e3e16bef5d6449f3900c50e5afb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::P1_Overseer
+  bossAlerted: 0
+  currentChosen: {fileID: 0}
+  clergyPrefab: {fileID: 0}
+  enemiesInArena: []
+  startSpawnLocations: []
+  upperSpawnPoints: []
+  maxAmountOfEnemies: 0
+  maxActiveEnemies: 0
+  ChosenDiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  ClergyDiedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  maxTotalBossHealth: 0
+  currentTotalBossHealth: 0
 --- !u!1 &2034914730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2216,6 +2204,7 @@ GameObject:
   - component: {fileID: 2034914731}
   - component: {fileID: 2034914743}
   - component: {fileID: 2034914742}
+  - component: {fileID: 2034914744}
   m_Layer: 0
   m_Name: CaliTestClergy
   m_TagString: Untagged
@@ -2432,7 +2421,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1494782448}
+  - {fileID: 1620558780}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2034914742
@@ -2447,6 +2436,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 657b6a4663103f94e84b529468a675a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::P1_Clergy
+  clergySO: {fileID: 11400000, guid: a7dbada2a9b63f542965f8354dc6cda3, type: 2}
+  chosenSO: {fileID: 11400000, guid: 87e033c59e6031d46b535f5e4d04bc52, type: 2}
+  isChosen: 0
+  OnBeingChosen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &2034914743
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2474,6 +2469,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2034914744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034914730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92591daebabfac644bfa3239cc12d521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.P1_SM_Generic
 --- !u!1 &2095937359
 GameObject:
   m_ObjectHideFlags: 0

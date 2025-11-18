@@ -40,6 +40,7 @@ namespace Caliodore
         private Sensor attSensor;
         private NavMeshAgent attNavAgent;
         private EnemyFramework_SO attachedSO;
+        protected static GameObject playerRef;
         //~~Ints~~//
         private int currentPhase;        
 

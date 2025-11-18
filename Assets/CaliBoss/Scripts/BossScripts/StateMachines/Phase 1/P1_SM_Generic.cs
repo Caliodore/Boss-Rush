@@ -19,16 +19,21 @@ namespace Caliodore
          * We will have this be attached at the base level that most other scripts/components are attached to, with an empty child to hold all the States.
          * Hopefully this will make things more organized.
          */
+        private P1_Overseer attachedBM; 
+        public override BossBrain AttachedBM { get => attachedBM; protected set => attachedBM = (P1_Overseer)value; }
+
+        public P1_SM_Generic() : base() { }
 
         P1_SM_Generic Instance;
-        
-        public List<Phase1> attachedStates;
+
+        List<Phase1> attachedStates = new();
 
         private void Awake()
         {
             if(Instance == null)
                 Instance = this;
-            GetAttachedStates();
+            attachedStates = GetAttachedStates<Phase1>();
+            //attachedBM = 
         }
 
         private void Start()
@@ -37,6 +42,13 @@ namespace Caliodore
             CurrentState = entryState;
         }
 
+        /// <summary>
+        /// Method to handle and keep track of an enemy before it enters the arena.
+        /// </summary>
+        public void DequeueSpawn()
+        { 
+            //if()
+        }
 
     }
 }

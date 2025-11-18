@@ -22,24 +22,17 @@ namespace Caliodore
 
         private State currentState;
         private int currentPhase;
-        private List<State> attachedStates = new List<State>();
 
         public virtual BossBrain AttachedBM { get; protected set; }
 
         public virtual int CurrentPhase { get { return currentPhase;} protected set { currentPhase = value;} }
         public virtual State CurrentState { get { return currentState;} protected set { currentState = value;} }
-        public virtual List<State> AttachedStates { get { return attachedStates; } protected set { attachedStates = value; } }
 
         public BossStateMachine() { }
-
-        public BossStateMachine(BossBrain thisBM)
-        { 
-            AttachedBM = thisBM;
-        }
-
+        
         public void Update()
         {
-            //currentState.OnUpdate();
+            currentState.OnUpdate();
         }
 
         public void ChangeState(State changeToState)
@@ -52,14 +45,16 @@ namespace Caliodore
             currentState.OnStateEnter();
         }
         
-        protected void GetAttachedStates()
+        protected List<T> GetAttachedStates<T>() where T : State
         { 
-            attachedStates.Clear();
-            var childComps = GetComponentsInChildren<Phase1>();
-            foreach(Phase1 stateCurrent in childComps) 
+            var statesList = new List<T>();
+            statesList.Clear();
+            var childComps = GetComponentsInChildren<T>();
+            foreach(T stateCurrent in childComps) 
             {
-                attachedStates.Add(stateCurrent);
+                statesList.Add(stateCurrent);
             }
+            return statesList;
         }
     }
 }
