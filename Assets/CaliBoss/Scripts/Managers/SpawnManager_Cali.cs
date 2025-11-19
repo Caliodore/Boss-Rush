@@ -22,7 +22,6 @@ namespace Caliodore
         [Header("ObjRefs")]
         [SerializeField] P1_Overseer bossBrainP1;
         [SerializeField] GameObject clergyPrefab;
-        private GameObject currentChosen;
 
         [Header("Properties")]
         private int enemiesActive;
@@ -73,8 +72,7 @@ namespace Caliodore
                     if(i == chosenIndex)
                     {
                         enemyScript.OnBeingChosen.Invoke();
-                        currentChosen = thisEnemy;
-                        bossBrainP1.currentChosen = currentChosen;
+                        bossBrainP1.currentChosen = thisEnemy;
                     }
                 }
                 else if(i > maxActiveEnemies)
