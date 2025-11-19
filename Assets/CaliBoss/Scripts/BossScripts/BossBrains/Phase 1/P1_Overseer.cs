@@ -5,6 +5,7 @@ using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace Caliodore
 {
@@ -18,18 +19,12 @@ namespace Caliodore
         public bool bossAlerted;            //Bool that is associated with showing the health bar and whether or not enemies are in the aggro state.
         public GameObject currentChosen;    //Reference for other scripts to know which enemy is Chosen at a glance.
 
-        [Header("Spawning Vars")]
-        public GameObject clergyPrefab;
-        public Queue<GameObject> queuedClergy = new Queue<GameObject>();
-        public List<GameObject> enemiesInArena = new List<GameObject>();
-        public List<GameObject> startSpawnLocations = new List<GameObject>();
-        public List<GameObject> upperSpawnPoints = new List<GameObject>();
-        public int maxAmountOfEnemies;
-        public int maxActiveEnemies;
-
         [Header("Events and Actions")]
         public UnityEvent ChosenDiedEvent;
         public UnityEvent ClergyDiedEvent;
+
+        [Header("Component Refs")]
+        [SerializeField] SpawnManager_Cali attachedSpawnManager;
 
         [Header("Boss Progression")]
         public float maxTotalBossHealth;
@@ -41,7 +36,6 @@ namespace Caliodore
         {
             SetRefs(true);
             CurrentPhase = 1;
-            GenerateCollections();
             GenerateEvents();
         }
 
@@ -51,7 +45,7 @@ namespace Caliodore
         /// <returns>The Chosen that is within enemiesInArena.</returns>
         private GameObject FindChosen()
         { 
-            GameObject chosenObjRef = enemiesInArena.Find(x => x.GetComponent<P1_Chosen>().isChosen == true);
+            GameObject chosenObjRef = attachedSpawnManager.currentlyActiveEnemies.Find(x => x.GetComponent<P1_Clergy>().isChosen == true);
             return chosenObjRef;
         }
 
@@ -62,7 +56,7 @@ namespace Caliodore
         /// </summary>
         private void UpdateEvents(GameObject targetObject, bool addOrRemove)
         {
-            bool objInArena = enemiesInArena.Contains(targetObject);
+            bool objInArena = attachedSpawnManager.currentlyActiveEnemies.Contains(targetObject);
             P1_Clergy targetScript = targetObject.GetComponent<P1_Clergy>();
             bool isTargetChosen = targetScript.isChosen;
 
@@ -105,76 +99,10 @@ namespace Caliodore
             if(ClergyDiedEvent == null)
                 ClergyDiedEvent = new UnityEvent();
 
-            foreach(GameObject currentEnemy in enemiesInArena)
+            foreach(GameObject currentKey in attachedSpawnManager.currentlyActiveEnemies)
             { 
-                UpdateEvents(currentEnemy, true);
+                UpdateEvents(currentKey, true);
             }
-        }
-
-        /// <summary>
-        /// To only be called at the beginning of the scene to first instantiate all the enemies. <br/>
-        /// Also separates the queued enemy pool and the ones active in the arena at start.
-        /// --This will require a handful of spawn points within the arena for the initial spawn.
-        /// </summary>
-        private void GenerateEnemyPool()
-        {
-            int chosenIndex = UnityEngine.Random.Range(0, maxActiveEnemies);
-            for(int i = 0; i < maxAmountOfEnemies; i++)     //Runs until the total amount of enemies are generated in both collections.
-            { 
-                if(i <= maxActiveEnemies)                    //Runs until filling the spots in the arena.
-                { 
-                    //Instantiate enemies and add them to enemiesInArena.
-                    Vector3 currentStartSpawn = startSpawnLocations[i].transform.position;
-                    GameObject thisEnemy = Instantiate(clergyPrefab, currentStartSpawn, Quaternion.identity);
-                    P1_Clergy enemyScript = thisEnemy.GetComponent<P1_Clergy>();
-                    enemiesInArena.Add(thisEnemy);
-
-                    if(i == chosenIndex)
-                    {
-                        enemyScript.OnBeingChosen.Invoke();
-                        currentChosen = thisEnemy;
-                    }
-                }
-                else if(i > maxActiveEnemies)
-                { 
-                    //Instantiate in the upper pews and add to queue. Can either have them out of view from the arena, or actually in the pews.
-                    int randomSpawnIndex = UnityEngine.Random.Range(0, upperSpawnPoints.Count - 1);
-                    Vector3 currentUpperSpawn = upperSpawnPoints[i].transform.position;
-                    GameObject thisEnemy = Instantiate(clergyPrefab, currentUpperSpawn, Quaternion.identity);
-                    P1_Clergy enemyScript = thisEnemy.GetComponent<P1_Clergy>();
-                    queuedClergy.Enqueue(thisEnemy);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gathers all GameObjects with the starting spawn target scripts.
-        /// </summary>
-        private void GenerateStartingLocations()
-        {
-            var scriptArray = FindObjectsByType<StartingLocation>(FindObjectsSortMode.None);
-            foreach(StartingLocation currentRef in scriptArray)
-                startSpawnLocations.Add(currentRef.gameObject);
-        }
-
-        /// <summary>
-        /// Gathers all GameObjects that have the recurring spawn points (upper pew spawns) target scripts.
-        /// </summary>
-        private void GenerateSpawnPoints()
-        { 
-            var scriptArray = FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
-            foreach(SpawnPoint currentRef in scriptArray)
-                upperSpawnPoints.Add(currentRef.gameObject);
-        }
-
-        /// <summary>
-        /// Called at start to generate collections for: StartingLocations, SpawnPoints, EnemiesInArena, QueuedEnemies
-        /// </summary>
-        private void GenerateCollections()
-        { 
-            GenerateEnemyPool();
-            GenerateStartingLocations();
-            GenerateSpawnPoints();
         }
 
         /// <summary>
@@ -183,9 +111,17 @@ namespace Caliodore
         /// <param name="deadChosen">GameObj reference to the Chosen that is dying</param>
         private void OnChosenDeath(GameObject deadChosen) 
         {
-            UpdateBossHealth(chosenHealthTotalImpact);
-            enemiesInArena.Remove(deadChosen);
-            ChooseNewChosen();
+            bool chosenCheck = deadChosen.GetComponent<P1_Clergy>().isChosen;
+            if(!chosenCheck)
+            { 
+                OnChosenDeath(FindChosen());
+            }
+            else
+            {
+                UpdateBossHealth(chosenHealthTotalImpact);
+                attachedSpawnManager.currentlyActiveEnemies.Remove(deadChosen);
+                ChooseNewChosen();
+            }
         }
 
         /// <summary>
@@ -194,7 +130,7 @@ namespace Caliodore
         private void OnClergyDeath(GameObject deadClergy) 
         { 
             UpdateBossHealth(clergyHealthTotalImpact);
-            enemiesInArena.Remove(deadClergy);
+            attachedSpawnManager.currentlyActiveEnemies.Remove(deadClergy);
         }
 
         /// <summary>
@@ -203,8 +139,9 @@ namespace Caliodore
         /// </summary>
         private void ChooseNewChosen() 
         { 
-            int randomIndex = UnityEngine.Random.Range(0, enemiesInArena.Count);
-            GameObject newChosen = enemiesInArena[randomIndex];
+            int randomIndex = UnityEngine.Random.Range(0, attachedSpawnManager.currentlyActiveEnemies.Count);
+            GameObject newChosen = attachedSpawnManager.currentlyActiveEnemies[randomIndex];
+            newChosen.GetComponent<P1_Clergy>().OnBeingChosen.Invoke();
             //Call whatever method is attached to the corresponding gameObj to signify them as chosen.
             ClergyToChosenEvents(newChosen);
         }

@@ -35,6 +35,8 @@ namespace Caliodore
         private void Start()
         {
             CheckSO();
+            if(!isChosen)
+                OnBeingChosen.AddListener(BecomeChosen);
         }
 
         private void CheckSO()
@@ -49,7 +51,11 @@ namespace Caliodore
             }
         }
 
-
+        private void BecomeChosen()
+        { 
+            isChosen = true;
+            CheckSO();
+        }
 
         //private void OnDestroy()
         //{
