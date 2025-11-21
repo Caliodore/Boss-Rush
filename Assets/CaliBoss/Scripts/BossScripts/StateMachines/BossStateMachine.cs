@@ -32,7 +32,7 @@ namespace Caliodore
         
         public void Update()
         {
-            currentState.OnUpdate();
+            //currentState.OnUpdate();
         }
 
         public void ChangeState(State changeToState)

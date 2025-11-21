@@ -50,8 +50,11 @@ namespace Caliodore
 
         private void GenerateCollections()
         {
-            currentlyGenerating = true;
-            StartCoroutine(SteppedGeneration());
+            //currentlyGenerating = true;
+            //StartCoroutine(SteppedGeneration());
+            GenerateSpawnPoints();
+            GenerateStartingLocations();
+            GenerateEnemyPool();
         }
 
         IEnumerator SteppedGeneration()
@@ -143,7 +146,7 @@ namespace Caliodore
             int combinedListCount = currentlyActiveEnemies.Count + inactiveEnemyQueue.Count;
             generatedEnemyLists = true;
             print($"EnemyPool generated with: {currentlyActiveEnemies.Count} currently active enemies, {inactiveEnemyQueue.Count} queued inactive enemies, and {combinedListCount} total enemies.");
-            print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
+            //print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
         }
 
         /// <summary>
@@ -158,7 +161,7 @@ namespace Caliodore
             }
             generatedStarts = true;
             print($"Finished generating starting locations with {startSpawnLocations.Count} references.");
-            print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
+            //print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
         }
 
         /// <summary>
@@ -173,7 +176,7 @@ namespace Caliodore
             }
             generatedSpawns = true;
             print($"Finished generating spawn points with {upperSpawnPoints.Count} references.");
-            print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
+            //print($"Done in {generationElapsedTime.ToString("0.00")} seconds.");
         }
 
     }

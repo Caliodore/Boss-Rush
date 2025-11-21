@@ -34,7 +34,6 @@ namespace Caliodore
 
         private void Awake()
         {
-            SetRefs(true);
             CurrentPhase = 1;
             GenerateEvents();
         }

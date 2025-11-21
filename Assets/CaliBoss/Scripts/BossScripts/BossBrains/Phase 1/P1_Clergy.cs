@@ -11,8 +11,14 @@ namespace Caliodore
     /// </summary>
     public class P1_Clergy : BossBrain
     {
+        [Header("Obj Refs")]
         [SerializeField] public EnemyFramework_SO clergySO;
         [SerializeField] public EnemyFramework_SO chosenSO;
+
+        [Header("Physical Vars")]
+        public override float CurrentHealth { get => currentHealth; set => currentHealth = value; }
+        private float currentHealth = new();
+
 
         public bool isChosen;
 
@@ -47,8 +53,10 @@ namespace Caliodore
             }
             else
             { 
-                currentSO = clergySO;    
+                currentSO = clergySO;  
             }
+
+            currentHealth = currentSO.MaxHealth;
         }
 
         private void BecomeChosen()

@@ -69,8 +69,8 @@ namespace Caliodore
         public virtual EnemyFramework_SO AttachedSO { get { return attachedSO; } set { attachedSO = value; } }
 
         //~~Ints~~//
-        public int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
-        public float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
+        public virtual int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
+        public virtual float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
         
         //Begin logic
         private void Start()
@@ -83,12 +83,12 @@ namespace Caliodore
             attStateMachine = gameObject.GetComponent<BossStateMachine>();
             if(!isOverseer)
             {
-                currentHealth = attachedSO.MaxHealth;
-                attDamager = gameObject.GetComponent<Damager>();
-                attDamageable = gameObject.GetComponent<Damageable>();
-                attNavigator = gameObject.GetComponent<Navigator>();
-                attSensor = gameObject.GetComponent<Sensor>();
-                attNavAgent = gameObject.GetComponent<NavMeshAgent>();
+                //currentHealth = attachedSO.MaxHealth;
+                attDamager = gameObject.GetComponentInChildren<Damager>();
+                attDamageable = gameObject.GetComponentInChildren<Damageable>();
+                attNavigator = gameObject.GetComponentInChildren<Navigator>();
+                attSensor = gameObject.GetComponentInChildren<Sensor>();
+                attNavAgent = gameObject.GetComponentInChildren<NavMeshAgent>();
             }
         }
 
