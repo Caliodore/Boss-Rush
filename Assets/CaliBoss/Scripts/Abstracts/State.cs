@@ -9,6 +9,7 @@ namespace Caliodore
     public abstract class State : MonoBehaviour
     {
         [Header("Consistent Vars")]
+        public string StateName { get { return stateName; } set { stateName = value; } }
         public bool stateComplete { get; protected set; }
         public UnityEvent HitPlayerSuccess { get; protected set; }
         public UnityEvent DamagedByPlayer { get; protected set; }
@@ -22,6 +23,11 @@ namespace Caliodore
         [Header("References")]
         [SerializeField] static GameObject playerObj;
         [SerializeField] public BossStateMachine attachedSM;
+
+        public virtual void SetSMRef<T>(BossStateMachine inputBSM) where T : BossStateMachine
+        { 
+            attachedSM = (T)inputBSM;
+        }
 
         public virtual void OnStateEnter() 
         {

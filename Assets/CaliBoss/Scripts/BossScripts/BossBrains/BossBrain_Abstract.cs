@@ -44,6 +44,8 @@ namespace Caliodore
         //~~Ints~~//
         private int currentPhase;
         private float currentHealth;
+        //~~Bools~~//
+        private bool bossAlerted;
 
         //-----Properties-----//
         //~~Refs~~//
@@ -71,6 +73,9 @@ namespace Caliodore
         //~~Ints~~//
         public virtual int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
         public virtual float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
+
+        //~~Bools~~//
+        public virtual bool BossAlerted { get { return bossAlerted; } set { bossAlerted = value; } }
         
         //Begin logic
         private void Start()

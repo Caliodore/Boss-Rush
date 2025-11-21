@@ -24,22 +24,39 @@ namespace Caliodore
 
         public P1_SM_Generic() : base() { }
 
-        P1_SM_Generic Instance;
+        public P1_SM_Generic Instance;
 
         public List<Phase1> attachedStates = new List<Phase1>();
+        public Dictionary<string, Phase1> AttP1StatesDict = new Dictionary<string, Phase1>();
 
         private void Awake()
         {
             if(Instance == null)
                 Instance = this;
-            attachedStates = GetAttachedStates<Phase1>();
-            //attachedBM = 
+
+            CreateStateDictionary<Phase1>();
+
+            /*attachedStates = GetAttachedStates<Phase1>();
+            foreach(Phase1 thisState in attachedStates)
+            {
+                thisState.SetSMRef<P1_SM_Generic>(this);
+            }*/
         }
 
         private void Start()
         {
-            Phase1 entryState = attachedStates.Find(x => x.ToString() == "Entry");
+            Phase1 entryState = (Phase1)AttStatesDict["Entry"];
             CurrentState = entryState;
+        }
+
+        public override void ChangeState<Phase1>(string stateName)
+        {
+            base.ChangeState<Phase1>(stateName);
+        }
+
+        public void ChangeState(string inputState)
+        { 
+            base.ChangeState<Phase1>(inputState);
         }
 
         /// <summary>
