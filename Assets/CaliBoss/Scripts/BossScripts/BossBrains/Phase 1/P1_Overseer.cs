@@ -43,10 +43,18 @@ namespace Caliodore
         /// To update the public variable currentChosen.
         /// </summary>
         /// <returns>The Chosen that is within enemiesInArena.</returns>
-        private GameObject FindChosen()
+        public GameObject FindChosen()
         { 
             GameObject chosenObjRef = attachedSpawnManager.currentlyActiveEnemies.Find(x => x.GetComponent<P1_Clergy>().isChosen == true);
-            return chosenObjRef;
+            if(chosenObjRef != null)
+            { 
+                currentChosen = chosenObjRef;
+            }
+            else
+            { 
+                ChooseNewChosen();    
+            }
+            return currentChosen;
         }
 
         /// <summary>
@@ -150,6 +158,7 @@ namespace Caliodore
                 { 
                     scriptToCheck.isChosen = true;
                     scriptToCheck.AttachedSO = scriptToCheck.chosenSO;
+                    currentChosen = newChosen;
                     ClergyToChosenEvents(newChosen);
                     choosingNewChosen = false;
                 }

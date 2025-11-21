@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Caliodore
 {
-public class CaliBossManager : MonoBehaviour
-{
+    public class CaliBossManager : MonoBehaviour
+    {
     /* 
      * Hostellus, the Eternal Martyr
      * and The Sacerdotes Cleridatus
@@ -39,5 +39,5 @@ public class CaliBossManager : MonoBehaviour
 --------------------------------------------------------------------------------------------------------------------------------------------------------
      *
      */
-}
+    }
 }

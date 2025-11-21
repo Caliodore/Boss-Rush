@@ -26,7 +26,7 @@ namespace Caliodore
 
         P1_SM_Generic Instance;
 
-        List<Phase1> attachedStates = new();
+        public List<Phase1> attachedStates = new List<Phase1>();
 
         private void Awake()
         {

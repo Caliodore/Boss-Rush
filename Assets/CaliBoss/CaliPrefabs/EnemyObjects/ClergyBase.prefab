@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5611822685819542342}
   - component: {fileID: 4948532152592751694}
+  - component: {fileID: 4294467245170189975}
   m_Layer: 0
   m_Name: SensorEmpty
   m_TagString: Untagged
@@ -53,6 +54,24 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.34
   m_Center: {x: -0.92, y: 0, z: 0}
+--- !u!114 &4294467245170189975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 367173519075130079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea31f22bf4791449be64ed8eea37ef1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Sensor
+  OnEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4291236490419983384
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,6 +81,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5452302143186228452}
+  - component: {fileID: 1112317493631988628}
+  - component: {fileID: 6708294386398560928}
   m_Layer: 0
   m_Name: ClergyBase
   m_TagString: Untagged
@@ -87,6 +108,37 @@ Transform:
   - {fileID: 6445131892606108546}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1112317493631988628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291236490419983384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92591daebabfac644bfa3239cc12d521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.P1_SM_Generic
+  attachedStates: []
+--- !u!114 &6708294386398560928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4291236490419983384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 657b6a4663103f94e84b529468a675a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Caliodore.P1_Clergy
+  clergySO: {fileID: 11400000, guid: a7dbada2a9b63f542965f8354dc6cda3, type: 2}
+  chosenSO: {fileID: 11400000, guid: 87e033c59e6031d46b535f5e4d04bc52, type: 2}
+  isChosen: 0
+  OnBeingChosen:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9141903866554625815
 GameObject:
   m_ObjectHideFlags: 0

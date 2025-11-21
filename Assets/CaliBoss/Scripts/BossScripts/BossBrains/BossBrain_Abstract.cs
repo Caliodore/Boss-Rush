@@ -75,14 +75,15 @@ namespace Caliodore
         //Begin logic
         private void Start()
         {
-            currentHealth = attachedSO.MaxHealth;
+            //currentHealth = attachedSO.MaxHealth;
             //SetRefs();
         }
         protected void SetRefs(bool isOverseer) 
         {
             attStateMachine = gameObject.GetComponent<BossStateMachine>();
             if(!isOverseer)
-            { 
+            {
+                currentHealth = attachedSO.MaxHealth;
                 attDamager = gameObject.GetComponent<Damager>();
                 attDamageable = gameObject.GetComponent<Damageable>();
                 attNavigator = gameObject.GetComponent<Navigator>();
