@@ -42,7 +42,8 @@ namespace Caliodore
         private EnemyFramework_SO attachedSO;
         protected static GameObject playerRef;
         //~~Ints~~//
-        private int currentPhase;        
+        private int currentPhase;
+        private float currentHealth;
 
         //-----Properties-----//
         //~~Refs~~//
@@ -69,10 +70,12 @@ namespace Caliodore
 
         //~~Ints~~//
         public int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
+        public float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
         
         //Begin logic
         private void Start()
         {
+            currentHealth = attachedSO.MaxHealth;
             //SetRefs();
         }
         protected void SetRefs(bool isOverseer) 
@@ -97,8 +100,7 @@ namespace Caliodore
             }
             else if(attNavigator.CalculatePathToPosition(targetLocation))
             { 
-                List<Vector3> outputList = attNavigator.PathNodes;
-                //AttachedNavMeshAgent.path = outputList;
+                attNavAgent.SetDestination(targetLocation);
             }
             else
                 print("Enemy could not find path to target location.");

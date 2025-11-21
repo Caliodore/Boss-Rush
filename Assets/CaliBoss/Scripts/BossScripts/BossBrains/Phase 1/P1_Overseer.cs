@@ -138,12 +138,27 @@ namespace Caliodore
         /// Selects from enemiesInArena randomly and signifies them as Chosen.
         /// </summary>
         private void ChooseNewChosen() 
-        { 
-            int randomIndex = UnityEngine.Random.Range(0, attachedSpawnManager.currentlyActiveEnemies.Count);
-            GameObject newChosen = attachedSpawnManager.currentlyActiveEnemies[randomIndex];
-            newChosen.GetComponent<P1_Clergy>().OnBeingChosen.Invoke();
-            //Call whatever method is attached to the corresponding gameObj to signify them as chosen.
-            ClergyToChosenEvents(newChosen);
+        {
+            bool choosingNewChosen = true;
+            List<GameObject> potentialChosen = attachedSpawnManager.currentlyActiveEnemies;
+            while(choosingNewChosen)
+            { 
+                int randomIndex = UnityEngine.Random.Range(0, potentialChosen.Count);
+                GameObject newChosen = potentialChosen[randomIndex];
+                P1_Clergy scriptToCheck = newChosen.GetComponent<P1_Clergy>();
+                if(scriptToCheck.CurrentHealth == scriptToCheck.AttachedSO.MaxHealth)
+                { 
+                    scriptToCheck.isChosen = true;
+                    scriptToCheck.AttachedSO = scriptToCheck.chosenSO;
+                    ClergyToChosenEvents(newChosen);
+                    choosingNewChosen = false;
+                }
+                else
+                { 
+                    potentialChosen.Remove(newChosen);
+                    ChooseNewChosen();
+                }
+            }
         }
 
         /// <summary>

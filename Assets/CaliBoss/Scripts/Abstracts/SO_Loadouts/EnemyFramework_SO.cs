@@ -7,8 +7,6 @@ namespace Caliodore
     {
         [Header("Health Vars")]
         [SerializeField] public float MaxHealth;
-        [SerializeField] public float CurrentHealth;
-        public float HealthPercentage { get { return CurrentHealth / MaxHealth; } private set { HealthPercentage = CurrentHealth / MaxHealth; } }
 
         [Header("Movement Vars")]
         [SerializeField] public float MoveSpeed;
@@ -40,4 +38,5 @@ namespace Caliodore
         [SerializeField] public bool ActiveDamageMult;
         */
     }
+
 }
