@@ -5,6 +5,7 @@ using Caliodore.States_Phase2;
 using Caliodore.States_Phase3;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.InputSystem.XR.Haptics;
 
 namespace Caliodore
 {
@@ -19,61 +20,48 @@ namespace Caliodore
          */
 
         public static GameObject playerObjRef;
-        protected State emptyState;
-
         private State currentState;
         private int currentPhase;
+        protected BossStateMachine attachedStateMachine;
 
         public virtual BossBrain AttachedBM { get; protected set; }
 
         public virtual int CurrentPhase { get { return currentPhase;} protected set { currentPhase = value;} }
         public virtual State CurrentState { get { return currentState;} protected set { currentState = value;} }
 
-        protected Dictionary<string, State> AttStatesDict = new Dictionary<string, State>();
-
         public BossStateMachine() { }
-
-        private void Awake()
-        {
-            emptyState = FindAnyObjectByType<EmptyState>();
-        }
 
         public void Update()
         {
             //currentState.OnUpdate();
         }
 
-        public void CreateStateDictionary<T>() where T : State
-        { 
+        public virtual Dictionary<string, T> CreateStateDictionary<T>(List<T> inputList) where T : State
+        {
+            Dictionary<string, T> AttStatesDict = new Dictionary<string, T>();
             var stateColl = GetComponentsInChildren<T>();
-            foreach(T currentScript in stateColl)
+            if(stateColl != null)
             { 
-                AttStatesDict.Add(currentScript.StateName, currentScript);    
+                foreach(T currentScript in stateColl)
+                { 
+                    AttStatesDict.Add(currentScript.StateName, currentScript);
+                    inputList.Add(currentScript);
+                }
+                return AttStatesDict;
             }
+            return null;
         }
 
-        public virtual void ChangeState<T>(string stateName) where T : State
+        public virtual void ChangeState<T>(T changeToState) where T : State
         {
             if(currentState != null)
                 currentState.OnStateExit();
-
-            T changeToState = (T)AttStatesDict[stateName];
 
             currentState = changeToState;
 
             currentState.OnStateEnter();
         }
-        
-        /*protected List<T> GetAttachedStates<T>() where T : State
-        { 
-            var statesList = new List<T>();
-            statesList.Clear();
-            var childComps = GetComponentsInChildren<T>();
-            foreach(T stateCurrent in childComps) 
-            {
-                statesList.Add(stateCurrent);
-            }
-            return statesList;
-        }*/
+
+
     }
 }

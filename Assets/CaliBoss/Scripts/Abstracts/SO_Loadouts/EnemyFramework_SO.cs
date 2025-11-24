@@ -18,25 +18,10 @@ namespace Caliodore
         [SerializeField] public float MeleeCooldown;
         [SerializeField] public float RangedCooldown;
 
-        //Bools
-        [SerializeField] public bool InRangeOfPlayer;
-        [SerializeField] public bool IsRecovering;
-        [SerializeField] public bool IsTransitioning;
-        [SerializeField] public bool IsAttacking;
-        [SerializeField] public bool IsTurning;
-
-        [Header("Logic Ref Vars")]
-        [SerializeField] public int IntendedPhase;
-        [SerializeField] public bool AwareOfPlayer;
-        [SerializeField] public bool IsEmitting;
+        [Header("VFX Vars")]
         [SerializeField] public Color EmissionColor;
 
         public EnemyFramework_SO() { }
-
-        //Concepts
-        /*
-        [SerializeField] public bool ActiveDamageMult;
-        */
     }
 
 }

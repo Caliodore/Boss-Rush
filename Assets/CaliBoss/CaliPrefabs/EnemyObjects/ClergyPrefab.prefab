@@ -217,6 +217,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Caliodore.States_Phase1.Entry
   attachedSM: {fileID: 7156311399672799828}
+  waitingToEnter: 1
 --- !u!114 &7946518082092716385
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,7 +371,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92591daebabfac644bfa3239cc12d521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Caliodore.P1_SM_Generic
-  attachedStates: []
+  Instance: {fileID: 7156311399672799828}
+  attStatesHere: []
 --- !u!1 &7586772393364678423
 GameObject:
   m_ObjectHideFlags: 0

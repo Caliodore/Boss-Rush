@@ -13,26 +13,14 @@ MonoBehaviour:
   m_Name: P1_SO_Chosen
   m_EditorClassIdentifier: Assembly-CSharp::SO_P1
   MaxHealth: 10
-  CurrentHealth: 10
-  MoveSpeed: 3
+  MoveSpeed: 0
   TurnSpeed: 2
   RecoveryTime: 3
   DamageDealt: 1
   MeleeCooldown: 0.75
   RangedCooldown: 1.25
-  InRangeOfPlayer: 0
-  IsRecovering: 0
-  IsTransitioning: 0
-  IsAttacking: 0
-  IsTurning: 0
-  IntendedPhase: 1
-  AwareOfPlayer: 0
-  IsEmitting: 0
-  EmissionColor: {r: 0.754717, g: 0.0747597, b: 0.0747597, a: 0}
-  IsAware: 0
-  IsBuffing: 0
-  IsChosen: 0
-  IsDying: 0
+  EmissionColor: {r: 1, g: 0.9774216, b: 0.504717, a: 0}
   BuffMod: 1
   BodyScale: 1
-  HealthBarPercent: 7.5
+  FadeAwaySpeed: 3.5
+  TotalHealthImpact: 10

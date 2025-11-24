@@ -7,7 +7,8 @@ namespace Caliodore
     /// Inherited from base State class.
     /// </summary>
     abstract public class Phase3 : State
-    {        
+    {
+        public Phase3() : base("Phase3") { }
         //public static int hitsTakenWithoutRetaliation;
 
         public override void OnStateEnter()

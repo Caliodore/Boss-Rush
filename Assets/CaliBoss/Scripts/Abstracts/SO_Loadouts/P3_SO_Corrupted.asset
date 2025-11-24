@@ -13,25 +13,13 @@ MonoBehaviour:
   m_Name: P3_SO_Corrupted
   m_EditorClassIdentifier: Assembly-CSharp::SO_P3
   MaxHealth: 100
-  CurrentHealth: 100
   MoveSpeed: 4
   TurnSpeed: 2.5
   RecoveryTime: 2.3
   DamageDealt: 6
   MeleeCooldown: 0.5
   RangedCooldown: 1.25
-  InRangeOfPlayer: 0
-  IsRecovering: 0
-  IsTransitioning: 0
-  IsAttacking: 0
-  IsTurning: 0
-  IntendedPhase: 3
-  AwareOfPlayer: 0
-  IsEmitting: 0
-  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-  IsLeaping: 0
-  IsEnraged: 0
-  IsEncircling: 0
+  EmissionColor: {r: 0.4245283, g: 0.1501869, b: 0.24258773, a: 0}
   CatchUpTimer: 1.5
   EnragedMovementMod: 1.5
   EnragedAnimMod: 1.25
@@ -39,9 +27,6 @@ MonoBehaviour:
   LeapDistanceMax: 10
   LeapTravelSpeed: 6
   BloodShardAmount: 6
-  IsComboing: 0
-  IsStationary: 0
-  IsDefending: 0
   ChargeBuildUpTimer: 2.25
   ChargeAttackRadius: 6
   ChargeAttackAngle: 25
@@ -50,4 +35,3 @@ MonoBehaviour:
   PummelPumishDecayTimer: 0.75
   BloodBarrierDecayTimer: 0.65
   PillarSpawnAmount: 4
-  ComboCounter: 0

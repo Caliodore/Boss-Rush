@@ -18,36 +18,31 @@ namespace Caliodore
              * Queued enemies will linger in this state until they are called to jump into the arena.
              * This will be their state when they are dequeued and set active, up until they enter the actual arena.
              */
+            public Entry() : base("Entry") { }
 
             public bool waitingToEnter = true;
-            public override bool IsChosen { get => isChosen; set => isChosen = value; }
-
-            private void Awake()
-            {
-                clergySM = (P1_SM_Generic)attachedSM;
-            }
 
             public override void OnStateEnter()
             {
-                stateName += "Entry";
                 base.OnStateEnter();
 
-                if(waitingToEnter)
-                    //Bounce back and forth in the upper pews until can move to spawn.
+                waitingToEnter = true;
 
                 if(attachedSM.AttachedBM.BossAlerted)
                 {
-                    clergySM.ChangeState("Aggro");
+                    clergySM.ChangeState(clergySM.AttP1States["Aggro"]);
                 }
                 else
                 { 
-                    clergySM.ChangeState("Idle");
+                    clergySM.ChangeState(clergySM.AttP1States["Idle"]);
                 }
             }
 
-            public override void OnUpdate()
+            public override void OnUpdate() { }
+
+            public void OnEnable()
             {
-                base.OnUpdate();
+                OnStateEnter();
             }
         } 
     }

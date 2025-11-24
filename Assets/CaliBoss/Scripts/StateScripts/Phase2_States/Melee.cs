@@ -7,6 +7,6 @@ namespace Caliodore
         public class Melee : Phase2
         {
 
-        }
+        } 
     }
 }

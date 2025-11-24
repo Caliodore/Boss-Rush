@@ -43,9 +43,9 @@ namespace Caliodore
         protected static GameObject playerRef;
         //~~Ints~~//
         private int currentPhase;
-        private float currentHealth;
+        //private float currentHealth;
         //~~Bools~~//
-        private bool bossAlerted;
+        //private bool bossAlerted;
 
         //-----Properties-----//
         //~~Refs~~//
@@ -72,10 +72,13 @@ namespace Caliodore
 
         //~~Ints~~//
         public virtual int CurrentPhase { get { return currentPhase; } set { currentPhase = value;} }
-        public virtual float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
+        //public virtual float CurrentHealth { get { return currentHealth; } set { currentHealth = value; } }
 
         //~~Bools~~//
-        public virtual bool BossAlerted { get { return bossAlerted; } set { bossAlerted = value; } }
+        public virtual bool BossAlerted { get; protected set; }
+        public virtual bool playerNear { get; protected set; }
+        public bool canAttack = true;
+        public bool isPursuing = false;
         
         //Begin logic
         private void Start()
@@ -83,6 +86,7 @@ namespace Caliodore
             //currentHealth = attachedSO.MaxHealth;
             //SetRefs();
         }
+
         protected void SetRefs(bool isOverseer) 
         {
             attStateMachine = gameObject.GetComponent<BossStateMachine>();
@@ -112,5 +116,24 @@ namespace Caliodore
                 print("Enemy could not find path to target location.");
         }
 
+        public void PursuePlayer()
+        {
+            isPursuing = true;
+            MoveTo(playerRef.transform.position);
+        }
+
+        public void AttackPlayer(float attackTimer)
+        {
+            canAttack = false;
+            StartCoroutine(AttackCooldown(attackTimer));
+        }
+
+        IEnumerator AttackCooldown(float attackTimer)
+        {
+            //Animator trigger to attack and spawn damaging zone
+            yield return new WaitForSeconds(attackTimer);
+            canAttack = true;
+            yield return null;    
+        }
     }
 }

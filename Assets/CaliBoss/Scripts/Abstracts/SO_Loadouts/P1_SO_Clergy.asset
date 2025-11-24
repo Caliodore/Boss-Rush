@@ -13,26 +13,14 @@ MonoBehaviour:
   m_Name: P1_SO_Clergy
   m_EditorClassIdentifier: Assembly-CSharp::SO_P1
   MaxHealth: 5
-  CurrentHealth: 5
   MoveSpeed: 2
   TurnSpeed: 1.5
   RecoveryTime: 4
   DamageDealt: 1
   MeleeCooldown: 1.25
   RangedCooldown: 1.5
-  InRangeOfPlayer: 0
-  IsRecovering: 0
-  IsTransitioning: 0
-  IsAttacking: 0
-  IsTurning: 0
-  IntendedPhase: 1
-  AwareOfPlayer: 0
-  IsEmitting: 0
-  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-  IsAware: 0
-  IsBuffing: 0
-  IsChosen: 0
-  IsDying: 0
+  EmissionColor: {r: 0.7075472, g: 0.2236116, b: 0.2236116, a: 0}
   BuffMod: 2
   BodyScale: 1.25
-  HealthBarPercent: 10
+  FadeAwaySpeed: 3.5
+  TotalHealthImpact: 7.5

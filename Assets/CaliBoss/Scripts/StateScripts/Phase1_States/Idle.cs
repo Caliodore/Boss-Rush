@@ -7,11 +7,12 @@ namespace Caliodore
     {
         public class Idle : Phase1
         {
-            public override bool IsChosen { get => isChosen; set => isChosen = value; }
+            public Idle() : base("Idle") { }
+
+            public bool sentToArena = false;
 
             public override void OnStateEnter()
             {
-                stateName += "Idle";
                 base.OnStateEnter();
             }
 

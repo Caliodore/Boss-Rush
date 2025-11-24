@@ -7,12 +7,17 @@ namespace Caliodore
     {
         public class Dying : Phase1
         {
-            public override bool IsAlerted { get => isAlerted; set => isAlerted = value; }
-            public override bool IsChosen { get => isChosen; set => isChosen = value; }
+            public Dying() : base("Dying") { }
 
             public override void OnStateEnter()
             {
-                stateName += "Dying";
+                base.OnStateEnter();
+                clergyBrain.OnThisDeath.Invoke();
+            }
+
+            public override void OnUpdate()
+            {
+                base.OnUpdate();
             }
         } 
     }

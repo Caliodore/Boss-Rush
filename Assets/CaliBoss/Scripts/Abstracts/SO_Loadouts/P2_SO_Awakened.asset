@@ -13,26 +13,14 @@ MonoBehaviour:
   m_Name: P2_SO_Awakened
   m_EditorClassIdentifier: Assembly-CSharp::SO_P2
   MaxHealth: 100
-  CurrentHealth: 100
   MoveSpeed: 0
   TurnSpeed: 3
   RecoveryTime: 4
   DamageDealt: 4
   MeleeCooldown: 1.25
   RangedCooldown: 0.5
-  InRangeOfPlayer: 0
-  IsRecovering: 0
-  IsTransitioning: 0
-  IsAttacking: 0
-  IsTurning: 0
-  IntendedPhase: 2
-  AwareOfPlayer: 0
-  IsEmitting: 0
-  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionColor: {r: 0.38679248, g: 0, b: 0, a: 0}
   ChargeAttackArenaPercentage: 20
-  IsComboing: 0
-  IsStationary: 0
-  IsDefending: 0
   ChargeBuildUpTimer: 2.25
   ChargeAttackRadius: 8
   ChargeAttackAngle: 45
@@ -41,4 +29,3 @@ MonoBehaviour:
   PummelPumishDecayTimer: 0.75
   BloodBarrierDecayTimer: 1.05
   PillarSpawnAmount: 8
-  ComboCounter: 0

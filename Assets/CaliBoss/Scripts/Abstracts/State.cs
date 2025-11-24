@@ -18,11 +18,13 @@ namespace Caliodore
         protected float stateStartTime;
         public float time => Time.time - stateStartTime;
         protected float currentStateDuration;
-        protected string stateName;
+        protected string stateName = new string("");
 
         [Header("References")]
         [SerializeField] static GameObject playerObj;
         [SerializeField] public BossStateMachine attachedSM;
+
+        public State(string name) { stateName += name; }
 
         public virtual void SetSMRef<T>(BossStateMachine inputBSM) where T : BossStateMachine
         { 
@@ -39,12 +41,20 @@ namespace Caliodore
         { 
             currentStateDuration += Time.deltaTime;
         }
-        public virtual void OnStateExit() { }
+        public virtual void OnStateExit() 
+        { 
+            stateComplete = true;    
+        }
 
         public virtual void StateDurationElapsed() { }
 
         public virtual void DamageTaken() { }
 
         public virtual void PlayerDamaged() { }
+
+        public override string ToString()
+        {
+            return stateName;
+        }
     }
 }

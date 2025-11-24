@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Caliodore
 {
@@ -8,13 +9,19 @@ namespace Caliodore
     /// </summary>
     public abstract class Phase1 : State
     {
-        protected P1_SM_Generic clergySM;
-        protected bool isChosen;
-        public virtual bool IsChosen { get { return isChosen; } set { isChosen = value; } }        
+        protected ClergySM clergySM;
+        protected ClergyBrain clergyBrain;
+
+        protected Phase1(string name) : base("Phase1") { stateName += name; }
+
+        private void Awake()
+        {
+            clergySM = attachedSM as ClergySM;
+            clergyBrain = attachedSM.AttachedBM as ClergyBrain;
+        }
 
         public override void OnStateEnter()
         {
-            stateName = "Phase1_";
             base.OnStateEnter();
         }
 

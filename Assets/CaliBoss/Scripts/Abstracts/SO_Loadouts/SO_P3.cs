@@ -6,10 +6,6 @@ namespace Caliodore
     public class SO_P3 : EnemyFramework_SO
     {
         [Header("Phase 3 Specific Vars")]
-        //Bools
-        [SerializeField] public bool IsLeaping;
-        [SerializeField] public bool IsEnraged;
-        [SerializeField] public bool IsEncircling;
         //Floats
         [SerializeField] public float CatchUpTimer;
         [SerializeField] public float EnragedMovementMod;
@@ -21,10 +17,6 @@ namespace Caliodore
         [SerializeField] public int BloodShardAmount;
 
         [Header("Phase 2+3 Vars")]
-        //Bools
-        [SerializeField] public bool IsComboing;
-        [SerializeField] public bool IsStationary;
-        [SerializeField] public bool IsDefending;
         //Floats
         [SerializeField] public float ChargeBuildUpTimer;
         [SerializeField] public float ChargeAttackRadius;

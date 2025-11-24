@@ -9,10 +9,6 @@ namespace Caliodore
         [SerializeField] public float ChargeAttackArenaPercentage;
 
         [Header("Phase 2+3 Vars")]
-        //Bools
-        [SerializeField] public bool IsComboing;
-        [SerializeField] public bool IsStationary;
-        [SerializeField] public bool IsDefending;
         //Floats
         [SerializeField] public float ChargeBuildUpTimer;
         [SerializeField] public float ChargeAttackRadius;
