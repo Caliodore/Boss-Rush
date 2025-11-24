@@ -1,6 +1,9 @@
 using Caliodore;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace CaliJR
 { 
@@ -20,8 +23,7 @@ namespace CaliJR
 
         private void Awake()
         {
-            HitPlayerSuccess.AddListener(() => C2JR_StateMachine.BossSM.InvokePlayerHitSuccess(this));
-            DamagedByPlayer.AddListener(() => C2JR_StateMachine.BossSM.InvokeDamagedByPlayer(this));
+
         }
 
         public virtual void OnStateEnter() 
@@ -39,14 +41,33 @@ namespace CaliJR
             stateComplete = true;    
         }
 
-        public virtual void DamageTaken() 
+        public virtual void ModifyIncomingDamageByState(Damage dmgIn) 
+        {
+            float dmgAmt = dmgIn.amount;
+        }
+
+        public virtual void CheckDamageToPlayer(Damage dmgOut) 
         { 
             
         }
 
-        public virtual void PlayerDamaged() 
+        /*
+         * Could have a switch statement/logic structure to determine how we want to swap states rather than having it be super piecemeal.
+         * If it's a base part of the classes then we can also expand upon it easier.
+         * Make sure to havea a default case as backup.
+         */
+        public void StateChangeOffensive()
         { 
-            
+            if(C2JR_Brain.BossBrain.playerInMelee)
+                C2JR_Brain.BossSM.ChangeState("Attacking");
+        }
+
+        public void AddRemoveListeners(UnityEvent targetEvent, bool addOrRemove, UnityAction subscribingListener)
+        { 
+            if(addOrRemove)
+                targetEvent.AddListener(subscribingListener);
+            else if (!addOrRemove)
+                targetEvent.RemoveListener(subscribingListener);
         }
 
         public override string ToString()

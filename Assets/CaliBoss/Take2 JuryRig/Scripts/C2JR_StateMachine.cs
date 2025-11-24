@@ -31,23 +31,10 @@ namespace CaliJR
                     currentState = currentEntry;
 
                     currentState.OnStateEnter();
+
+                    
+                    return;
                 }
-            }
-        }
-
-        public void InvokeDamagedByPlayer(JRState inputState)
-        { 
-            if(inputState == currentState)
-            { 
-                currentState.DamageTaken();
-            }
-        }
-
-        public void InvokePlayerHitSuccess(JRState inputState)
-        { 
-            if(inputState == currentState)
-            { 
-                currentState.PlayerDamaged();
             }
         }
 

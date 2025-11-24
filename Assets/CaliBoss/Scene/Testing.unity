@@ -1088,13 +1088,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaliJR.Pursue
   stateName: Pursue
   stateComplete: 0
+  currentStateDuration: 0
   HitPlayerSuccess:
     m_PersistentCalls:
       m_Calls: []
   DamagedByPlayer:
     m_PersistentCalls:
       m_Calls: []
-  currentStateDuration: 0
 --- !u!114 &1191843060
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,13 +1109,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaliJR.JRState
   stateName: 
   stateComplete: 0
+  currentStateDuration: 0
   HitPlayerSuccess:
     m_PersistentCalls:
       m_Calls: []
   DamagedByPlayer:
     m_PersistentCalls:
       m_Calls: []
-  currentStateDuration: 0
 --- !u!114 &1191843061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1130,13 +1130,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaliJR.Idle
   stateName: Idle
   stateComplete: 0
+  currentStateDuration: 0
   HitPlayerSuccess:
     m_PersistentCalls:
       m_Calls: []
   DamagedByPlayer:
     m_PersistentCalls:
       m_Calls: []
-  currentStateDuration: 0
 --- !u!114 &1191843062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1151,13 +1151,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaliJR.Defending
   stateName: Defending
   stateComplete: 0
+  currentStateDuration: 0
   HitPlayerSuccess:
     m_PersistentCalls:
       m_Calls: []
   DamagedByPlayer:
     m_PersistentCalls:
       m_Calls: []
-  currentStateDuration: 0
 --- !u!114 &1191843063
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,13 +1172,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CaliJR.Attacking
   stateName: Attacking
   stateComplete: 0
+  currentStateDuration: 0
   HitPlayerSuccess:
     m_PersistentCalls:
       m_Calls: []
   DamagedByPlayer:
     m_PersistentCalls:
       m_Calls: []
-  currentStateDuration: 0
 --- !u!4 &1257239602 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4923451176874666800, guid: a87c532d0f87092478cb020eabfed76f, type: 3}
@@ -3880,37 +3880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c15e3e16bef5d6449f3900c50e5afb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::P1_Overseer
-  attStateMachine: {fileID: 0}
-  attDamager: {fileID: 0}
-  attDamageable: {fileID: 0}
-  attNavigator: {fileID: 0}
-  attSensor: {fileID: 0}
-  attNavAgent: {fileID: 0}
-  attachedSO: {fileID: 0}
-  currentPhase: 0
-  <BossAlerted>k__BackingField: 0
-  <playerNear>k__BackingField: 0
-  canAttack: 1
-  isPursuing: 0
-  bossAlerted: 0
-  currentChosen: {fileID: 0}
-  chosenBuffRange: 10
-  ChosenDiedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_CallsDirty: 1
-  ClergyDiedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-    m_CallsDirty: 1
-  attachedSpawnManager: {fileID: 1844352599}
-  chosenScript: {fileID: 0}
-  chosenSM: {fileID: 0}
-  maxTotalBossHealth: 20
-  currentTotalBossHealth: 20
-  chosenHealthTotalImpact: 0
-  clergyHealthTotalImpact: 0
-  currentlyBuffedEnemies: []
 --- !u!114 &1844352599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9878,7 +9847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2017699434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9894,12 +9863,6 @@ MonoBehaviour:
   currentState: {fileID: 0}
   stateName: 
   stateComplete: 0
-  HitPlayerSuccess:
-    m_PersistentCalls:
-      m_Calls: []
-  DamagedByPlayer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2017699435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9922,8 +9885,33 @@ MonoBehaviour:
   turnSpeed: 0
   damageDealt: 0
   distanceToPlayer: 0
+  meleeRange: 0
+  playerInMelee: 0
+  canAttack: 0
+  pursuingPlayer: 0
+  canMove: 1
+  OnPlayerEntersMelee:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPlayerExitsMelee:
+    m_PersistentCalls:
+      m_Calls: []
+  OnHitPlayerSuccess:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDamagedByPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+  hitsUntilRetaliation: 0
+  hitsTakenRecently: 0
+  hitsUntilBarrierBreak: 0
+  hitDecayTime: 0
+  defenseIncreaseRate: 0.15
+  comboDecayTime: 0
   comboCounter: 0
-  comboThreshold: 0
+  isComboing: 0
+  meleeCooldown: 0
+  rangedCooldown: 0
 --- !u!4 &2017699436
 Transform:
   m_ObjectHideFlags: 0
