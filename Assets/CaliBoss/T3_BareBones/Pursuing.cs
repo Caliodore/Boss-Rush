@@ -11,8 +11,8 @@ namespace Cali3
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            T3_Brain.MainBrain.BossSensor.OnEnter?.AddListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Attacking"));
-            T3_Brain.MainBrain.OnPlayerKeepingDistance?.AddListener(() => T3_Brain.MainBrain.InterruptStateForAttack());
+            //T3_Brain.MainBrain.BossSensor.OnEnter?.AddListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Attacking"));
+            //T3_Brain.MainBrain.OnPlayerKeepingDistance?.AddListener(() => T3_Brain.MainBrain.InterruptStateForAttack());
             //T3_Brain.MainBrain.BossStates.Find(stateOut => stateOut.stateName == "Attacking").OnEnteringStateOneShot?.AddListener(() => T3_Brain.MainBrain.ShardSpray());
             timeSpentPursuing = 0f;
         }
@@ -20,7 +20,7 @@ namespace Cali3
         public override void OnUpdate()
         {
             base.OnUpdate();
-            if(!T3_Brain.MainBrain.playerInMeleeRange && (timeSpentPursuing < T3_Brain.MainBrain.timeUntilAttemptRanged))
+            /*if(!T3_Brain.MainBrain.playerInMeleeRange && (timeSpentPursuing < T3_Brain.MainBrain.timeUntilAttemptRanged))
             {
                 T3_Brain.MainBrain.PursuePlayer();
                 timeSpentPursuing += Time.deltaTime;
@@ -29,14 +29,18 @@ namespace Cali3
             {
                 T3_Brain.MainBrain.OnPlayerKeepingDistance?.Invoke();
                 timeSpentPursuing = 0f;
-            }
+            }*/
+            if(T3_Brain.MainBrain.playerInMeleeRange)
+                T3_Brain.MainBrain.BossSM.ChangeState("Attacking");
+            else
+                T3_Brain.MainBrain.PursuePlayer();
         }
 
         public override void OnStateExit()
         {
             base.OnStateExit();
-            T3_Brain.MainBrain.BossSensor.OnEnter?.RemoveListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Attacking"));
-            T3_Brain.MainBrain.OnPlayerKeepingDistance?.RemoveListener(() => T3_Brain.MainBrain.ShardSpray());
+            //T3_Brain.MainBrain.BossSensor.OnEnter?.RemoveListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Attacking"));
+            //T3_Brain.MainBrain.OnPlayerKeepingDistance?.RemoveListener(() => T3_Brain.MainBrain.ShardSpray());
         }
     }
 }

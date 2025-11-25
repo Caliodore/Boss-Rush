@@ -30,7 +30,8 @@ namespace Cali3
         }
         public virtual void OnStateExit() 
         { 
-            stateComplete = true;    
+            stateComplete = true;
+            print(stateName + " was active for " + currentStateDuration + " seconds.");
         }
         public virtual void StateEnteredEventChecker()
         { 

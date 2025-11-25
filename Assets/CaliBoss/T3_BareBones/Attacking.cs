@@ -10,7 +10,7 @@ namespace Cali3
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            T3_Brain.MainBrain.BossSensor.OnExit.AddListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Pursuing"));
+            //T3_Brain.MainBrain.BossSensor.OnExit.AddListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Pursuing"));
         }
 
         public override void OnUpdate()
@@ -18,17 +18,21 @@ namespace Cali3
             base.OnUpdate();
             if(T3_Brain.MainBrain.playerInMeleeRange)
             { 
-                if(!T3_Brain.MainBrain.FacingPlayerCheck())
-                    T3_Brain.MainBrain.TurnTowardsPlayer();
-                else if(!T3_Brain.MainBrain.attackRecovering)
+                //if(!T3_Brain.MainBrain.FacingPlayerCheck())
+                //    T3_Brain.MainBrain.TurnTowardsPlayer();
+                if(!T3_Brain.MainBrain.attackRecovering)
                     T3_Brain.MainBrain.SwingSword();
+            }
+            else
+            { 
+                T3_Brain.MainBrain.BossSM.ChangeState("Pursuing");
             }
         }
 
         public override void OnStateExit()
         {
             base.OnStateExit();
-            T3_Brain.MainBrain.BossSensor.OnExit.RemoveListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Pursuing"));
+            //T3_Brain.MainBrain.BossSensor.OnExit.RemoveListener(() => T3_Brain.MainBrain.BossSM.ChangeState("Pursuing"));
         }
     }
 }
