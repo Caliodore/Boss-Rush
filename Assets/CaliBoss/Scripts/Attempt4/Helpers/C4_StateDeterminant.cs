@@ -43,6 +43,7 @@ namespace Cali_4
                      * A case inheriting from Transition, the intended next states are gonna be a large set of methods/switches themselves.
                      * A lot of these inherited states should have explicit exit conditions and next states, with this method being a fallback.
                      */
+
                     break;
 
                 case("Moving"):
@@ -53,12 +54,8 @@ namespace Cali_4
                     break;
 
                 case(""):
-                    /*
-                     * One of the generic cases which will be determined below in associated methods, if not explicitly set within the state.
-                     * These should be changed regularly, mainly by inherited states and external methods.
-                     */
-                    break;
-
+                    /*One of the generic cases which will be determined below in associated methods, if not explicitly set within the state.
+                      These shouldn't be directly instantiated.*/
                 default:
                     /*
                      * Fallback case
@@ -69,5 +66,59 @@ namespace Cali_4
             return outputState;
         }
 
+        public StC4 DetermineNextAttack()
+        { 
+            StC4 outputState = null;
+            bool startOfCombo = C4_HostBrain.Buster.CurrentCombo == 0;
+            bool endOfCombo = C4_HostBrain.Buster.CurrentCombo >= C4_HostBrain.Buster.MaxCombo - 1;
+            int randomAttInt = Random.Range(0,2);
+            bool isPunishment = false;
+            string stateNameRef = "Aggro";
+            string transSt = "TransitionToAttack";
+
+
+            if(C4_HostBrain.Buster.isPlayerClose || (C4_HostBrain.Buster.isPlayerInMeleeSensor && C4_HostBrain.Buster.isPlayerClose))
+            {
+                if(randomAttInt < 2)
+                            stateNameRef += "Slam";
+                        else
+                            stateNameRef += "Swipe";
+                //outputState = C4_StateMachine.AllStates.Find(guh => guh.name);
+                if(startOfCombo)
+                {
+                    outputState = C4_StateMachine.GetStateRef(stateNameRef);
+                }
+                else if(!endOfCombo)
+                { 
+                    if(randomAttInt < 2)
+                        outputState = C4_StateMachine.GetStateRef(stateNameRef);
+                    else
+                        outputState = C4_StateMachine.GetStateRef(stateNameRef);
+                }
+                else
+                { 
+                    outputState = C4_StateMachine.GetStateRef(stateNameRef);
+                }
+            }
+            else //Ranged attacks
+            {
+                if(randomAttInt < 2)
+                            stateNameRef += "PillarsSpread";
+                        else
+                            stateNameRef += "ShardSpray";
+
+                outputState = C4_StateMachine.GetStateRef(stateNameRef);
+            }
+
+            if(isPunishment)
+                transSt += "Punish";
+            else
+                transSt += "Regular";
+
+            C4_StateMachine.GetStateRef(transSt).SetNextState(outputState);
+            outputState = C4_StateMachine.GetStateRef(transSt);
+
+            return outputState;
+        }
     }
 }

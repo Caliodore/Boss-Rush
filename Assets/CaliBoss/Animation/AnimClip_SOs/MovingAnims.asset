@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c7bf552222ec2040ae20d685705df3b, type: 3}
   m_Name: MovingAnims
   m_EditorClassIdentifier: Assembly-CSharp::Cali_4.AnimClip_SO
-  AnimationGroupName: 
+  AnimationGroupName: Movements
   assignedClips: []

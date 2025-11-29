@@ -31,6 +31,7 @@ namespace Cali_4
         public bool StateStopping { get { return stateStopping;} }
         public bool IsParentState { get { return isParentState; } }
         public bool printDebugs = true;
+        public string StateName { get { return stateName; } }
 
         public StC4(string nameIn) { parentType = GetType().BaseType; stateName += nameIn; }
 
@@ -41,20 +42,12 @@ namespace Cali_4
 
         public virtual void OnAwake()
         {
-            //CheckIfParent();
-            //Helpers.DebugPrint($"ParentType: {parentType?.Name} || ChildClass: {GetType().Name}", printDebugs);
-            //Helpers.DebugPrint($"ParentRef Name: {parentRef?.stateName}", printDebugs);
             nextStateSet = false;
             currentStateDuration = 0f;
         }
 
         public virtual void OnStateEnter() 
         {
-            //gameObject.SetActive(true);
-
-            //if(!isParentState)
-                //parentRef.gameObject.SetActive(true);
-
             stateComplete = false;
             stateStopping = false;
 
@@ -75,8 +68,9 @@ namespace Cali_4
         public virtual void OnStateExit() 
         { 
             stateComplete = true;
+            if(intendedNextState = null)
+                intendedNextState = intendedSD.DetermineNextState(this);
             C4_HostBrain.BossSM.ChangeState(intendedNextState);
-            //gameObject.SetActive(false);
         }
 
         //Inheritance Methods

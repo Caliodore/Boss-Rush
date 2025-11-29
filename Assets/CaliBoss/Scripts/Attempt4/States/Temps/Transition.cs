@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Cali_4
 { 
-    public class Transition : StC4
+    public abstract class Transition : StC4
     {
         public Transition(string nameIn) : base("Transition") { stateName += nameIn; }
 

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.AI;
 using System;
 using DG.Tweening;
+using UnityEngine.Animations;
 
 namespace Cali_4
 { 
@@ -36,13 +37,13 @@ namespace Cali_4
         [Header("GameObject Refs")]
         public static GameObject PlayerObj;
         public static GameObject SpawnerParentObj;
-        public static GameObject StateParentObj;
         public static GameObject DamageParentObj;
 
         [Header("Logic Vars")]
         protected int currentPhase;
         protected int currentHealth;
         protected int maxHealth;
+        protected bool canTurn = true;
 
         [Header("Gameplay Events")]
         public UnityEvent OnBossAlerted;
@@ -54,9 +55,23 @@ namespace Cali_4
 
         [Header("Exposed Fields")]
         public float TurnSpeed { get { return turnSpeed; } }
+        public int CurrentCombo { get { return comboCounter; } }
+        public int MaxCombo { get { return comboThreshold; } }
 
         [Header("Backing Fields")]
-        private float turnSpeed;
+        private float turnSpeed = 3f;
+        private int comboCounter = 0;
+        private int comboThreshold = 5;
+
+        [Header("Messy Public Vars to Change")]
+        public float turnSpeedFucked = 0.5f;
+        public float entranceWaitDuration = 4f;
+        public float playerMeleeRange = 3f;
+        public float distanceToPlayer;
+        public bool isPlayerClose;
+        public bool isPlayerInMeleeSensor;
+        public float punishAttackTransitionTimer;
+        public float regularAttackTransitionTimer;
 
         private void Awake()
         {
@@ -68,16 +83,56 @@ namespace Cali_4
 
         private void Start()
         {
-            TurnToPlayer();
+            SetRefs();
+            DamageParentObj.SetActive(false);
         }
-        
-//----------------------------------------------------------------------------------------------------------------------------------------------
-//      Internal Methods
+
+        private void Update()
+        {
+            float turnSpeedCurrent;
+            distanceToPlayer = Mathf.Abs(Vector3.Distance(PlayerObj.transform.position, transform.position));
+            if(distanceToPlayer <= playerMeleeRange)
+            { 
+                turnSpeedCurrent = turnSpeedFucked;
+                isPlayerClose = true;
+            }
+            else
+            { 
+                turnSpeedCurrent = turnSpeed;
+                isPlayerClose = false;
+            }
+
+            if(canTurn)
+                transform.DOLookAt(PlayerObj.transform.position, turnSpeedCurrent, AxisConstraint.Y);
+        }
+
+        //----------------------------------------------------------------------------------------------------------------------------------------------
+        //      Internal Methods
         /*
          * Methods generally intended for use within this script or for other scripts handling exchanging/updating info and references.
          */
-
-        
+        /// <summary>
+        /// Method I made out of sheer spite and annoyance at trying to make sure SerializeField references were correctly referenced within the script.
+        /// </summary>
+        private void SetRefs()
+        { 
+            BossSM = C4_StateMachine.Instance;
+            BossStateDeterminant = C4_StateDeterminant.Instance;
+            BossUIManager = C4_UIManager.Instance;
+            BossAnimManager = C4_AnimManager.Instance;
+            BossActor = GetComponentInChildren<Actor>();
+            BossDamager = GetComponentInChildren<Damager>();
+            BossDamageable = GetComponentInChildren<Damageable>();
+            BossNavigator = GetComponentInChildren<Navigator>();
+            BossNMAgent = GetComponentInChildren<NavMeshAgent>();
+            BossMeleeSensor = GetComponentInChildren<Sensor>();
+            BossRigidbody = GetComponentInChildren<Rigidbody>();
+            BossMeleeCollider = BossMeleeSensor.gameObject.GetComponent<SphereCollider>();
+            BossDamagerCollider = BossDamager.gameObject.GetComponent<BoxCollider>();
+            PlayerObj = FindAnyObjectByType<PlayerLogic>().gameObject;
+            SpawnerParentObj = FindAnyObjectByType<QueueParent>().gameObject;
+            DamageParentObj = BossDamager.gameObject.GetComponentInParent<Transform>().gameObject;
+        }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------
 //      Player-Focused Methods
@@ -87,11 +142,15 @@ namespace Cali_4
          */
 //      => Movement
         public void WalkTo() { }
-        public void LeapAt() { }
+        public void LeapAt() {
+                
+        }
         public void DashTo() { }
 //      => Targeting
-        public void TurnToPlayer(){
-            transform.DOLookAt(PlayerObj.transform.position, turnSpeed);
+        public void TurnToPlayer(bool turningAllowed){
+            canTurn = turningAllowed;
+            //if(turningCoro == null)
+            //    turningCoro = StartCoroutine(TurningCoro());
         }
 
         //      => Combat

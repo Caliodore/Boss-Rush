@@ -13,7 +13,7 @@ namespace Cali_4
         [Header("State Change Related")]
         public static StC4 currentState = null;
         protected StC4 mostRecentRequest = null;
-        protected List<StC4> AllStates = new List<StC4>();
+        public static List<StC4> AllStates = new List<StC4>();
         public bool acceptingRequests = false;
 
         [Header("Testing Vars")]
@@ -83,11 +83,6 @@ namespace Cali_4
             }
         }
 
-        private void OnParentStateChanged(GameObject inputObj)
-        { 
-            
-        }
-
         /// <summary>
         /// Internal method to handle updating current state and the latest request for reference when changing state.
         /// </summary>
@@ -117,6 +112,11 @@ namespace Cali_4
             acceptingRequests = false;
             yield return new WaitForSeconds(limiterTimer);
             acceptingRequests = true;
+        }
+
+        public static StC4 GetStateRef(string refName)
+        {
+            return AllStates.Find(stateOut => stateOut.StateName == refName);
         }
     }
 }

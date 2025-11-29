@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Cali_4
 { 
-    public class Defending : StC4
+    public abstract class Defending : StC4
     {
         public Defending(string nameIn) : base("Defending") { stateName += nameIn; }
 
