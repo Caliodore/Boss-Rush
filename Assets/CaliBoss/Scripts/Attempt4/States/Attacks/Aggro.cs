@@ -2,9 +2,11 @@ using UnityEngine;
 
 namespace Cali_4
 { 
-    public class Aggro : StC4
+    public abstract class Aggro : StC4
     {
         public Aggro(string nameIn) : base("Aggro") { stateName += nameIn; }
+
+
 
         public static Aggro StateInstance;
         /*

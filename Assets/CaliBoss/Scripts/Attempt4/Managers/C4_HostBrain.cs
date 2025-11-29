@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using System;
+using DG.Tweening;
 
 namespace Cali_4
 { 
@@ -50,6 +52,12 @@ namespace Cali_4
         public UnityEvent OnHostBrainValidated;
         public UnityEvent OnAllRefsAssigned;
 
+        [Header("Exposed Fields")]
+        public float TurnSpeed { get { return turnSpeed; } }
+
+        [Header("Backing Fields")]
+        private float turnSpeed;
+
         private void Awake()
         {
             //On awake, needs to collect references, then help each script set their references to make sure no null references occur.
@@ -60,7 +68,50 @@ namespace Cali_4
 
         private void Start()
         {
-            
+            TurnToPlayer();
         }
+        
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//      Internal Methods
+        /*
+         * Methods generally intended for use within this script or for other scripts handling exchanging/updating info and references.
+         */
+
+        
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
+//      Player-Focused Methods
+        /*
+         * Methods focused around interactions with the player, and the variants per type of interactions.
+         * To be called by BossSM by states and their sub-states.
+         */
+//      => Movement
+        public void WalkTo() { }
+        public void LeapAt() { }
+        public void DashTo() { }
+//      => Targeting
+        public void TurnToPlayer(){
+            transform.DOLookAt(PlayerObj.transform.position, turnSpeed);
+        }
+
+        //      => Combat
+        //      |> Offense
+        //          |> Melee
+        public void SlamAttack() { }
+        public void SwipeAttack() { }
+        public void SweepAttack() { }
+//          |> Ranged
+        public void ShardSpray() { }
+        public void StartPillars() { }
+        public void StopPillars() { }
+        public void StartClosingRing() { }
+        public void StopClosingRing() { }
+//      |> Defense
+        public void StartBloodBarrier() { }
+        public void StopBloodBarrier() { }
+//      |> Punishment
+        public void BloodBurstAOE() { }
+//----------------------------------------------------------------------------------------------------------------------------------------------
+
     }
 }

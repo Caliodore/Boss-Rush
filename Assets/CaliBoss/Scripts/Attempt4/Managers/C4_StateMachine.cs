@@ -18,7 +18,7 @@ namespace Cali_4
 
         [Header("Testing Vars")]
         public bool printDebugs = true;
-        public float limiterTimer = 0.5f;
+        public float limiterTimer = 0.1f;
 
         public static C4_StateMachine Instance;
 
@@ -49,6 +49,11 @@ namespace Cali_4
             return tempList;
         }
 
+        /// <summary>
+        /// How state machine changes currentState. Checks with helper methods whether the requested change is possible, then runs corresponding state methods. <br/>
+        /// If currentState != null, its OnExit method is called, then the currentState is updated and its OnEnter method is called.
+        /// </summary>
+        /// <param name="changeState"></param>
         public void ChangeState(StC4 changeState)
         {
             if(acceptingRequests)
@@ -78,6 +83,16 @@ namespace Cali_4
             }
         }
 
+        private void OnParentStateChanged(GameObject inputObj)
+        { 
+            
+        }
+
+        /// <summary>
+        /// Internal method to handle updating current state and the latest request for reference when changing state.
+        /// </summary>
+        /// <param name="changeState">State being requested to change to from the currentState.</param>
+        /// <returns>Whether or not the most recent request is the same as the currentState.</returns>
         private bool CompareStates(StC4 changeState)
         {
             if(mostRecentRequest != currentState)
@@ -93,6 +108,10 @@ namespace Cali_4
                 return false;
         }
 
+        /// <summary>
+        /// Coroutine to help limit how often state changes can be requested. Changed by limiterTimer.
+        /// </summary>
+        /// <returns></returns>
         IEnumerator RequestLimiter()
         { 
             acceptingRequests = false;

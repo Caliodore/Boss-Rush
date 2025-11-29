@@ -41,9 +41,9 @@ namespace Cali_4
 
         public virtual void OnAwake()
         {
-            CheckIfParent();
-            Helpers.DebugPrint($"ParentType: {parentType?.Name} || ChildClass: {GetType().Name}", printDebugs);
-            Helpers.DebugPrint($"ParentRef Name: {parentRef?.stateName}", printDebugs);
+            //CheckIfParent();
+            //Helpers.DebugPrint($"ParentType: {parentType?.Name} || ChildClass: {GetType().Name}", printDebugs);
+            //Helpers.DebugPrint($"ParentRef Name: {parentRef?.stateName}", printDebugs);
             nextStateSet = false;
             currentStateDuration = 0f;
         }
@@ -83,9 +83,9 @@ namespace Cali_4
 
         private void GetSubStates()
         {
-            StC4[] subList = GetComponentsInChildren<StC4>();
+            /*StC4[] subList = GetComponentsInChildren<StC4>();
             foreach(StC4 subState in subList)
-                SubStates.Add(subState);
+                SubStates.Add(subState);*/
         }
 
         private StC4 GetParentRef()
@@ -105,17 +105,15 @@ namespace Cali_4
             if(GetType().BaseType.Name == "StC4")
             {
                 isParentState = true;
-                GetSubStates();
+                //GetSubStates();
             }
             else
             {
                 isParentState = false;
-                parentRef = GetParentRef();
+                //parentRef = GetParentRef();
                 SubStates = null;
             }
         }
-
-        //
 
         public override string ToString()
         {
@@ -183,11 +181,6 @@ namespace Cali_4
             StopThisState?.RemoveAllListeners();
             CheckNextStateStatus();
             stateStopping = true;    
-        }
-
-        public virtual void UpdatePlayerEvents(bool addOrRemove)
-        { 
-            
         }
 
         public virtual void OnTakingDamage() { }
