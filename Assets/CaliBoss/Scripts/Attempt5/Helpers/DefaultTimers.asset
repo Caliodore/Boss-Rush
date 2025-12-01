@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa30d768fa8564c4d88ed4accb13a36d, type: 3}
+  m_Name: DefaultTimers
+  m_EditorClassIdentifier: Assembly-CSharp::CaliBoss.BossTimers_SO
+  comboDecayTimer: 4
+  punishDecayTimer: 6
+  bloodBarrierDecayTimer: 5
+  meleeCooldownTimer: 1.5
+  rangedCooldownTimer: 2.25
+  leapMovementCooldownTimer: 3
+  leapAttackCooldownTimer: 3.5
+  enragedCooldownTimer: 12
+  bloodBarrierCooldownTimer: 15
+  bloodPillarsCooldownTimer: 8
+  closeRingCooldownTimer: 10
+  enragedActiveTimer: 24
+  barrierActiveTimer: 10
+  pillarsActiveTimer: 6
+  closeRingActiveTimer: 15

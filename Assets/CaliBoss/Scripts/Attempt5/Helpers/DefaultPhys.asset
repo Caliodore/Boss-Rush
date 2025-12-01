@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca6ad7618ad841b4888852921f4276e5, type: 3}
+  m_Name: DefaultPhys
+  m_EditorClassIdentifier: Assembly-CSharp::CaliBoss.BossPhysical_SO
+  moveSpeed: 3
+  turnSpeed: 4
+  maxHealth: 20
+  meleeRange: 4
+  damageDealt: 1
+  knockbackDealt: 1
+  maxCombo: 5
+  hitsUntilRebuke: 5
+  hitsUntilBarrierBreak: 4
