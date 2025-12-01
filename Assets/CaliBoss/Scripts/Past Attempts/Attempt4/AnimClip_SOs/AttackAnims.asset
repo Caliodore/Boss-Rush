@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7bf552222ec2040ae20d685705df3b, type: 3}
+  m_Name: AttackAnims
+  m_EditorClassIdentifier: Assembly-CSharp::Cali_4.AnimClip_SO
+  AnimationGroupName: Attacks
+  assignedClips:
+  - {fileID: 7400000, guid: fbc32a6d5adde014282510bf2b998269, type: 2}
+  - {fileID: 7400000, guid: 754151f3ba62d8f4eb3010043aba5a64, type: 2}
+  - {fileID: 7400000, guid: a222958d886896643a53000f664c55f2, type: 2}
+  - {fileID: 7400000, guid: 8ca545dc05272fe46b65d0d469f24b7f, type: 2}
