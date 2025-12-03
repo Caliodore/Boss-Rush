@@ -14,6 +14,7 @@ namespace CaliBoss
         [Header("Cali Scripts")]
         [SerializeField] public BossBrainBase BossBrain;
         [SerializeField] public StateMachineBase BossSM;
+        [SerializeField] public BossActionManager BossAM;
 
         [Header("Brolive Components")]
         [SerializeField] public Actor BossActor;

@@ -26,11 +26,11 @@ namespace CaliBoss
         {
             if(Instance == null)
                 Instance = this;
-            OnAwake();
+            //OnAwake();
         }
 
-        public virtual void OnAwake() { if(StateMachineBase.CurrentState != this) { gameObject.SetActive(false); } }
-        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; gameObject.SetActive(true); }
+        public virtual void OnAwake() { gameObject.SetActive(false); }
+        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; gameObject.SetActive(true); CSR.Instance.BossBrain.DetermineNextMove(); }
         public virtual void OnUpdate() { currentStateDuration += Time.deltaTime; }
         public virtual void OnStateExit() { stateComplete = true; gameObject.SetActive(false); }
     }

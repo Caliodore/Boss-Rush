@@ -16,6 +16,7 @@ namespace CaliBoss
         public override void OnStateEnter()
         {
             base.OnStateEnter();
+            CSR.Instance.BossSM.AddStateChangeListenerOnHit(CSR.Instance.BossSM.GetStateRef<Recovering>());
         }
 
         public override void OnUpdate()
@@ -26,6 +27,7 @@ namespace CaliBoss
         public override void OnStateExit()
         {
             base.OnStateExit();
+            CSR.Instance.BossSM.RemoveOnHitListenersForThisState(CSR.Instance.BossSM.GetStateRef<Recovering>());
         }
     }
 }

@@ -15,15 +15,31 @@ namespace CaliBoss
         {
             if(Instance == null)
                 Instance = this;
-            GenerateStateList();
         }
 
         //CurrentState
-        public static StateBase CurrentState {get { return Instance.currentState; } }
+        public StateBase CurrentState {get { return Instance.currentState; } }
         private StateBase currentState;
 
         //Collections
-        public static List<StateBase> BossStates = new List<StateBase>();
+        public List<StateBase> BossStates = new List<StateBase>();
+
+        //Testing
+        public bool isFailure = false;
+
+        private void Start()
+        {
+            GenerateStateList();
+            ChangeState(BossStates.Find(x => x.Equals(typeof(Pursuing))));
+        }
+
+        private void Update()
+        {
+            if(currentState != null)
+                currentState.OnUpdate();
+            else
+                isFailure = true;
+        }
 
         /// <summary>
         /// Internal method to grab all states and put them into a list for future reference.<br/>
@@ -41,7 +57,7 @@ namespace CaliBoss
                     currentState.gameObject.SetActive(true);
                 }
             }
-
+            print($"Generated State List Count: {BossStates.Count}");
         }
 
         /*
@@ -54,8 +70,9 @@ namespace CaliBoss
         /// Internal method that actually takes in and does the step-by-step change.
         /// </summary>
         /// <param name="stateTo">State ref desired to change to.</param>
-        private void ChangeState(StateBase stateTo)
+        private void ChangeState<T>(T stateTo) where T : StateBase
         { 
+            print("ChangeState called");
             if(stateTo != currentState && stateTo != null)
             { 
                 if(currentState != null)
@@ -77,8 +94,20 @@ namespace CaliBoss
             ChangeState(BossStates.Find(inputType => inputType.Equals(stateType)));
         }
 
-        public T GetStateRef<T>(T stateRef) where T : StateBase {
-            return BossStates.Find(xIn => xIn.Equals(stateRef)) as T;
+        public T GetStateRef<T>() where T : StateBase {
+            return BossStates.Find(xIn => xIn.Equals(typeof(T))) as T;
+        }
+
+        public void AddStateChangeListenerOnHit(StateBase stateTo) { 
+            UnityAction stateChangeShenanigans = null;
+            stateChangeShenanigans += (UnityAction)(() => RequestStateChange(stateTo)) + (UnityAction)(() => RemoveOnHitListenersForThisState(stateTo)) + (UnityAction)(() => CSR.Instance.BossDamager.OnSuccessfulHit.RemoveListener(() => RequestStateChange(stateTo)));
+            CSR.Instance.BossDamager.OnSuccessfulHit.AddListener(stateChangeShenanigans);
+        }
+
+        public void RemoveOnHitListenersForThisState(StateBase stateTo) { 
+            UnityAction stateChangeShenanigans = null;
+            stateChangeShenanigans += (UnityAction)(() => RequestStateChange(stateTo)) + (UnityAction)(() => RemoveOnHitListenersForThisState(stateTo)) + (UnityAction)(() => CSR.Instance.BossDamager.OnSuccessfulHit.RemoveListener(() => RequestStateChange(stateTo)));
+            CSR.Instance.BossDamager.OnSuccessfulHit.RemoveListener(stateChangeShenanigans);
         }
     }
 }

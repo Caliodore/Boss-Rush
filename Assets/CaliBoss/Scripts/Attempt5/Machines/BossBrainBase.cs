@@ -16,6 +16,7 @@ namespace CaliBoss
         public bool IsMoving { get { return isMoving; } }
         public bool IsAlerted { get { return isAlerted; } }
         public bool IsAttacking { get { return isAttacking; } }
+        public bool PlayerIsInMelee {  get { return playerIsInMelee; } }
         public bool CanTurn { get { return canTurn; } }
         public bool CanAttack { get { return canAttack; } }
         public bool CanRanged { get { return canRanged; } }
@@ -37,6 +38,7 @@ namespace CaliBoss
         private bool isMoving = false;
         private bool isAlerted = false;
         private bool isAttacking = false;
+        private bool playerIsInMelee = false;
         private bool canTurn = true;
         private bool canAttack = false;
         private bool canRanged = false;
@@ -78,8 +80,15 @@ namespace CaliBoss
         {
             TurnTowardsPlayer();
         }
-//----------------------------------------------------------------------------------------
-//  Internal Methods
+
+        private void FixedUpdate()
+        {
+            playerIsInMelee = GetDistanceToPlayer() <= PhysRef.meleeRange;
+        }
+
+
+        //----------------------------------------------------------------------------------------
+        //  Internal Methods
         private void SetupAttacks() { 
             
         }
@@ -88,7 +97,6 @@ namespace CaliBoss
 //----------------------------------------------------------------------------------------
 //  Event Hooks
 
-        public void OnStateChange() { }
         public void OnTakingHit() { 
             AddToPunish();
         }
@@ -154,9 +162,8 @@ namespace CaliBoss
         
         public void RebukeTriggeredDeterminant() { 
             int randInt = UnityEngine.Random.Range(0, 100);
-            bool isMelee = GetDistanceToPlayer() <= PhysRef.meleeRange;
 
-            if(isMelee) { 
+            if(playerIsInMelee) { 
                 if(randInt < 50)
                     StartAoEPunish();
                 else
@@ -170,14 +177,20 @@ namespace CaliBoss
             }
         }
 
-        public void DetermineAttackType() { 
-            bool isMelee = GetDistanceToPlayer() <= PhysRef.meleeRange;
+        /// <summary>
+        /// To be called at beginning of Attacking, when an attack needs to be chosen.<br/>
+        /// Should set whaichever attack to cooldown and only choose from ones off of cooldown.
+        /// </summary>
+        public void DetermineNextMove() { 
+            var moveCheck = CSR.Instance.BossAM.CheckForAvailableMoves();
 
-            if(isMelee) { 
-                
+            if(!moveCheck.movesAvailable) { 
+                print("Cannot find any available attacks.");
+                return;
             }
-            else {
-                
+            else
+            { 
+                moveCheck.selectedMove.Method.Invoke(this, null);
             }
         }
         
@@ -193,61 +206,61 @@ namespace CaliBoss
 //          >Ex: Defending has a coroutine for BloodBarrier that has a listener when its off cooldown, removed when called, then added back by timer coro.
 //      |>Attacks
         public void StartRegularSwipe() { 
-            
+            print("RegularSwipe invoked.");
         }
         public void StartRegularSlam() { 
-            
+            print("RegularSlam invoked.");
         }
         public void StartComboMixup() { 
-            
+            print("ComboMixup invoked.");
         }
         public void StartComboFinisher() { 
-            
+            print("ComboFinisher invoked.");
         }
         public void StartShardSpray() { 
-            
+            print("ShardSpray invoked.");
         }
         public void StartPillarsAttack() { 
-            
+            print("PillarsAttack invoked.");
         }
         public void StartClosingRing() { 
-            
+            print("ClosingRing invoked.");
         }
         public void StartLeapAttack() { 
-            
+            print("LeapAttack invoked.");
         }
 
 //      |> Defenses/Punishments
         public void StartBloodBarrier() { 
-            
+            print("BloodBarrier invoked.");
         }
         public void StartBloodWall() { 
-            
+            print("BloodWall invoked.");
         }
         public void StartEnragedMode() { 
-            
+            print("EnragedMode invoked.");
         }
         public void StartAoEPunish() { 
-            
+            print("AoEPunish invoked.");
         }
 
 //      |> Movement
         public void StartLeapMove() { 
-            
+            print("LeapMove invoked.");
         }
         public void StartDashMove() { 
-            
+            print("DashMove invoked.");
         }
 
 //      |> Recovery
         public void StartReelingBackRecovery() { 
-            
+            print("ReelingBack invoked.");
         }
         public void StartBrokenBarrierDazeRecovery() { 
-            
+            print("BrokenBarrier invoked.");
         }
         public void StartEnragedExitRecovery() { 
-            
+            print("EnragedExit invoked.");
         }
         
 

@@ -16,6 +16,7 @@ namespace CaliBoss
         public override void OnStateEnter()
         {
             base.OnStateEnter();
+            print("Entered Entering");
         }
 
         public override void OnUpdate()
@@ -27,5 +28,7 @@ namespace CaliBoss
         {
             base.OnStateExit();
         }
+
+        
     }
 }
