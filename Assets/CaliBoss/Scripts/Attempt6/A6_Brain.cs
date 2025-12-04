@@ -104,7 +104,7 @@ namespace Cali6
         private void SetAttackListeners() {
             OnStartingAttack?.AddListener(() => StartAttackBrain());
             OnAttackEnd?.AddListener(() => EndAttackBrain());
-            BossDamager.OnSuccessfulHit.AddListener(() => UpdateCombo());
+            BossDamager.OnSuccessfulHit?.AddListener(() => UpdateCombo());
         }
 
         private void SetDamagedListeners() { 

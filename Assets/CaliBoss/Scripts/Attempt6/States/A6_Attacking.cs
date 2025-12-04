@@ -28,14 +28,14 @@ namespace Cali6
         {
             base.OnStateUpdate();
             if(A6_Brain.Instance.bossCanAttack) { 
-                A6_Brain.Instance.OnStartingAttack.Invoke();
+                A6_Brain.Instance.OnStartingAttack?.Invoke();
             }
         }
 
         public override void OnStateExit()
         {
             base.OnStateExit();
-            A6_Brain.Instance.OnAttackEnd.Invoke();
+            A6_Brain.Instance.OnAttackEnd?.Invoke();
         }
         
         private void DetermineAttackType()

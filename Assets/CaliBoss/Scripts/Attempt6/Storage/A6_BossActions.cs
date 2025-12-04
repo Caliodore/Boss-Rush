@@ -87,23 +87,23 @@ namespace Cali6
 
             switch (actionInt) { 
                 case(1):
-                    MeleeAttackDeterminer();
+                    outputAction = MeleeAttackDeterminer();
                     break;
                     
                 case(2):
-                    RangedAttackDeterminer();
+                    outputAction = RangedAttackDeterminer();
                     break;
                     
                 case(3):
-                    DefenseDeterminer();
+                    outputAction = DefenseDeterminer();
                     break;
                     
                 case(4):
-                    MovementDeterminer();
+                    outputAction = MovementDeterminer();
                     break;
                     
                 case(5):
-                    RecoveryDeterminer();
+                    outputAction = RecoveryDeterminer();
                     break;
 
             }

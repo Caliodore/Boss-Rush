@@ -1591,6 +1591,7 @@ MonoBehaviour:
   hitsTakenRecently: 0
   playerInMelee: 0
   bossCanAttack: 1
+  isEnraged: 0
   comboDecayTimer: 10
   comboElapsed: 0
   hitsPunishDecayTimer: 12
