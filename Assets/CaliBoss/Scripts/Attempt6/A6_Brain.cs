@@ -10,6 +10,7 @@ namespace Cali6
     public class A6_Brain : MonoBehaviour
     {
         [Header("Serialized Refs")]
+        public bool printDebugLogs = true;
         [Header("Cali Components")]
         [SerializeField] public A6_StateMachine BossSM;
         //[SerializeField] 
@@ -81,12 +82,12 @@ namespace Cali6
 
         private void StartAttackBrain() { 
             bossCanAttack = false;
-            print("Brain start attack.");
+            A6_Help.DebugPrint(printDebugLogs, "Brain start attack.");
             AttackingState.StartAttackInState();
         }
 
         private void EndAttackBrain() { 
-            print("Brain end attack.");
+            A6_Help.DebugPrint(printDebugLogs, "Brain end attack.");
             bossCanAttack = true;    
         }
     }

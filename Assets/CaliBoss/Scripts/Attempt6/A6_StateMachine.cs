@@ -9,6 +9,7 @@ namespace Cali6
 { 
     public class A6_StateMachine : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public A6_StateBase CurrentState {  get { return currentState; } }
         private A6_StateBase currentState;
         public List<A6_StateBase> BossStates = new();
@@ -43,7 +44,7 @@ namespace Cali6
             bool outputBool = false;
 
             if(stateTo == null) { 
-                print("Cannot change to a null state.");
+                A6_Help.DebugPrint(printDebugLogs, "Cannot change to a null state.");
                 return false;
             }
 
@@ -61,7 +62,7 @@ namespace Cali6
         }
 
         public void CurrentStateAnimationEnd() {
-            print("CurrentState's animation ended.");
+            A6_Help.DebugPrint(printDebugLogs, "CurrentState's animation ended.");
             currentState.ToggleAnimatingBool(false);
         }
     }

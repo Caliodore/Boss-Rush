@@ -5,6 +5,7 @@ namespace Cali6
 { 
     public abstract class A6_StateBase : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public string StateName = "";
         public A6_StateBase(string nameIn) { StateName += nameIn; }
 
@@ -27,7 +28,7 @@ namespace Cali6
             OnStartingAnimation ??= new();
         }
 
-        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; isCurrentState = true; print($"Entered the {StateName} state.");}
+        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; isCurrentState = true; A6_Help.DebugPrint(printDebugLogs, $"Entered the {StateName} state.");}
         public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; }
         public virtual void OnStateExit() { stateComplete = true; isCurrentState = false; }
 

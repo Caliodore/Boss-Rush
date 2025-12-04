@@ -8,6 +8,7 @@ namespace Cali6
 { 
     public class A6_BossActions : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public A6_BossActions() { }
         public static A6_BossActions Instance;
 
@@ -87,7 +88,7 @@ namespace Cali6
                 StartCooldown(outputAction);
             }
             else { 
-                print($"There are no actions available of the type requested: {(BossAction.ActionChoice)actionInt}");
+                A6_Help.DebugPrint(printDebugLogs, $"There are no actions available of the type requested: {(BossAction.ActionChoice)actionInt}");
                 outputAction = null;
             }
 
@@ -96,63 +97,63 @@ namespace Cali6
 
         //Melee
         public void RegularSlam() { 
-            print("RegularSlam invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "RegularSlam invoked.");
         }
         public void RegularSwipe() { 
-            print("RegularSwipe invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "RegularSwipe invoked.");
         }
         public void ComboMixup() { 
-            print("ComboMixup invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "ComboMixup invoked.");
         }
         public void ComboFinisher() { 
-            print("ComboFinisher invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "ComboFinisher invoked.");
         }
 
         //Ranged
         public void ShardSpray() { 
-            print("ShardSpray invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "ShardSpray invoked.");
         }
         public void PillarSpread() { 
-            print("PillarsAttack invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "PillarsAttack invoked.");
         }
         public void ClosingRing() { 
-            print("ClosingRing invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "ClosingRing invoked.");
         }
         public void LeapSwipe() { 
-            print("LeapAttack invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "LeapAttack invoked.");
         }
 
 //      |> Defenses/Punishments
         public void BloodBarrier() { 
-            print("BloodBarrier invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "BloodBarrier invoked.");
         }
         public void BloodWall() { 
-            print("BloodWall invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "BloodWall invoked.");
         }
         public void EnragedMode() { 
-            print("EnragedMode invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "EnragedMode invoked.");
         }
         public void AoEPunish() { 
-            print("AoEPunish invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "AoEPunish invoked.");
         }
 
 //      |> Movement
         public void LeapMove() { 
-            print("LeapMove invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "LeapMove invoked.");
         }
         public void DashMove() { 
-            print("DashMove invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "DashMove invoked.");
         }
 
 //      |> Recovery
         public void ReelingBackRecovery() { 
-            print("ReelingBack invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "ReelingBack invoked.");
         }
         public void BrokenBarrierDazeRecovery() { 
-            print("BrokenBarrier invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "BrokenBarrier invoked.");
         }
         public void EnragedExitRecovery() { 
-            print("EnragedExit invoked.");
+            A6_Help.DebugPrint(printDebugLogs, "EnragedExit invoked.");
         }
 
         public void StartCooldown(BossAction actionIn) { StartCoroutine(InteractionCooldown(actionIn)); }

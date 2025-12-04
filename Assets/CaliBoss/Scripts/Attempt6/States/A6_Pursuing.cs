@@ -4,6 +4,7 @@ namespace Cali6
 { 
     public class A6_Pursuing : A6_StateBase
     {
+        public bool printDebugLogs = true;
         public A6_Pursuing() : base("Pursuing") { }
 
         public static A6_Pursuing PursuingInstance;

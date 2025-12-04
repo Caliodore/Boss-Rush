@@ -7,6 +7,7 @@ namespace Cali6
 { 
     public class A6_Attacking : A6_StateBase
     {
+        public bool printDebugLogs = true;
         public A6_Attacking() : base("Attacking") { }
 
         public static A6_Attacking AttackInstance;
@@ -39,7 +40,7 @@ namespace Cali6
         
         private void DetermineAttackType()
         { 
-            print("Determining attack type.");
+            A6_Help.DebugPrint(printDebugLogs, "Determining attack type.");
             if(A6_Brain.Instance.playerInMelee) { 
                 //Determine what melee attack to do and set its trigger.
                 ChosenAttack = A6_BossActions.Instance.RandomActionChoice((int)BossAction.ActionChoice.Melee);
@@ -49,16 +50,16 @@ namespace Cali6
                 ChosenAttack = A6_BossActions.Instance.RandomActionChoice((int)BossAction.ActionChoice.Ranged);
             }
             if(ChosenAttack == null)
-                print("Screaming and crying.");
+                A6_Help.DebugPrint(printDebugLogs, "Screaming and crying.");
         }
 
         public void StartAttackInState()
         { 
             //StartAnimation
-            print("State starts attack.");
+            A6_Help.DebugPrint(printDebugLogs, "State starts attack.");
             ChosenAttack.assignedCall.DynamicInvoke();
             A6_Brain.Instance.BossAnimator.SetTrigger("AttackStart");
-            print("Post-Invoke");
+            A6_Help.DebugPrint(printDebugLogs, "Post-Invoke");
             StartCoroutine(WaitForAnimationEnd());
         }
 
@@ -67,9 +68,10 @@ namespace Cali6
             while(IsAnimating) { 
                 yield return null;
             }
-            if(!IsAnimating)
+            if(!IsAnimating) { 
                 A6_StateMachine.Instance.RequestStateChange(A6_Brain.Instance.RecoveringState);
-            A6_Brain.Instance.OnAttackEnd.Invoke();
+                A6_Brain.Instance.OnAttackEnd.Invoke();
+            }
             yield return null;
         }
 
