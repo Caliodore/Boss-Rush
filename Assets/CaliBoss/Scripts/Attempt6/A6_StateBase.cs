@@ -5,18 +5,17 @@ namespace Cali6
 { 
     public abstract class A6_StateBase : MonoBehaviour
     {
-        public bool printDebugLogs = true;
+        public bool printDebugLogsBASE = true;
         public string StateName = "";
         public A6_StateBase(string nameIn) { StateName += nameIn; }
 
         public static A6_StateBase StateInstance;
-        public UnityEvent OnStartingAnimation;
 
         //Public Fields
         public bool IsAnimating { get {  return isAnimating; } }
         public bool StateComplete { get { return stateComplete; } }
         public float CurrentStateDuration { get { return currentStateDuration; } }
-        public bool isCurrentState;
+        public bool isCurrentState = false;
 
         //Backing Fields
         private bool isAnimating;
@@ -25,10 +24,10 @@ namespace Cali6
 
         private void Awake()
         {
-            OnStartingAnimation ??= new();
+            
         }
 
-        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; isCurrentState = true; A6_Help.DebugPrint(printDebugLogs, $"Entered the {StateName} state.");}
+        public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; isCurrentState = true; A6_Help.DebugPrint(printDebugLogsBASE, $"Entered the {StateName} state.");}
         public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; }
         public virtual void OnStateExit() { stateComplete = true; isCurrentState = false; }
 

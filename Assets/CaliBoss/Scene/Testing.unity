@@ -1229,11 +1229,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fddda17993a4c4843bd89eb28550db68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Recovering
+  printDebugLogsBASE: 1
   StateName: Recovering
-  OnStartingAnimation:
-    m_PersistentCalls:
-      m_Calls: []
   isCurrentState: 0
+  printDebugLogs: 1
 --- !u!4 &1150016318
 Transform:
   m_ObjectHideFlags: 0
@@ -1261,11 +1260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8f83274d70fc746810e1c8715c2a0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Pursuing
+  printDebugLogsBASE: 1
   StateName: Pursuing
-  OnStartingAnimation:
-    m_PersistentCalls:
-      m_Calls: []
   isCurrentState: 0
+  printDebugLogs: 1
 --- !u!114 &1150016320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,11 +1276,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6880619cbbdbd65478b92c64ee40f9a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Idling
+  printDebugLogsBASE: 1
   StateName: Idling
-  OnStartingAnimation:
-    m_PersistentCalls:
-      m_Calls: []
   isCurrentState: 0
+  printDebugLogs: 1
 --- !u!114 &1150016321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1295,11 +1292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2a9aa245142637478cf7d5f9e7f6729, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Defending
+  printDebugLogsBASE: 1
   StateName: Defending
-  OnStartingAnimation:
-    m_PersistentCalls:
-      m_Calls: []
   isCurrentState: 0
+  printDebugLogs: 1
 --- !u!114 &1150016322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1312,11 +1308,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a82163d15b705114196b60735900380e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Attacking
+  printDebugLogsBASE: 1
   StateName: Attacking
-  OnStartingAnimation:
-    m_PersistentCalls:
-      m_Calls: []
   isCurrentState: 0
+  printDebugLogs: 1
 --- !u!1 &1388405093
 GameObject:
   m_ObjectHideFlags: 0
@@ -1542,6 +1537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae22bf63de5bc045851e12f8900c42c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_StateMachine
+  printDebugLogs: 1
   BossStates: []
 --- !u!114 &1685536354
 MonoBehaviour:
@@ -1555,6 +1551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d5b979857e858d4e8d1f0b1dc538dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_Brain
+  printDebugLogs: 1
   BossSM: {fileID: 1685536353}
   AttackingState: {fileID: 1150016322}
   DefendingState: {fileID: 1150016321}
@@ -1570,6 +1567,8 @@ MonoBehaviour:
   BossMeleeSensorCollider: {fileID: 141617280}
   BossDamagerCollider: {fileID: 267433497}
   BossNMAgent: {fileID: 7643502}
+  playerScript: {fileID: 1788253045}
+  playerTransform: {fileID: 757021948}
   OnStartingAttack:
     m_PersistentCalls:
       m_Calls: []
@@ -1582,10 +1581,22 @@ MonoBehaviour:
   OnTakingDamage:
     m_PersistentCalls:
       m_Calls: []
+  OnSuccessfulHit:
+    m_PersistentCalls:
+      m_Calls: []
   maxHealth: 20
   currentHealth: 2
+  currentCombo: 0
+  maxCombo: 6
+  hitsTakenRecently: 0
   playerInMelee: 0
   bossCanAttack: 1
+  comboDecayTimer: 10
+  comboElapsed: 0
+  hitsPunishDecayTimer: 12
+  hitsPunishElapsed: 0
+  distToPlayer: 0
+  meleeRange: 10
 --- !u!114 &1685536355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1598,11 +1609,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1e0472c9e50aab43b3d070a56dce036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali6.A6_BossActions
+  printDebugLogs: 1
   meleeCooldown: 5
   rangedCooldown: 6
   defenseCooldown: 4
   punishCooldown: 12
   movementCooldown: 10
+--- !u!114 &1788253045 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 278217275421810622, guid: 0ca589b17b2fa29408d099352b8407c0, type: 3}
+  m_PrefabInstance: {fileID: 757021947}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85291f29dc1614042934a913f839271a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1799122701
 GameObject:
   m_ObjectHideFlags: 0

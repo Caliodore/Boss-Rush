@@ -35,19 +35,40 @@ namespace Cali6
         [SerializeField] public Collider BossDamagerCollider;
         [SerializeField] public NavMeshAgent BossNMAgent;
 
+        [Header("Player-Associated Refs")]
+        [SerializeField] public PlayerLogic playerScript;
+        [SerializeField] public Transform playerTransform;
+
         public UnityEvent OnStartingAttack;
         public UnityEvent OnAttackEnd;
         public UnityEvent OnStartingAnimation;
         public UnityEvent OnTakingDamage;
+        public UnityEvent OnSuccessfulHit;
 
         public int maxHealth;
         public int currentHealth;
+        public int currentCombo;
+        public int maxCombo;
+        public int hitsTakenRecently;
 
         public bool playerInMelee = false;
         public bool bossCanAttack = true;
+        public bool isEnraged = false;
+
+        public float comboDecayTimer = 10f;
+        public float comboElapsed;
+        public float hitsPunishDecayTimer = 12f;
+        public float hitsPunishElapsed;
+        public float distToPlayer;
+        public float meleeRange = 10f;
+
+        private Coroutine comboCoro;
+        private Coroutine punishCoro;
 
         public static A6_Brain Instance;
         public A6_Brain() { }
+
+        //Unity-Inherent Methods
 
         private void Awake()
         {
@@ -67,9 +88,23 @@ namespace Cali6
             SetDamagedListeners();
         }
 
+        private void Update()
+        {
+            Vector3 playerFlatY = new Vector3(playerTransform.position.x, 0, playerTransform.position.z);
+            Vector3 bossFlatY = new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
+            distToPlayer = Vector3.Distance(playerFlatY, bossFlatY);
+            if(distToPlayer <= meleeRange)
+                playerInMelee = true;
+            else
+                playerInMelee = false;
+        }
+
+        //Event-Related Methods
+
         private void SetAttackListeners() {
             OnStartingAttack?.AddListener(() => StartAttackBrain());
             OnAttackEnd?.AddListener(() => EndAttackBrain());
+            BossDamager.OnSuccessfulHit.AddListener(() => UpdateCombo());
         }
 
         private void SetDamagedListeners() { 
@@ -78,7 +113,10 @@ namespace Cali6
             foreach(A6_StateBase indexState in BossSM.BossStates) { 
                 OnTakingDamage?.AddListener(() => indexState?.OnDamagedDuringState());
             }
+            BossDamageable.OnHit?.AddListener(dmgIn => UpdateHitsTakenRecently());
         }
+
+        //Attack-Related Methods
 
         private void StartAttackBrain() { 
             bossCanAttack = false;
@@ -89,6 +127,39 @@ namespace Cali6
         private void EndAttackBrain() { 
             A6_Help.DebugPrint(printDebugLogs, "Brain end attack.");
             bossCanAttack = true;    
+        }
+
+        //Coroutines and Timers
+
+        private void UpdateHitsTakenRecently() { if(punishCoro == null) punishCoro = StartCoroutine(HitsTakenTimer()); hitsTakenRecently++; }
+        private void UpdateCombo() { if(comboCoro == null) comboCoro = StartCoroutine(ComboTimer()); currentCombo++; }
+
+        IEnumerator HitsTakenTimer() { 
+            hitsPunishElapsed = 0;
+            while(hitsPunishElapsed < hitsPunishDecayTimer) {
+                hitsPunishElapsed += Time.deltaTime;
+                yield return null;
+            }
+            if(hitsPunishElapsed >= hitsPunishDecayTimer)
+                hitsTakenRecently = 0;
+            yield return null;
+        }
+
+        IEnumerator ComboTimer() { 
+            comboElapsed = 0;
+            while(comboElapsed < comboDecayTimer) {
+                comboElapsed += Time.deltaTime;
+                if(currentCombo >= maxCombo) {
+                    //Set up combo attack
+                    currentCombo = 0;
+                    yield break;
+                }
+                yield return null;
+            }
+            if(comboElapsed >= comboDecayTimer) {
+                currentCombo = 0;
+            }
+            yield return null;
         }
     }
 }
