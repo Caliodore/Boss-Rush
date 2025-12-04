@@ -7,6 +7,11 @@ namespace Cali6
         public A6_Defending() : base("Defending") { }
 
         public static A6_Defending DefendingInstance;
+
+        public override void OnDamagedDuringState()
+        {
+            base.OnDamagedDuringState();
+        }
         
     }
 }

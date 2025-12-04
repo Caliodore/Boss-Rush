@@ -7,6 +7,11 @@ namespace Cali6
         public A6_Pursuing() : base("Pursuing") { }
 
         public static A6_Pursuing PursuingInstance;
+
+        public override void OnDamagedDuringState()
+        {
+            base.OnDamagedDuringState();
+        }
         
     }
 }

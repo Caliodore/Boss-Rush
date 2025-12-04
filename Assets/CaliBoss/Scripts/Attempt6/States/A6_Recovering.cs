@@ -7,6 +7,11 @@ namespace Cali6
         public A6_Recovering() : base("Recovering") { }
 
         public static A6_Recovering RecoveringInstance;
+
+        public override void OnDamagedDuringState()
+        {
+            base.OnDamagedDuringState();
+        }
         
     }
 }

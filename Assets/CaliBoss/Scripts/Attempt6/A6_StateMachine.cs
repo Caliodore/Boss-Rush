@@ -15,17 +15,14 @@ namespace Cali6
         public A6_StateMachine() { }
         public static A6_StateMachine Instance;
 
-        public UnityEvent OnStateChanging;
-
         private void Awake() {
             if(Instance == null)
                 Instance = this;
-            OnStateChanging??= new UnityEvent();
             GetStates();
         }
 
         private void Start() {
-            
+            RequestStateChange(BossStates.Find(entryState => entryState.GetType().Equals(typeof(A6_Idling))));
         }
 
         private void GetStates() { 
@@ -55,12 +52,17 @@ namespace Cali6
                     currentState.OnStateExit();
 
                 currentState = stateTo;
-                OnStateChanging?.Invoke();
 
                 currentState.OnStateEnter();
+                outputBool = true;
             }
 
             return outputBool;
+        }
+
+        public void CurrentStateAnimationEnd() {
+            print("CurrentState's animation ended.");
+            currentState.ToggleAnimatingBool(false);
         }
     }
 }

@@ -10,17 +10,25 @@ namespace Cali6
         public A6_Attacking() : base("Attacking") { }
 
         public static A6_Attacking AttackInstance;
+        public BossAction ChosenAttack;
+        private object[] refList = new object[0];
+
+        private void Start()
+        {
+            refList = new object[] { A6_BossActions.Instance };
+        }
 
         public override void OnStateEnter()
         {
             base.OnStateEnter();
+            DetermineAttackType();
         }
 
         public override void OnStateUpdate()
         {
             base.OnStateUpdate();
             if(A6_Brain.Instance.bossCanAttack) { 
-                
+                A6_Brain.Instance.OnStartingAttack.Invoke();
             }
         }
 
@@ -31,17 +39,27 @@ namespace Cali6
         
         private void DetermineAttackType()
         { 
+            print("Determining attack type.");
             if(A6_Brain.Instance.playerInMelee) { 
                 //Determine what melee attack to do and set its trigger.
+                ChosenAttack = A6_BossActions.Instance.RandomActionChoice((int)BossAction.ActionChoice.Melee);
             }
             else { 
                 //Determine what ranged melee attack to do and set its trigger.
+                ChosenAttack = A6_BossActions.Instance.RandomActionChoice((int)BossAction.ActionChoice.Ranged);
             }
+            if(ChosenAttack == null)
+                print("Screaming and crying.");
         }
 
-        private void StartAttack()
+        public void StartAttackInState()
         { 
             //StartAnimation
+            print("State starts attack.");
+            ChosenAttack.assignedCall.DynamicInvoke();
+            A6_Brain.Instance.BossAnimator.SetTrigger("AttackStart");
+            print("Post-Invoke");
+            StartCoroutine(WaitForAnimationEnd());
         }
 
         IEnumerator WaitForAnimationEnd() { 
@@ -51,23 +69,15 @@ namespace Cali6
             }
             if(!IsAnimating)
                 A6_StateMachine.Instance.RequestStateChange(A6_Brain.Instance.RecoveringState);
+            A6_Brain.Instance.OnAttackEnd.Invoke();
             yield return null;
         }
-    }
 
-    public class BossAttack { 
-        public enum AttackType { 
-            Default = 0,
-            Melee = 1,
-            Ranged = 2,
-            Punishment = 3
+        public override void OnDamagedDuringState()
+        {
+            base.OnDamagedDuringState();
         }
-
-        public AttackType AttackChoice;
-
-        public delegate void AttackMethod();
-        public AttackMethod assignedCall;
-
-        public BossAttack(int attackInt, AttackMethod attackCall) { AttackChoice = (AttackType)attackInt; assignedCall = attackCall; }
     }
+
+    
 }
