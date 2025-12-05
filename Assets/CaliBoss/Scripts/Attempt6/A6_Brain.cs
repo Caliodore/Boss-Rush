@@ -44,6 +44,8 @@ namespace Cali6
         public UnityEvent OnStartingAnimation;
         public UnityEvent OnTakingDamage;
         public UnityEvent OnSuccessfulHit;
+        public UnityEvent OnEnragedStart;
+        public UnityEvent OnEnragedEnd;
 
         public int maxHealth;
         public int currentHealth;
@@ -54,6 +56,8 @@ namespace Cali6
         public bool playerInMelee = false;
         public bool bossCanAttack = true;
         public bool isEnraged = false;
+        public bool canMove = true;
+        public bool canTurn = true;
 
         public float comboDecayTimer = 10f;
         public float comboElapsed;
@@ -61,14 +65,16 @@ namespace Cali6
         public float hitsPunishElapsed;
         public float distToPlayer;
         public float meleeRange = 10f;
+        public float bossTimeScale = 1f;
 
         private Coroutine comboCoro;
         private Coroutine punishCoro;
 
         public static A6_Brain Instance;
         public A6_Brain() { }
-
-        //Unity-Inherent Methods
+        
+//-----------------------------------------------------------------------------------
+//Unity-Inherent Methods
 
         private void Awake()
         {
@@ -78,6 +84,9 @@ namespace Cali6
             OnAttackEnd ??= new();
             OnStartingAnimation ??= new();
             OnTakingDamage ??= new();
+            OnSuccessfulHit ??= new();
+            OnEnragedStart ??= new();
+            OnEnragedEnd ??= new();
         }
 
         private void Start()
@@ -86,6 +95,7 @@ namespace Cali6
             currentHealth = maxHealth;
             SetAttackListeners();
             SetDamagedListeners();
+            SetOtherListeners();
         }
 
         private void Update()
@@ -98,8 +108,8 @@ namespace Cali6
             else
                 playerInMelee = false;
         }
-
-        //Event-Related Methods
+//-----------------------------------------------------------------------------------
+//Event-Related Methods
 
         private void SetAttackListeners() {
             OnStartingAttack?.AddListener(() => StartAttackBrain());
@@ -108,6 +118,8 @@ namespace Cali6
         }
 
         private void SetDamagedListeners() { 
+            OnTakingDamage?.AddListener(() => A6_UIManager.Instance.EnableBossDisplay());
+            OnTakingDamage?.AddListener(() => OnTakingDamage?.RemoveListener(() => A6_UIManager.Instance.EnableBossDisplay()));
             BossDamageable.OnHit?.AddListener(dmgIn => OnTakingDamage.Invoke());
             //BossDamageable.OnHit?.AddListener(dmgIn => StartAttackBrain());
             foreach(A6_StateBase indexState in BossSM.BossStates) { 
@@ -116,7 +128,25 @@ namespace Cali6
             BossDamageable.OnHit?.AddListener(dmgIn => UpdateHitsTakenRecently());
         }
 
-        //Attack-Related Methods
+        private void SetOtherListeners() { 
+            OnEnragedStart?.AddListener(() => EnragedStart());
+            OnEnragedEnd?.AddListener(() => EnragedEnd());
+        }
+
+        private void EnragedStart() { 
+            isEnraged = true;
+            A6_Help.DebugPrint(printDebugLogs, "Boss entered enraged mode.");
+            bossTimeScale = 1.5f;
+        }
+
+        private void EnragedEnd() { 
+            isEnraged = false;
+            A6_Help.DebugPrint(printDebugLogs, "Boss exited enraged mode.");
+            bossTimeScale = 1f;
+        }
+
+//-----------------------------------------------------------------------------------
+//Attack-Related Methods
 
         private void StartAttackBrain() { 
             bossCanAttack = false;
@@ -128,8 +158,8 @@ namespace Cali6
             A6_Help.DebugPrint(printDebugLogs, "Brain end attack.");
             bossCanAttack = true;    
         }
-
-        //Coroutines and Timers
+//-----------------------------------------------------------------------------------
+//Coroutines and Timers
 
         private void UpdateHitsTakenRecently() { if(punishCoro == null) punishCoro = StartCoroutine(HitsTakenTimer()); hitsTakenRecently++; }
         private void UpdateCombo() { if(comboCoro == null) comboCoro = StartCoroutine(ComboTimer()); currentCombo++; }
@@ -137,7 +167,7 @@ namespace Cali6
         IEnumerator HitsTakenTimer() { 
             hitsPunishElapsed = 0;
             while(hitsPunishElapsed < hitsPunishDecayTimer) {
-                hitsPunishElapsed += Time.deltaTime;
+                hitsPunishElapsed += Time.deltaTime * bossTimeScale;
                 yield return null;
             }
             if(hitsPunishElapsed >= hitsPunishDecayTimer)
@@ -148,7 +178,7 @@ namespace Cali6
         IEnumerator ComboTimer() { 
             comboElapsed = 0;
             while(comboElapsed < comboDecayTimer) {
-                comboElapsed += Time.deltaTime;
+                comboElapsed += Time.deltaTime * bossTimeScale;
                 if(currentCombo >= maxCombo) {
                     //Set up combo attack
                     currentCombo = 0;
