@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Cali6
+namespace Cali7
 { 
     public class EntranceScript : MonoBehaviour
     {
@@ -9,7 +9,7 @@ namespace Cali6
             print("Object collided with trigger.");
             if(other.gameObject.GetComponent<PlayerLogic>() != null) {
                 print("Object is player.");
-                A6_AnimManager.Instance.PlayerEnterArena();
+                F7_EventManager.Instance.OnArenaEntered?.Invoke();
                 Destroy(gameObject);
             }
         }

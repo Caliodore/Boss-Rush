@@ -7,9 +7,27 @@ namespace Cali7
     {
         public F7_Attack(string nameIn) : base("Attack") { }
 
+        public bool wantsToCombo = false;
+        public bool wantsToPunish = false;
+
+        ActionChoice attackChoice = null;
+
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            if(!wantsToCombo && !wantsToPunish) { 
+                attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
+            }
+            else if((wantsToCombo && !wantsToPunish) || (wantsToCombo && wantsToPunish)) { 
+                attackChoice = F7_RefManager.BACM.GetSpecificAction("ComboFinisher");
+            }
+            else if(!wantsToCombo && wantsToPunish) { 
+                attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Punish);
+            }
+            if(attackChoice != null)
+                F7_RefManager.BACM.StartAction(attackChoice.actionName);
+            else
+                F7_RefManager.BCNT.StateChangeRequest();
         }
 
         public override void OnStateUpdate() { 

@@ -14,6 +14,9 @@ namespace Cali7
 
         public override void OnStateUpdate() { 
             base.OnStateUpdate();
+            if(F7_RefManager.BCNT.encounterStarted && currentStateDuration > 20f) { 
+                F7_RefManager.BCNT.StateChangeRequest();
+            }
         }
 
         public override void OnStateExit() { 

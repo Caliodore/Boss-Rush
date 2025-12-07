@@ -14,6 +14,21 @@ namespace Cali7
         public List<ActionChoice> readyActions = new();
         public List<ActionChoice> actionsOnCooldown = new();
         public ActionChoice testChoice;
+        
+        public ActionChoice slamAttack;
+        public ActionChoice swipeAttack;
+        public ActionChoice comboFinish;
+        public ActionChoice shardSpray;
+        public ActionChoice pillarRise;
+        public ActionChoice raiseRing;
+        public ActionChoice bloodBarrier;
+        public ActionChoice aoePunish;
+        public ActionChoice enragedMode;
+        public ActionChoice leapSwipe;
+        public ActionChoice bloodWall;
+        public ActionChoice barrierBroken;
+        public ActionChoice reelingBack;
+        public ActionChoice enragedExit;
 
         private void Awake()
         {
@@ -26,17 +41,52 @@ namespace Cali7
             testChoice = new ActionChoice(0, (() => Instance.PrintHello()), "TestCall");
             readyActions.Clear();
             readyActions.Add(testChoice);
+            SetActions();
+            GenerateCollection();
         }
 
         private void Update()
         {
             if(testCall) { 
                 testCall = false;
-                TryAction(testChoice.actionName);
+                StartAction(testChoice.actionName);
             }
         }
 
-        public void TryAction(string tryName) { 
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public ActionChoice DecideAction(ActionType typeIn) { 
+            ActionChoice choiceOut = null;
+            
+            bool isMelee = F7_RefManager.BCNT.playerInMelee;
+
+            List<ActionChoice> actOps = readyActions.FindAll(actTry => (actTry.isMelee == isMelee && actTry.choiceType == typeIn));
+            if(actOps.Count < 1) {
+                F7_Help.DebugPrint(printDebugLogs, "There are no attacks of that type ready at this moment.");
+            }
+            else { 
+                int randInd = UnityEngine.Random.Range(0,actOps.Count);
+                choiceOut = actOps[randInd];
+            }
+
+            return choiceOut;
+        }
+
+        public ActionChoice GetSpecificAction(string tryName) { 
+            ActionChoice actOut = readyActions.Find(actTry => (actTry.actionName == tryName && actTry.isReady == true));
+            if(actOut == null){
+                F7_Help.DebugPrint(printDebugLogs, $"The requested action is either on cooldown or not a possible action: {tryName}");
+                return null;
+            }
+            else
+                return actOut;
+        }
+        
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        public bool CheckActionAvailable(string tryName) { ActionChoice tryOut = readyActions.Find(actTry => actTry.actionName == tryName); return tryOut != null; }
+
+        public void StartAction(string tryName) { 
             ActionChoice selectedAct = readyActions.Find(actTry => actTry.actionName == tryName);
             if(selectedAct == null) {
                 F7_Help.DebugPrint(printDebugLogs, $"The requested action is either on cooldown or not a possible action: {tryName}");
@@ -47,6 +97,31 @@ namespace Cali7
             }
 
         }
+
+        private void SetActions() { 
+            slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), "SlamAttack");
+            swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), "SwipeAttack");
+            comboFinish = new ActionChoice(1, (() => Instance.ComboFinisher()), "ComboFinisher");
+            shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), "ShardSpray");
+            pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), "PillarRise");
+            raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), "RaiseRing");
+            bloodBarrier = new ActionChoice(2, (() => Instance.BloodBarrier()), "BloodBarrier");
+            aoePunish = new ActionChoice(3, (() => Instance.AoEPunish()), "AoEPunish");
+            enragedMode = new ActionChoice(3, (() => Instance.EnragedMode()), "EnragedMode");
+            leapSwipe = new ActionChoice(3, (() => Instance.LeapSwipe()), "LeapSwipe");
+            bloodWall = new ActionChoice(2, (() => Instance.BloodWall()), "BloodWall");
+            barrierBroken = new ActionChoice(5, (() => Instance.BarrierBrokenRecover()), "BarrierBroken");
+            reelingBack = new ActionChoice(5, (() => Instance.ReelingBackRecover()), "ReelingBack");
+            enragedExit = new ActionChoice(5, (() => Instance.EnragedExitRecover()), "EnragedExit");
+        }
+
+        private void GenerateCollection() { 
+            List<ActionChoice> tempList = new List<ActionChoice> { slamAttack, swipeAttack, comboFinish, shardSpray, pillarRise, raiseRing, 
+                    bloodBarrier, aoePunish, enragedMode, leapSwipe, bloodWall, barrierBroken, reelingBack, enragedExit };
+            readyActions.AddRange(tempList);
+        }
+        
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         IEnumerator PutActionOnCooldown(ActionChoice choiceCooling) { 
             var choiceSelect = readyActions.Find(actTry => actTry.actionName == choiceCooling.actionName);
@@ -71,8 +146,46 @@ namespace Cali7
                 }
             }
         }
-
+        
+        
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//      Methods for ActionChoices
+//      Misc/Debugging Methods
         public void PrintHello() { print("Heya!"); }
+
+//--------------------------------------------------------
+//      MeleeAttacks
+        private void SlamAttack() { F7_EventManager.Instance.OnSlamStart?.Invoke(); }
+        private void SwipeAttack() { F7_EventManager.Instance.OnSwipeStart?.Invoke(); }
+        private void ComboFinisher() { F7_EventManager.Instance.OnReachMaxCombo?.Invoke(); }
+
+//--------------------------------------------------------
+//      RangedAttacks
+        private void ShardSpray() { F7_EventManager.Instance.OnShardStart?.Invoke(); }
+        private void PillarRise() { F7_EventManager.Instance.OnPillarStart?.Invoke(); }
+        private void RaiseRing() { F7_EventManager.Instance.OnRingStart?.Invoke(); }
+
+//--------------------------------------------------------
+//      MeleePunish/Defense
+
+        private void BloodBarrier() { F7_EventManager.Instance.OnBarrierStart?.Invoke(); }
+        private void AoEPunish() { F7_EventManager.Instance.OnAoEStart?.Invoke(); }
+        private void EnragedMode() { F7_EventManager.Instance.OnEnrageStart?.Invoke(); }
+
+//--------------------------------------------------------
+//      RangedPunish/Defense
+
+        private void LeapSwipe() { F7_EventManager.Instance.OnLeapSwipeStart?.Invoke(); }
+        private void BloodWall() { F7_EventManager.Instance.OnWallStart?.Invoke(); }
+
+
+//--------------------------------------------------------
+//      Recoveries
+
+        private void BarrierBrokenRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(1); }
+        private void ReelingBackRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(2); }
+        private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); }
+
     }
 
     public class ActionChoice { 
@@ -84,8 +197,8 @@ namespace Cali7
         public float cooldownTime = 0f;
 
         public ActionChoice() { }
-        public ActionChoice(int attackInt, Action attackCall, string nameIn) { choiceType = (ActionType)attackInt; choiceCall = attackCall; actionName = nameIn; }
-        public ActionChoice(int attackInt, Action attackCall, float cooldownTimer, string nameIn) { actionName = nameIn; choiceType = (ActionType)attackInt; choiceCall = attackCall; cooldownTime = cooldownTimer; }
+        public ActionChoice(int actionInt, Action actionCall, string nameIn) { choiceType = (ActionType)actionInt; choiceCall = actionCall; actionName = nameIn; }
+        public ActionChoice(int actionInt, Action actionCall, float cooldownTimer, string nameIn) { actionName = nameIn; choiceType = (ActionType)actionInt; choiceCall = actionCall; cooldownTime = cooldownTimer; }
     }
 
     public enum ActionType { 

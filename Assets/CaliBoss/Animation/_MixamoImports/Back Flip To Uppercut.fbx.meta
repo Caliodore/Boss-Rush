@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4233715bf7bdb234da0cfe18aa56008b
+guid: 4c8e6f84ccd15644489b5917caba87bb
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: EnrageScream
+      name: BackFlipUppercut
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 84
+      lastFrame: 175
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -55,7 +55,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.85016286
+      - time: 0.9819777
         functionName: AnimationLineEnded
         data: 
         objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}

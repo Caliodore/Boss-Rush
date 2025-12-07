@@ -28,16 +28,28 @@ namespace Cali7
             BSTC = bossChase;
             BSTD = bossDefending;
             BSTI = bossIdling;
+            BSTR = bossRecovering;
 
             BGOJ = bossMainObj;
-            BDCO = bossDamagerCollider;
+            BDCC = bossClawDamagerCollider;
+            BDCS = bossSlamDamagerCollider;
             BRBY = bossRigidbody;
             BNMA = bossNavMeshAgent;
             BAIM = bossAnimator;
+            BPSP = bossProjStart;
+
+            GOBB = barrierPrefab;
+            GOPP = pillarPrefab;
+            GORR = ringObject;
+            GOSS = shardPrefab;
+            GOSL = slamObject;
+            GOSW = swipeObject;
+            GOBW = wallPrefab;
+            GOLP = meleePivot;
 
             BACT = bossActor;
             BDGL = bossDamageable;
-            BDGR = bossDamager;
+            //BDGR = bossDamager;
             BNGT = bossNavigator;
             BMSR = bossMeleeSensor;
 
@@ -67,18 +79,31 @@ namespace Cali7
         public static F7_Chase BSTC;
         public static F7_Defending BSTD;
         public static F7_Idling BSTI;
+        public static F7_Recovering BSTR;
         
 //      |> Boss Game Components
         public static GameObject BGOJ;
-        public static Collider BDCO;
+        public static Collider BDCC;
+        public static Collider BDCS;
         public static Rigidbody BRBY;
         public static NavMeshAgent BNMA;
         public static Animator BAIM;
+        public static Transform BPSP;
+
+//      |> Prefab Objects
+        public static GameObject GOBB;
+        public static GameObject GOPP;
+        public static GameObject GORR;
+        public static GameObject GOSS;
+        public static GameObject GOSL;
+        public static GameObject GOSW;
+        public static GameObject GOBW;
+        public static GameObject GOLP;
 
 //      |> Brolive Components
         public static Actor BACT;
         public static Damageable BDGL;
-        public static Damager BDGR;
+        //public static Damager BDGR;
         public static Navigator BNGT;
         public static Sensor BMSR;
         public static PlayerLogic PLGS;
@@ -107,18 +132,31 @@ namespace Cali7
         [SerializeField] private F7_Idling bossIdling;
         [SerializeField] private F7_Chase bossChase;
         [SerializeField] private F7_Defending bossDefending;
+        [SerializeField] private F7_Recovering bossRecovering;
 
         [Header("Boss Game Components")]
         [SerializeField] private GameObject bossMainObj;
-        [SerializeField] private Collider bossDamagerCollider;
+        [SerializeField] private Collider bossClawDamagerCollider;
+        [SerializeField] private Collider bossSlamDamagerCollider;
         [SerializeField] private Rigidbody bossRigidbody;
         [SerializeField] private NavMeshAgent bossNavMeshAgent;
         [SerializeField] private Animator bossAnimator;
+        [SerializeField] private Transform bossProjStart;
+
+        [Header("Action Prefabs")]
+        [SerializeField] private GameObject barrierPrefab;
+        [SerializeField] private GameObject pillarPrefab;
+        [SerializeField] private GameObject ringObject;
+        [SerializeField] private GameObject shardPrefab;
+        [SerializeField] private GameObject slamObject;
+        [SerializeField] private GameObject swipeObject;
+        [SerializeField] private GameObject wallPrefab;
+        [SerializeField] private GameObject meleePivot;
 
         [Header("Brolive Components")]
         [SerializeField] private Actor bossActor;
         [SerializeField] private Damageable bossDamageable;
-        [SerializeField] private Damager bossDamager;
+        //[SerializeField] private Damager bossDamager;
         [SerializeField] private Navigator bossNavigator;
         [SerializeField] private Sensor bossMeleeSensor;
         [SerializeField] private PlayerLogic playerScript;

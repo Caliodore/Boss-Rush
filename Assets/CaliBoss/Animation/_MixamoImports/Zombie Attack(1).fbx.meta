@@ -35,7 +35,7 @@ ModelImporter:
       takeName: mixamo.com
       internalID: -203655887218126122
       firstFrame: 0
-      lastFrame: 139
+      lastFrame: 90
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -54,7 +54,35 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.97719866
+        functionName: AnimationLineEnded
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6644951
+        functionName: DisableSlammer
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.35504887
+        functionName: EnableSlammer
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.39739415
+        functionName: StartRotatingSlammer
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -62,7 +90,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 3
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -120,7 +148,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 3
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

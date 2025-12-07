@@ -26,10 +26,27 @@ namespace Cali7
         private void SetEvents() { 
             F7_RefManager.BEVM.OnStartMoving?.AddListener(() => StartMoving());
             F7_RefManager.BEVM.OnStopMoving?.AddListener(() => StopMoving());
+            F7_RefManager.BEVM.OnSwipeStart?.AddListener(() => StartSwipe());
+            F7_RefManager.BEVM.OnSlamStart?.AddListener(() => StartSlam());
+            F7_RefManager.BEVM.OnShardStart?.AddListener(() => StartShard());
+            F7_RefManager.BEVM.OnPillarStart?.AddListener(() => PillarStart());
+            F7_RefManager.BEVM.OnRingStart?.AddListener(() => RingStart());
+            F7_RefManager.BEVM.OnRecoveryStart?.AddListener(empty => StartRecovery());
+            F7_RefManager.BEVM.OnEnrageStart?.AddListener(() => StartEnraged());
+            F7_RefManager.BEVM.OnStartAttack?.AddListener(() => AttackStart());
         }
 
         public void StartMoving() { SetABool("IsWalking", true); }
         public void StopMoving() { SetABool("IsWalking", false); }
+        public void StartSwipe() { SetATrigger("SwipeStart"); }
+        public void StartSlam() { SetATrigger("SlamStart"); }
+        public void StartEnraged() { SetATrigger("EnrageStart"); }
+        public void StartRecovery() { SetATrigger("RecoveryStart"); }
+        public void StartShard() { SetATrigger("ShardStart"); }
+        public void PillarStart() { SetATrigger("PillarStart"); }
+        public void RingStart() { SetATrigger("RingStart"); }
+        public void AttackStart() { SetATrigger("StartAttack"); }
+        public void EndOfAnimationLine() { SetATrigger("FinishAnimationLine"); }
 
         private void SetABool(string boolName, bool boolState) { bossAnim.SetBool(boolName, boolState); }
         private void SetATrigger(string trigName) { bossAnim.SetTrigger(trigName); }

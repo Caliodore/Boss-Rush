@@ -11,6 +11,9 @@ namespace Cali7
         [SerializeField] public float meleeRange = 4.5f;
         [SerializeField] public float comboDecayTime = 8f;
         [SerializeField] public float punishDecayTime = 10f;
+        [SerializeField] public float brokenBarrierRecoveryTime = 16f;
+        [SerializeField] public float reelingBackRecoveryTime = 10f;
+        [SerializeField] public float enragedExitRecoveryTime = 14f;
 
         [Header("Ints")]
         [SerializeField] public int currentPhase;
@@ -19,6 +22,7 @@ namespace Cali7
         [SerializeField] public int midCombo = 3;
         [SerializeField] public int maxCombo = 5;
         [SerializeField] public int hitsUntilPunish = 5;
+        [SerializeField] public int maxHealth = 20;
 
         [Header("Alternate Values")]
         [Header("Floats")]

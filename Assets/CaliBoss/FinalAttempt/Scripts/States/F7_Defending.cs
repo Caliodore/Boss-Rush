@@ -7,9 +7,20 @@ namespace Cali7
     {
         public F7_Defending(string nameIn) : base("Defending") { }
 
+        public ActionChoice defenseChoice = null;
+
+        private void Start()
+        {
+            
+        }
+
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            if(defenseChoice == null) { 
+                defenseChoice = F7_RefManager.BACM.DecideAction(ActionType.Defense);
+            }
+            F7_RefManager.BACM.StartAction(defenseChoice.actionName);
         }
 
         public override void OnStateUpdate() { 
@@ -19,6 +30,8 @@ namespace Cali7
         public override void OnStateExit() { 
             base.OnStateExit();
         }
+
+        public void UpdateDefenseChoice() { }
 
 
         public override void StopThisState() { }

@@ -27,5 +27,9 @@ namespace Cali7
             F7_RefManager.UIBC.gameObject.SetActive(true);
             F7_RefManager.UIPC.gameObject.SetActive(true);
         }
+
+        public void UpdateBossHealth(int healthChange) { 
+            F7_RefManager.UIBH.UpdateBar(healthChange, F7_RefManager.BCNT.currentHealth);
+        }
     }
 }
