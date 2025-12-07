@@ -59,13 +59,19 @@ namespace Cali6
         public bool canMove = true;
         public bool canTurn = true;
 
+        [Header("Timer Times")]
         public float comboDecayTimer = 10f;
         public float comboElapsed;
         public float hitsPunishDecayTimer = 12f;
         public float hitsPunishElapsed;
+        public float timeOutOfMelee;
+        public float rangedTimeUntilClose = 8f;
+
+        [Header("Important Floats")]
         public float distToPlayer;
         public float meleeRange = 10f;
         public float bossTimeScale = 1f;
+        public float bossMoveSpeed = 3f;
 
         private Coroutine comboCoro;
         private Coroutine punishCoro;
@@ -126,6 +132,7 @@ namespace Cali6
                 OnTakingDamage?.AddListener(() => indexState?.OnDamagedDuringState());
             }
             BossDamageable.OnHit?.AddListener(dmgIn => UpdateHitsTakenRecently());
+            BossDamageable.OnHealthChanged?.AddListener((dmgIn, healthResult) => HealthCheck(healthResult));
         }
 
         private void SetOtherListeners() { 
@@ -143,6 +150,17 @@ namespace Cali6
             isEnraged = false;
             A6_Help.DebugPrint(printDebugLogs, "Boss exited enraged mode.");
             bossTimeScale = 1f;
+        }
+
+        private void HealthCheck(int resultHealth) { 
+            currentHealth = resultHealth;
+            if(currentHealth <= 0)
+                BossDeath();
+        }
+
+        private void BossDeath() { 
+            A6_Help.DebugPrint(printDebugLogs, "Boss dead.");
+            GameManager.instance.GoToNextLevel();
         }
 
 //-----------------------------------------------------------------------------------

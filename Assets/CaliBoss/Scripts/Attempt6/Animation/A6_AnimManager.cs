@@ -7,6 +7,7 @@ namespace Cali6
         public static A6_AnimManager Instance;
         public A6_AnimManager() { }
         public Animator bossAnim;
+        public Animator mixamoAnimator;
 
         public AnimTrigger attTrig;
         public AnimTrigger defTrig;
@@ -44,6 +45,13 @@ namespace Cali6
 
             meleeBool = new AnimBool("AttMeleeOrRanged", bossAnim);
         }
+
+        private void Update()
+        {
+            
+        }
+        
+        public void PlayerEnterArena() { mixamoAnimator.SetTrigger("StartEncounter"); }
 
         public void SetAnimTrigger(string triggerName) { bossAnim.SetTrigger(triggerName); }
         public void SetAnimInt(string intName, int intValue) { bossAnim.SetInteger(intName, intValue); }

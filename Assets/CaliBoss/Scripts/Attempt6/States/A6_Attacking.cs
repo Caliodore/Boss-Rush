@@ -68,6 +68,8 @@ namespace Cali6
         IEnumerator WaitForAnimationEnd() { 
             ToggleAnimatingBool(true);
             while(IsAnimating) { 
+                if(CurrentStateDuration > 10f)
+                    ToggleAnimatingBool(false);
                 yield return null;
             }
             if(!IsAnimating) { 

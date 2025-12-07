@@ -20,7 +20,8 @@ namespace Cali6
         public override void OnStateEnter()
         {
             base.OnStateEnter();
-            StartRecovery();
+            A6_StateMachine.Instance.RequestStateChange(A6_Brain.Instance.PursuingState);
+            //StartRecovery();
         }
 
         public override void OnDamagedDuringState()

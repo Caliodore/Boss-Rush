@@ -12,7 +12,7 @@ namespace Cali6
         public override void OnStateUpdate()
         {
             base.OnStateUpdate();
-            if(CurrentStateDuration >= 6f) {
+            if(CurrentStateDuration >= 20f) {
                 LeaveState();
             }
         }

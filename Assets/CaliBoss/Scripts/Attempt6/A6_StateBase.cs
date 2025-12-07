@@ -28,7 +28,10 @@ namespace Cali6
         }
 
         public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; isCurrentState = true; A6_Help.DebugPrint(printDebugLogsBASE, $"Entered the {StateName} state.");}
-        public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; }
+        public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; 
+            //if(currentStateDuration > 30f)
+                //A6_StateMachine.Instance.RequestStateChange(A6_Brain.Instance.PursuingState);
+        }
         public virtual void OnStateExit() { stateComplete = true; isCurrentState = false; }
 
         public virtual void OnDamagedDuringState() { if(!isCurrentState) return; }

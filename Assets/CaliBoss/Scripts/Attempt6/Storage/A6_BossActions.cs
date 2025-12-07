@@ -24,6 +24,9 @@ namespace Cali6
         public int normalShardAmount = 4;
         public int enragedShardAmount = 9;
 
+        [Header("Logic Variables")]
+        public bool readyingShards = false;
+
         [Header("Cooldown Timers")]
         public float meleeCooldown = 5f;
         public float rangedCooldown = 6f;
@@ -278,7 +281,7 @@ namespace Cali6
             A6_AnimManager.Instance.meleeBool.SetBool(false);
             A6_AnimManager.Instance.attTrig.SetTrig();
             //Physical Aspects
-
+            ShardSprayHandler();
         }
         public void PillarSpread() { 
             //Animation Values
@@ -412,9 +415,7 @@ namespace Cali6
 
 //      ||-------|| NEED TO REPLACE WITH OBJECT POOLING ||-------||
 
-            for(int i = 0; i < shardsOut; i++) {
-
-            }
+            StartCoroutine(SpawnShardCircle(shardsOut));
 
         }
 
@@ -434,13 +435,13 @@ namespace Cali6
             for(int i = 0; i < pillarsOut; i++) { 
                 float randX = storedPlayerPos.x + UnityEngine.Random.Range(-15, 15);
                 float randZ = storedPlayerPos.z + UnityEngine.Random.Range(-15, 15);
-                float randY = storedPlayerPos.y - UnityEngine.Random.Range(8, 16);
+                float randY = -18f;
                 Vector3 pillarSpawn = new Vector3(randX, randY, randZ);
-                activePillars.Add(Instantiate(pillarPrefab,pillarEmpty.transform));
+                activePillars.Add(Instantiate(pillarPrefab,pillarSpawn,Quaternion.identity));
             }
 
             foreach(GameObject currentPillar in activePillars) { 
-                currentPillar.transform.DOMoveY(currentPillar.transform.position.y + 10, pillarLifetime);
+                currentPillar.transform.DOMoveY(currentPillar.transform.position.y + 8, pillarLifetime);
                 Destroy(currentPillar, pillarLifetime);
             }
         }
@@ -469,11 +470,21 @@ namespace Cali6
 
         IEnumerator RingUpThenDown() { 
             ringPrefab.SetActive(true);
-            ringPrefab.transform.DOMoveY(ringPrefab.transform.position.y + 15, 20f);
+            ringPrefab.transform.DOMoveY(ringPrefab.transform.position.y + 13, 10f);
             yield return new WaitForSeconds(20f * A6_Brain.Instance.bossTimeScale);
-            ringPrefab.transform.DOMoveY(ringPrefab.transform.position.y - 15, 10f);
+            ringPrefab.transform.DOMoveY(ringPrefab.transform.position.y - 13, 7f);
             yield return new WaitForSeconds(10f * A6_Brain.Instance.bossTimeScale);
             ringPrefab.SetActive(false);
+            StartCooldown(closingRing);
+            yield return null;
+        }
+
+        IEnumerator SpawnShardCircle(int shardAmount) { 
+            float randX = UnityEngine.Random.Range(-1.25f, 1.25f);
+            float randY = UnityEngine.Random.Range(-1.25f, 1.25f);
+            Vector3 relSpawnVec = new Vector3(shardInstantiationPoint.transform.position.x + randX, shardInstantiationPoint.transform.position.y + randY, shardInstantiationPoint.transform.position.z);
+            GameObject thisShard = Instantiate(shardPrefab, relSpawnVec, Quaternion.identity);
+            thisShard.transform.forward = A6_Brain.Instance.playerTransform.position - thisShard.transform.position;
             yield return null;
         }
 

@@ -25,11 +25,14 @@ namespace Cali6
 
         private void Start()
         {
+            if(Instance == null)
+                Instance = this;
             currentHealth = maxHealth = A6_Brain.Instance.maxHealth;
         }
 
         public void EnableBossDisplay() { 
             bossHealthCanvas.enabled = true;
+            bossHealthCanvas.gameObject.SetActive(true);
         }
 
         public void UpdateHealth(int healthChange) {
