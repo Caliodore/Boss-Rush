@@ -1,10 +1,12 @@
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Cali7
 { 
     public class F7_AnimHandler : MonoBehaviour
     {
+
         public void AnimationLineEnded() { F7_RefManager.BANM.EndOfAnimationLine(); }
         public void EnableClaws() { F7_RefManager.GOSW.SetActive(true); }
         public void DisableClaws() { F7_RefManager.GOSW.SetActive(false); }

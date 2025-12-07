@@ -12,6 +12,8 @@ namespace Cali7
     {
         public static F7_Central Instance;
 
+        public bool printDebugLogs = true;
+
         [Header("Vars Used Externally and Internally")]
         public bool isEnraged = false;
         public bool isMoving = false;
@@ -45,12 +47,14 @@ namespace Cali7
         private void Start()
         {
             SetEvents();
+            currentHealth = F7_RefManager.BPSO.maxHealth;
         }
 
         private void Update()
         {
             CheckIfMoving();
             CheckIfMelee();
+            //gameObject.transform.position = F7_RefManager.BNMA.gameObject.transform.localToWorldMatrix.GetPosition();
         }
 
 
@@ -105,47 +109,48 @@ namespace Cali7
 //------[ Action Methods ]------------------------------------------------------------------------------------------------------------------------------------------
 
         public void SlamAttackPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central SlamAttack");
         }
+            
 
         public void SwipeAttackPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central SwipeAttack");
         }
 
         public void ComboFinisherPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central ComboFinisher");
         }
 
         public void ShardSprayPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central ShardSpray");
         }
 
         public void PillarRisePhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central PillarRise");
         }
 
         public void RaiseRingPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central RaiseRing");
         }
 
         public void BloodBarrierPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central BloodBarrier");
         }
 
         public void AoEPunishPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central AoEPunish");
         }
 
         public void EnragedModePhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central EnragedMode");
         }
 
         public void LeapSwipePhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central LeapSwipe");
         }
 
         public void BloodWallPhys() { 
-            
+            F7_Help.DebugPrint(printDebugLogs, "Central BloodWall");
         }
 
         public void DetermineRecoveryType(int recType) { F7_RefManager.BSTR.recoveryType = recType; }

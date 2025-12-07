@@ -17,7 +17,7 @@ namespace Cali7
         }
 
         public virtual void OnStateEnter() { currentStateDuration = 0f; stateComplete = false; }
-        public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; }
+        public virtual void OnStateUpdate() { currentStateDuration += Time.deltaTime; if(currentStateDuration > 25f) F7_RefManager.BCNT.StateChangeRequest(); }
         public virtual void OnStateExit() { stateComplete = true; OnStateEnding?.Invoke(); }
 
         public virtual void StopThisState() { }

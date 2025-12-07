@@ -17,6 +17,10 @@ namespace Cali7
             if (F7_RefManager.BCNT.playerInMelee) { 
                 F7_RefManager.BCNT.StateChangeRequest();
             }
+            else { 
+                //F7_RefManager.BCNT.isMoving = true;
+                F7_RefManager.BNMA.SetDestination(F7_RefManager.PLGS.gameObject.transform.position);
+            }
         }
 
         public override void OnStateExit() { 

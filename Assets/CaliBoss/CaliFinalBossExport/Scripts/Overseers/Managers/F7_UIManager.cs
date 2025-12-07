@@ -19,9 +19,10 @@ namespace Cali7
         private void Start()
         {
             SetEvents();
+            F7_RefManager.UIBT.text = "Hostellus, Eternal Martyr";
         }
 
-        private void SetEvents() { F7_RefManager.BEVM.OnArenaEntered?.AddListener(() => EnableBossUI()); }
+        private void SetEvents() { F7_EventManager.Instance.OnArenaEntered?.AddListener(() => EnableBossUI()); }
 
         public void EnableBossUI() { 
             F7_RefManager.UIBC.gameObject.SetActive(true);

@@ -34,8 +34,10 @@ namespace Cali7
             F7_RefManager.BEVM.OnRecoveryStart?.AddListener(empty => StartRecovery());
             F7_RefManager.BEVM.OnEnrageStart?.AddListener(() => StartEnraged());
             F7_RefManager.BEVM.OnStartAttack?.AddListener(() => AttackStart());
+            F7_RefManager.BEVM.OnArenaEntered?.AddListener(() => StartFight());
         }
 
+        public void StartFight() { SetATrigger("StartEncounter"); }
         public void StartMoving() { SetABool("IsWalking", true); }
         public void StopMoving() { SetABool("IsWalking", false); }
         public void StartSwipe() { SetATrigger("SwipeStart"); }

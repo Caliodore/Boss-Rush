@@ -22,10 +22,16 @@ namespace Cali7
         {
             if(CurrentState != null)
                 CurrentState.OnStateUpdate();
+            F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
+            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => ReactToDamage());
+            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => F7_EventManager.Instance.OnBossTakesDamage?.RemoveListener(dmgIn => ReactToDamage()));
         }
+
+        public void ReactToDamage() { ChangeState(F7_RefManager.BSTA); }
 
         public void ChangeState(F7_StateBase stateTo) { 
             bool canSwitch = CheckIfDiffState(stateTo);
+            F7_Help.DebugPrint(printDebugLogs, "Changing state.");
             if(!canSwitch) { 
                 F7_Help.DebugPrint(printDebugLogs, "The requested state is already running.");
                 return;
