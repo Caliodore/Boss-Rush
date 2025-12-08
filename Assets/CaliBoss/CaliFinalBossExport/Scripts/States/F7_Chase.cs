@@ -7,15 +7,18 @@ namespace Cali7
     {
         public F7_Chase(string nameIn) : base("Chase") { }
 
+        public bool requestedChange;
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            requestedChange = false;
         }
 
         public override void OnStateUpdate() { 
             base.OnStateUpdate();
-            if (F7_RefManager.BCNT.playerInMelee) { 
+            if (F7_RefManager.BCNT.playerInMelee && !requestedChange) { 
                 F7_RefManager.BCNT.StateChangeRequest();
+                requestedChange = true;
             }
             else { 
                 //F7_RefManager.BCNT.isMoving = true;

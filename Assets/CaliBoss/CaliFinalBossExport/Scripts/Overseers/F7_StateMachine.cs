@@ -22,7 +22,7 @@ namespace Cali7
         {
             if(CurrentState != null)
                 CurrentState.OnStateUpdate();
-            F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
+            //F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => ReactToDamage());
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => F7_EventManager.Instance.OnBossTakesDamage?.RemoveListener(dmgIn => ReactToDamage()));
         }
