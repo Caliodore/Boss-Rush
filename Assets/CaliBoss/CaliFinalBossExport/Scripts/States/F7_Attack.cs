@@ -5,6 +5,7 @@ namespace Cali7
 { 
     public class F7_Attack : F7_StateBase
     {
+        public bool printDebugLogs = true;
         public F7_Attack() : base("Attacking") { }
         public static F7_Attack AttackInstance;
 
@@ -17,19 +18,28 @@ namespace Cali7
         public override void OnStateEnter() { 
             base.OnStateEnter();
             F7_RefManager.BEVM.OnStartAttack?.Invoke();
-            if(!wantsToCombo && !wantsToPunish) { 
+
+            //if(!wantsToCombo && !wantsToPunish) { 
+            //    attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
+            //}
+
+            if(attackChoice == null)
                 attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
-            }
             else if((wantsToCombo && !wantsToPunish) || (wantsToCombo && wantsToPunish)) { 
                 attackChoice = F7_RefManager.BACM.GetSpecificAction("ComboFinisher");
             }
             else if(!wantsToCombo && wantsToPunish) { 
                 attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Punish);
             }
-            if(attackChoice != null)
+
+            if(attackChoice != null) { 
                 F7_RefManager.BACM.StartAction(attackChoice.actionName);
-            else
+                F7_Help.DebugPrint(printDebugLogs, $"AttackChoice is not null, and its name is: {attackChoice.actionName}");
+            }
+            else { 
                 F7_RefManager.BCNT.StateChangeRequest();
+                F7_Help.DebugPrint(printDebugLogs, $"AttackChoice is apparently null.");
+            }
         }
 
         public override void OnStateUpdate() { 
@@ -38,6 +48,7 @@ namespace Cali7
 
         public override void OnStateExit() { 
             base.OnStateExit();
+            attackChoice = null;
         }
 
 

@@ -45,6 +45,7 @@ namespace Cali7
         public UnityEvent OnStartMoving;
         public UnityEvent OnStopMoving;
         public UnityEvent OnArenaEntered;
+        public UnityEvent OnForceIdle;
 
         private void Start()
         {
@@ -77,6 +78,7 @@ namespace Cali7
             OnStartMoving ??= new();
             OnStopMoving ??= new();
             OnArenaEntered ??= new();
+            OnForceIdle ??= new();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Cali7
         public float currentStateDuration;
         public UnityEvent OnStateEnding;
         
-        public string stateName = "";
+        protected string stateName = new string("");
         public F7_StateBase(string nameIn) { stateName += nameIn; }
         public static F7_StateBase Instance;
 

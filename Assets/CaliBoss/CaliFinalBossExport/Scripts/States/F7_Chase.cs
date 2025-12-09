@@ -11,14 +11,12 @@ namespace Cali7
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
-            requestedChange = false;
         }
 
         public override void OnStateUpdate() { 
             base.OnStateUpdate();
-            if (F7_RefManager.BCNT.playerInMelee && !requestedChange) { 
+            if (F7_RefManager.BCNT.playerInMelee) { 
                 F7_RefManager.BCNT.StateChangeRequest();
-                requestedChange = true;
             }
             else { 
                 F7_RefManager.BCNT.isMoving = true;

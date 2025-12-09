@@ -1,8 +1,9 @@
-using UnityEngine;
-using UnityEngine.Events;
+using Caliodore.States_Phase2;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Cali7
 { 
@@ -13,6 +14,9 @@ namespace Cali7
         public static F7_ActionManager Instance;
         public List<ActionChoice> readyActions = new();
         public List<ActionChoice> actionsOnCooldown = new();
+        public int readyCount = 0;
+        public int cooldownCount = 0;
+        public int readyAttacks = 0;
         public ActionChoice testChoice;
         
         public ActionChoice slamAttack;
@@ -47,6 +51,10 @@ namespace Cali7
 
         private void Update()
         {
+            readyCount = readyActions.Count;
+            cooldownCount = actionsOnCooldown.Count;
+            readyAttacks = readyActions.FindAll(actTry => actTry.choiceType == ActionType.Attack).Count;
+
             if(testCall) { 
                 testCall = false;
                 StartAction(testChoice.actionName);
@@ -59,10 +67,18 @@ namespace Cali7
             ActionChoice choiceOut = null;
             
             bool isMelee = F7_RefManager.BCNT.playerInMelee;
+            List<ActionChoice> actOps = new();
 
-            List<ActionChoice> actOps = readyActions.FindAll(actTry => (actTry.isMelee == isMelee && actTry.choiceType == typeIn));
-            if(actOps.Count < 1) {
-                F7_Help.DebugPrint(printDebugLogs, "There are no attacks of that type ready at this moment.");
+            if(typeIn == ActionType.Attack)
+                actOps = readyActions.FindAll(actTry => (actTry.isMelee == isMelee && actTry.choiceType == typeIn));
+            else
+                actOps = readyActions.FindAll(actTry => (actTry.choiceType == typeIn));
+
+            F7_Help.DebugPrint(printDebugLogs, $"There are {actOps.Count} actions of the type {typeIn} available at this moment.");
+
+            if(actOps.Count <= 0) {
+                F7_Help.DebugPrint(printDebugLogs, $"There are no attacks ready at this moment.");
+                F7_RefManager.BEVM.OnForceIdle?.Invoke();
             }
             else { 
                 int randInd = UnityEngine.Random.Range(0,actOps.Count);
@@ -100,11 +116,17 @@ namespace Cali7
 
         private void SetActions() { 
             slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), "SlamAttack");
+            slamAttack.isMelee = true;
             swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), "SwipeAttack");
+            swipeAttack.isMelee = true;
             comboFinish = new ActionChoice(1, (() => Instance.ComboFinisher()), "ComboFinisher");
+            comboFinish.isMelee = true;
             shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), "ShardSpray");
+            shardSpray.isMelee = false;
             pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), "PillarRise");
+            pillarRise.isMelee = false;
             raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), "RaiseRing");
+            raiseRing.isMelee = false;
             bloodBarrier = new ActionChoice(2, (() => Instance.BloodBarrier()), "BloodBarrier");
             aoePunish = new ActionChoice(3, (() => Instance.AoEPunish()), "AoEPunish");
             enragedMode = new ActionChoice(3, (() => Instance.EnragedMode()), "EnragedMode");
@@ -113,12 +135,14 @@ namespace Cali7
             barrierBroken = new ActionChoice(5, (() => Instance.BarrierBrokenRecover()), "BarrierBroken");
             reelingBack = new ActionChoice(5, (() => Instance.ReelingBackRecover()), "ReelingBack");
             enragedExit = new ActionChoice(5, (() => Instance.EnragedExitRecover()), "EnragedExit");
+
         }
 
         private void GenerateCollection() { 
             List<ActionChoice> tempList = new List<ActionChoice> { slamAttack, swipeAttack, comboFinish, shardSpray, pillarRise, raiseRing, 
                     bloodBarrier, aoePunish, enragedMode, leapSwipe, bloodWall, barrierBroken, reelingBack, enragedExit };
             readyActions.AddRange(tempList);
+            F7_Help.DebugPrint(printDebugLogs, $"Collection generated with {readyActions.Count} items.");
         }
         
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -130,6 +154,7 @@ namespace Cali7
                 yield break;
             }
             else { 
+                F7_Help.DebugPrint(printDebugLogs, $"Putting {choiceCooling.actionName} on cooldown for {choiceCooling.cooldownTime} seconds.");
                 choiceSelect.choiceCall.Invoke();
                 readyActions.Remove(choiceSelect);
                 choiceSelect.isReady = false;

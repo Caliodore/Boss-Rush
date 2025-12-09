@@ -51,6 +51,7 @@ namespace Cali7
             F7_RefManager.BEVM.OnEnrageStart?.AddListener(() => StartEnraged());
             F7_RefManager.BEVM.OnStartAttack?.AddListener(() => AttackStart());
             F7_RefManager.BEVM.OnArenaEntered?.AddListener(() => StartFight());
+            F7_RefManager.BEVM.OnForceIdle?.AddListener(() => IdleForced());
         }
 
         public void StartFight() { SetATrigger("StartEncounter"); PrintTriggerSet("StartEncounter"); }
@@ -65,6 +66,7 @@ namespace Cali7
         public void RingStart() { SetATrigger("RingStart"); PrintTriggerSet("RingStart"); }
         public void AttackStart() { SetATrigger("StartAttack"); PrintTriggerSet("StartAttack"); }
         public void EndOfAnimationLine() { SetATrigger("FinishAnimationLine"); PrintTriggerSet("FinishAnimationLine"); }
+        public void IdleForced() { SetATrigger("ForceIdle"); PrintTriggerSet("ForceIdle"); }
 
         private void SetABool(string boolName, bool boolState) { bossAnim.SetBool(boolName, boolState); }
         private void SetATrigger(string trigName) { bossAnim.SetTrigger(trigName); }
