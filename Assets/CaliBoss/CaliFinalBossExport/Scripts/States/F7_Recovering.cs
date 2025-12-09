@@ -6,7 +6,7 @@ namespace Cali7
 { 
     public class F7_Recovering : F7_StateBase
     {
-        public F7_Recovering(string nameIn) : base("Recovering") { }
+        public F7_Recovering() : base("Recovering") { }
 
         public float recoveryTime;
         public int recoveryType;

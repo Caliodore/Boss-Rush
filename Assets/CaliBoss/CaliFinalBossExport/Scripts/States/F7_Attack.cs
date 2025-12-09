@@ -5,7 +5,8 @@ namespace Cali7
 { 
     public class F7_Attack : F7_StateBase
     {
-        public F7_Attack(string nameIn) : base("Attack") { }
+        public F7_Attack() : base("Attacking") { }
+        public static F7_Attack AttackInstance;
 
         public bool wantsToCombo = false;
         public bool wantsToPunish = false;
@@ -15,6 +16,7 @@ namespace Cali7
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            F7_RefManager.BEVM.OnStartAttack?.Invoke();
             if(!wantsToCombo && !wantsToPunish) { 
                 attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
             }

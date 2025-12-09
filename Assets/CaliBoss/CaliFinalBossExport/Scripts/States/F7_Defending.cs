@@ -5,7 +5,7 @@ namespace Cali7
 { 
     public class F7_Defending : F7_StateBase
     {
-        public F7_Defending(string nameIn) : base("Defending") { }
+        public F7_Defending() : base("Defending") { }
 
         public ActionChoice defenseChoice = null;
 

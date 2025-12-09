@@ -5,7 +5,7 @@ namespace Cali7
 { 
     public class F7_Idling : F7_StateBase
     {
-        public F7_Idling(string nameIn) : base("Idling") { }
+        public F7_Idling() : base("Idling") { }
 
 
         public override void OnStateEnter() { 

@@ -5,7 +5,7 @@ namespace Cali7
 { 
     public class F7_Chase : F7_StateBase
     {
-        public F7_Chase(string nameIn) : base("Chase") { }
+        public F7_Chase() : base("Chase") { }
 
         public bool requestedChange;
 
@@ -21,8 +21,12 @@ namespace Cali7
                 requestedChange = true;
             }
             else { 
-                //F7_RefManager.BCNT.isMoving = true;
+                F7_RefManager.BCNT.isMoving = true;
                 F7_RefManager.BNMA.SetDestination(F7_RefManager.PLGS.gameObject.transform.position);
+                Vector3 dirVec = F7_RefManager.PLGS.gameObject.transform.position - gameObject.transform.position;
+                dirVec.y = 0;
+                dirVec.Normalize();
+                F7_RefManager.BANM.gameObject.transform.rotation.SetLookRotation(dirVec);
             }
         }
 

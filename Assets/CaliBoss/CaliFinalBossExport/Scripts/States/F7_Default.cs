@@ -5,7 +5,7 @@ namespace Cali7
 { 
     public abstract class F7_Default : F7_StateBase
     {
-        public F7_Default(string nameIn) : base("Default") { }
+        public F7_Default() : base("Default") { }
 
 
         public override void OnStateEnter() { 
