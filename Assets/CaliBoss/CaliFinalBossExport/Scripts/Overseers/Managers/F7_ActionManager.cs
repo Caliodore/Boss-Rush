@@ -4,21 +4,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEditor;
 
 namespace Cali7
 { 
     public class F7_ActionManager : MonoBehaviour
     {
+        [Header("Testing")]
         public bool testCall;
         public bool printDebugLogs = true;
+        [SerializeField] public ActionChoice actionToTest;
+
+        [Header("ActualVars")]
         public static F7_ActionManager Instance;
         public List<ActionChoice> readyActions = new();
         public List<ActionChoice> actionsOnCooldown = new();
         public int readyCount = 0;
         public int cooldownCount = 0;
         public int readyAttacks = 0;
+
+        [Header("ActionChoices")]
         public ActionChoice testChoice;
-        
         public ActionChoice slamAttack;
         public ActionChoice swipeAttack;
         public ActionChoice comboFinish;
@@ -43,6 +49,7 @@ namespace Cali7
         private void Start()
         {
             testChoice = new ActionChoice(0, (() => Instance.PrintHello()), "TestCall");
+            actionToTest = new();
             readyActions.Clear();
             readyActions.Add(testChoice);
             SetActions();
@@ -213,6 +220,7 @@ namespace Cali7
 
     }
 
+    [Serializable]
     public class ActionChoice { 
         public string actionName;
         public ActionType choiceType;

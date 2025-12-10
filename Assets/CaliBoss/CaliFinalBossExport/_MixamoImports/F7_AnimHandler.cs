@@ -12,6 +12,6 @@ namespace Cali7
         public void DisableClaws() { F7_RefManager.GOSW.SetActive(false); }
         public void EnableSlammer() { F7_RefManager.GOSL.SetActive(true); }
         public void DisableSlammer() { F7_RefManager.GOSL.SetActive(false); }
-        public void StartRotatingSlammer() { F7_RefManager.GOLP.transform.DORotate(new Vector3(90,0,0), 11f); }
+        public void StartRotatingSlammer() { F7_RefManager.GOLP.transform.DORotate(new Vector3(90,0,0), 0.37f); }
     }
 }
