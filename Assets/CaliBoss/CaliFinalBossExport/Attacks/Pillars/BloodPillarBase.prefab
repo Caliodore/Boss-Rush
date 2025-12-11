@@ -4850,6 +4850,7 @@ GameObject:
   - component: {fileID: 2021016971437456274}
   - component: {fileID: 8049395874235503639}
   - component: {fileID: 1187926022238906842}
+  - component: {fileID: 2963491248572201658}
   m_Layer: 0
   m_Name: BloodPillarBase
   m_TagString: Untagged
@@ -4865,10 +4866,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7325677535944694128}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 11.73, y: -0.53, z: 1.9299998}
-  m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 4, y: 6.5, z: 4}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7790278026968953911}
   - {fileID: 8493899916906984995}
@@ -4975,6 +4976,18 @@ MonoBehaviour:
   OnSuccessfulHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2963491248572201658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7325677535944694128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ffc653335398944cb3eb5f0588fab83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Cali7.F7_PillarScript
 --- !u!1 &8388294593615460638
 GameObject:
   m_ObjectHideFlags: 0

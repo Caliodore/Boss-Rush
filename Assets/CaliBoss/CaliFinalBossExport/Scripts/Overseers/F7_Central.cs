@@ -30,6 +30,11 @@ namespace Cali7
         public int currentHitsTaken;
         public int hitsTakenRecently;
 
+        private List<F7_ShardScript> shardScripts;
+        private List<F7_PillarScript> pillarScripts;
+        private bool firingShards;
+        private bool raisingPillars, loweringPillars;
+
         private float hitsElapsed;
         private float comboElapsed;
 
@@ -43,11 +48,15 @@ namespace Cali7
         {
             if(Instance == null)
                 Instance = this;
+            shardScripts = new();
+            pillarScripts = new();
         }
 
         private void Start()
         {
             SetEvents();
+            GetShardScripts();
+            GetPillarScripts();
             currentHealth = F7_RefManager.BPSO.maxHealth;
         }
 
@@ -87,13 +96,7 @@ namespace Cali7
         }
 
         private void CheckIfMelee() {
-            Vector3 bossFlatY = F7_RefManager.BGOJ.transform.position;
-            Vector3 playerFlatY = F7_RefManager.PLGS.gameObject.transform.position;
-
-            playerFlatY.y = 0;
-            bossFlatY.y = 0;
-
-            distToPlayer = Vector3.Distance(playerFlatY,bossFlatY);
+            DistToPlayerCalc();
 
             if(distToPlayer < F7_RefManager.BPSO.meleeRange) { 
                 if(!playerInMelee)
@@ -104,6 +107,36 @@ namespace Cali7
                 if(playerInMelee)
                     F7_RefManager.BEVM.OnPlayerExitMelee?.Invoke();
                 playerInMelee = false;
+            }
+        }
+
+        public float DistToPlayerCalc() { 
+            Vector3 bossFlatY = F7_RefManager.BGOJ.transform.position;
+            Vector3 playerFlatY = F7_RefManager.PLGS.gameObject.transform.position;
+
+            playerFlatY.y = 0;
+            bossFlatY.y = 0;
+
+            return Vector3.Distance(playerFlatY,bossFlatY);
+        }
+
+        public Vector3 GetDirToPlayer() { 
+            return (F7_RefManager.PLGS.gameObject.transform.position - F7_RefManager.BGOJ.transform.position).normalized;
+        }
+
+//
+
+        private void GetShardScripts() { 
+            foreach(GameObject currentShard in F7_RefManager.GOSO) { 
+                F7_ShardScript currentScript = currentShard.GetComponent<F7_ShardScript>();
+                shardScripts.Add(currentScript);
+            }
+        }
+
+        private void GetPillarScripts() {
+            foreach(GameObject currentPillar in F7_RefManager.GOPO) { 
+                F7_PillarScript currentScript = currentPillar.GetComponent<F7_PillarScript>();
+                pillarScripts.Add(currentScript);
             }
         }
         
@@ -123,17 +156,28 @@ namespace Cali7
 
         public void ShardSprayPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central ShardSpray");
+            foreach(F7_ShardScript shSc in shardScripts) { 
+                shSc.SpawnAndHold();
+            }
+            StartCoroutine(SendShards());
         }
 
-        public void PillarRisePhys() { 
+        public void PillarHandlerPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central PillarRise");
+            foreach(GameObject pillarGO in F7_RefManager.GOPO) { 
+                float randX = UnityEngine.Random.Range(-12f,12f);
+                float randZ = UnityEngine.Random.Range(-12f,12f);
+                Vector3 randPillPos = new Vector3(randX, -9, randZ);
+                pillarGO.transform.position = randPillPos;
+                pillarGO.SetActive(true);
+            }
+            StartCoroutine(TimingPillars());
         }
 
         public void RaiseRingPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central RaiseRing");
             F7_RefManager.GORR.transform.position = F7_RefManager.GORS.transform.position;
             StartCoroutine(RingTimer());
-            F7_RefManager.GORR.transform.DOMoveY(F7_RefManager.GORE.transform.position.y, 8f);
         }
 
         public void LowerRingPhys() { 
@@ -143,6 +187,8 @@ namespace Cali7
 
         public void BloodBarrierPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central BloodBarrier");
+            F7_RefManager.GOBB.GetComponent<F7_BloodBarrier>().ActivateBarrier();
+            F7_RefManager.BDGL.gameObject.SetActive(false);
         }
 
         public void AoEPunishPhys() { 
@@ -159,9 +205,17 @@ namespace Cali7
 
         public void BloodWallPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central BloodWall");
+            Vector3 dirToPlayer = GetDirToPlayer();
+            Vector3 halfwayPoint = dirToPlayer * (DistToPlayerCalc()/2);
+            if(Physics.Raycast(halfwayPoint, Vector3.down, out RaycastHit hitOut, 20f, LayerMask.GetMask("Environment"))) { 
+                F7_RefManager.GOBB.transform.position = hitOut.point;
+                transform.forward = dirToPlayer;
+            }
+            else
+                F7_Help.DebugPrint(printDebugLogs, "BloodWall can't find a halfway spot between boss and player.");
         }
 
-        public void DetermineRecoveryType(int recType) { F7_RefManager.BSTR.recoveryType = recType; }
+        //public void DetermineRecoveryType(int recType) { F7_RefManager.BSTR.recoveryType = recType; }
 
         //public void BarrierBrokenPhys() { }
         //public void ReelingBackPhys() { }
@@ -179,7 +233,7 @@ namespace Cali7
             F7_EventManager.Instance.OnReachMaxCombo?.AddListener(() => ComboFinisherPhys());
 
             F7_EventManager.Instance.OnShardStart?.AddListener(() => ShardSprayPhys());
-            F7_EventManager.Instance.OnPillarStart?.AddListener(() => PillarRisePhys());
+            F7_EventManager.Instance.OnPillarStart?.AddListener(() => PillarHandlerPhys());
             F7_EventManager.Instance.OnRingStart?.AddListener(() => RaiseRingPhys());
 
             F7_EventManager.Instance.OnBarrierStart?.AddListener(() => BloodBarrierPhys());
@@ -189,7 +243,7 @@ namespace Cali7
             F7_EventManager.Instance.OnLeapSwipeStart?.AddListener(() => LeapSwipePhys());
             F7_EventManager.Instance.OnWallStart?.AddListener(() => BloodWallPhys());
 
-            F7_EventManager.Instance.OnRecoveryStart?.AddListener(typeIn => DetermineRecoveryType(typeIn));
+            //F7_EventManager.Instance.OnRecoveryStart?.AddListener(typeIn => DetermineRecoveryType(typeIn));
         }
 
         public void TakeDamage(int dmgTaken) { currentHealth -= dmgTaken; CheckHealthAndPhase(); }
@@ -199,6 +253,15 @@ namespace Cali7
 //------[ Coroutines and Timers ]------------------------------------------------------------------------------------------------------------------------------------
 
         IEnumerator RingTimer() { 
+            bool raisingRing = true;
+            F7_RefManager.GORR.transform.DOMoveY(F7_RefManager.GORE.transform.position.y, 8f);
+            while(raisingRing) { 
+                float distToDest = Vector3.Distance(F7_RefManager.GORR.transform.position, F7_RefManager.GORE.transform.position);
+                if(distToDest <= 0.1f) { 
+                    raisingRing = false;
+                }
+                yield return null;
+            }
             yield return new WaitForSeconds(18f);
             LowerRingPhys();
         }
@@ -236,17 +299,38 @@ namespace Cali7
             yield return null;
         }
 
-        IEnumerator SpawnShardCircle(int shardAmount) { 
-            float randX = UnityEngine.Random.Range(-1.25f, 1.25f);
-            float randY = UnityEngine.Random.Range(-1.25f, 1.25f);
-            Vector3 relSpawnVec = F7_RefManager.BPSP.transform.position;
-            relSpawnVec.x += randX;
-            relSpawnVec.y += randY;
-            GameObject thisShard = Instantiate(F7_RefManager.GOSS, relSpawnVec, Quaternion.identity);
-            thisShard.transform.forward = F7_RefManager.PLGS.gameObject.transform.position - thisShard.transform.position;
-            yield return null;
+        IEnumerator SendShards() { 
+            yield return new WaitForSeconds(2f);
+            int shardInd = 0;
+            while(firingShards) {
+                shardScripts[shardInd].StartMoving();
+                if(shardInd >= shardScripts.Count) { 
+                    firingShards = true;
+                    yield break;
+                }
+                yield return new WaitForSeconds(F7_RefManager.BPSO.shardFirerate);
+                shardInd++;
+            }
         }
 
+        IEnumerator TimingPillars() {
+            foreach(F7_PillarScript currentScript in pillarScripts) { 
+                currentScript.StartRising();
+                yield return new WaitForSeconds(F7_RefManager.BPSO.pillarFirerate);
+            }
+
+            raisingPillars = false;
+
+            if(!raisingPillars) {
+                yield return new WaitForSeconds(F7_RefManager.BPSO.pillarUptime);
+                loweringPillars = true;
+                foreach(F7_PillarScript currentScript in pillarScripts) { 
+                    currentScript.StartLowering();
+                    yield return new WaitForSeconds(F7_RefManager.BPSO.pillarFirerate);
+                }
+            }
+            yield return null;
+        }
         
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
 

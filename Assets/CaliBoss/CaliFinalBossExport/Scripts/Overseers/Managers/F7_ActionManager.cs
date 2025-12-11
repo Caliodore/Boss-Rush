@@ -136,7 +136,6 @@ namespace Cali7
             else { 
                 StartCoroutine(PutActionOnCooldown(selectedAct));
             }
-
         }
 
         private void SetActions() { 
@@ -236,7 +235,7 @@ namespace Cali7
         private void ReelingBackRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(2); }
         private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); }
 
-        //----------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
 
         [ContextMenu("InvokeActionTest")]
         public void InvokeActionTest(ActionChoice actionChoiceIn) { actionToTest?.Invoke(actionChoiceIn); }

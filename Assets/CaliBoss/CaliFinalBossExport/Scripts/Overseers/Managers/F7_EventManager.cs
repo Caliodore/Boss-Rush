@@ -27,6 +27,8 @@ namespace Cali7
         [Header("Combat Events")]
         public UnityEvent<int> OnBossTakesDamage;
         public UnityEvent OnBarrierStart;
+        public UnityEvent OnHitBarrier;
+        public UnityEvent OnBarrierBreak;
         public UnityEvent OnAoEStart;
         public UnityEvent OnLeapSwipeStart;
         public UnityEvent OnWallStart;
@@ -61,6 +63,8 @@ namespace Cali7
 
             OnBossTakesDamage ??= new();
             OnBarrierStart ??= new();
+            OnHitBarrier ??= new();
+            OnBarrierBreak ??= new();
             OnAoEStart ??= new();
             OnLeapSwipeStart ??= new();
             OnWallStart ??= new();

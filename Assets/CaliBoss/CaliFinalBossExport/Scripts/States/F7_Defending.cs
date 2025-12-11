@@ -8,6 +8,7 @@ namespace Cali7
         public F7_Defending() : base("Defending") { }
 
         public ActionChoice defenseChoice = null;
+        public bool holdingDefense;
 
         private void Start()
         {
@@ -25,6 +26,9 @@ namespace Cali7
 
         public override void OnStateUpdate() { 
             base.OnStateUpdate();
+            if(!holdingDefense) { 
+                F7_RefManager.BCNT.StateChangeRequest();
+            }
         }
 
         public override void OnStateExit() { 

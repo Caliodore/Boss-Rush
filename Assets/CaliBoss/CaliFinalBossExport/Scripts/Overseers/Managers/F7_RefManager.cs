@@ -1,11 +1,15 @@
+using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Cali7
 { 
     public class F7_RefManager : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public static F7_RefManager Instance;
 
         private void Awake()
@@ -50,6 +54,9 @@ namespace Cali7
             GOSW = swipeObject;
             GOBW = wallPrefab;
             GOMP = meleePivot;
+            GOSA = shardIPs;
+            GOSO = shardObjs;
+            GOPO = pillarObjs;
 
             BACT = bossActor;
             BDGL = bossDamageable;
@@ -94,7 +101,7 @@ namespace Cali7
         public static Animator BAIM;
         public static Transform BPSP;
 
-//      |> Prefab Objects
+//      |> Action Objects
         public static GameObject GOBB;
         public static GameObject GOPP;
         public static GameObject GORP;
@@ -107,6 +114,9 @@ namespace Cali7
         public static GameObject GOSW;
         public static GameObject GOBW;
         public static GameObject GOMP;
+        public static List<GameObject> GOSA;
+        public static List<GameObject> GOSO;
+        public static List<GameObject> GOPO;
 
 //      |> Brolive Components
         public static Actor BACT;
@@ -164,6 +174,9 @@ namespace Cali7
         [SerializeField] private GameObject swipeObject;
         [SerializeField] private GameObject wallPrefab;
         [SerializeField] private GameObject meleePivot;
+        [SerializeField] private List<GameObject> shardIPs;
+        [SerializeField] private List<GameObject> shardObjs;
+        [SerializeField] private List<GameObject> pillarObjs;
 
         [Header("Brolive Components")]
         [SerializeField] private Actor bossActor;

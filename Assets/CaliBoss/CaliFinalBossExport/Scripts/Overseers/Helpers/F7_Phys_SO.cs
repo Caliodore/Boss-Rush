@@ -14,6 +14,12 @@ namespace Cali7
         [SerializeField] public float brokenBarrierRecoveryTime = 16f;
         [SerializeField] public float reelingBackRecoveryTime = 10f;
         [SerializeField] public float enragedExitRecoveryTime = 14f;
+        [SerializeField] public float shardFirerate = 0.5f;
+        [SerializeField] public float pillarFirerate = 0.5f;
+        [SerializeField] public float pillarUptime = 5f;
+        [SerializeField] public float pillarRaiseSpeed = 10f;
+        [SerializeField] public float pillarLoweringSpeed = 6f;
+        [SerializeField] public float barrierSpinSpeed = 12f;
 
         [Header("Ints")]
         [SerializeField] public int currentPhase;
@@ -22,7 +28,10 @@ namespace Cali7
         [SerializeField] public int midCombo = 3;
         [SerializeField] public int maxCombo = 5;
         [SerializeField] public int hitsUntilPunish = 5;
+        [SerializeField] public int hitsUntilBarrierBreak = 7;
         [SerializeField] public int maxHealth = 20;
+        [SerializeField] public int numberOfPillars = 5;
+        [SerializeField] public int numberOfShards = 5;
 
         [Header("Alternate Values")]
         [Header("Floats")]

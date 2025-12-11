@@ -14,11 +14,11 @@ namespace Cali7
         private void Start()
         {
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => DamageTakenDuringRecovery(dmgIn));
+            F7_RefManager.BEVM.OnRecoveryStart?.AddListener(typeInt => RecoveryTimeUpdate(typeInt));
         }
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
-            RecoveryTimeUpdate();
         }
 
         public override void OnStateUpdate() { 
@@ -34,7 +34,8 @@ namespace Cali7
 
         public override void StopThisState() { }
 
-        private void RecoveryTimeUpdate() {
+        private void RecoveryTimeUpdate(int typeInt) {
+            recoveryType = typeInt;
             switch(recoveryType) { 
                 case(1):
                 default:
