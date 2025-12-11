@@ -44,6 +44,7 @@ namespace Cali7
             F7_RefManager.BEVM.OnStopMoving?.AddListener(() => StopMoving());
             F7_RefManager.BEVM.OnSwipeStart?.AddListener(() => StartSwipe());
             F7_RefManager.BEVM.OnSlamStart?.AddListener(() => StartSlam());
+            F7_RefManager.BEVM.OnReachMaxCombo?.AddListener(() => StartCombo());
             F7_RefManager.BEVM.OnShardStart?.AddListener(() => StartShard());
             F7_RefManager.BEVM.OnPillarStart?.AddListener(() => PillarStart());
             F7_RefManager.BEVM.OnRingStart?.AddListener(() => RingStart());
@@ -59,13 +60,16 @@ namespace Cali7
         public void StopMoving() { SetABool("IsWalking", false); }
         public void StartSwipe() { SetATrigger("SwipeStart"); PrintTriggerSet("SwipeStart"); }
         public void StartSlam() { SetATrigger("SlamStart"); PrintTriggerSet("SlamStart"); }
+        public void StartCombo() { SetATrigger("ComboStart"); PrintTriggerSet("ComboStart"); }
         public void StartEnraged() { SetATrigger("EnrageStart"); PrintTriggerSet("EnrageStart"); }
         public void StartRecovery() { SetATrigger("RecoveryStart"); PrintTriggerSet("RecoveryStart"); }
         public void StartShard() { SetATrigger("ShardStart"); PrintTriggerSet("ShardStart"); }
         public void PillarStart() { SetATrigger("PillarStart"); PrintTriggerSet("PillarStart"); }
         public void RingStart() { SetATrigger("RingStart"); PrintTriggerSet("RingStart"); }
         public void AttackStart() { SetATrigger("StartAttack"); PrintTriggerSet("StartAttack"); }
-        public void EndOfAnimationLine() { SetATrigger("FinishAnimationLine"); PrintTriggerSet("FinishAnimationLine"); }
+        public void EndOfAnimationLine() { SetATrigger("FinishAnimationLine"); PrintTriggerSet("FinishAnimationLine"); 
+            F7_RefManager.BCNT.StateChangeRequest(); 
+        }
         public void IdleForced() { SetATrigger("ForceIdle"); PrintTriggerSet("ForceIdle"); }
 
         private void SetABool(string boolName, bool boolState) { bossAnim.SetBool(boolName, boolState); }

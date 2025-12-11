@@ -1,4 +1,5 @@
 using Cali6;
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -111,7 +112,6 @@ namespace Cali7
         public void SlamAttackPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central SlamAttack");
         }
-            
 
         public void SwipeAttackPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central SwipeAttack");
@@ -131,6 +131,14 @@ namespace Cali7
 
         public void RaiseRingPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central RaiseRing");
+            F7_RefManager.GORR.transform.position = F7_RefManager.GORS.transform.position;
+            StartCoroutine(RingTimer());
+            F7_RefManager.GORR.transform.DOMoveY(F7_RefManager.GORE.transform.position.y, 8f);
+        }
+
+        public void LowerRingPhys() { 
+            F7_Help.DebugPrint(printDebugLogs, "Central LowerRing");
+            F7_RefManager.GORR.transform.DOMoveY(F7_RefManager.GORE.transform.position.y, 6f);
         }
 
         public void BloodBarrierPhys() { 
@@ -164,6 +172,7 @@ namespace Cali7
 
         private void SetEvents() { 
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgDone => TakeDamage(dmgDone));
+            F7_EventManager.Instance.OnStartAttack?.AddListener(() => CheckCombo());
 
             F7_EventManager.Instance.OnSlamStart?.AddListener(() => SlamAttackPhys());
             F7_EventManager.Instance.OnSwipeStart?.AddListener(() => SwipeAttackPhys());
@@ -188,6 +197,11 @@ namespace Cali7
 
         
 //------[ Coroutines and Timers ]------------------------------------------------------------------------------------------------------------------------------------
+
+        IEnumerator RingTimer() { 
+            yield return new WaitForSeconds(18f);
+            LowerRingPhys();
+        }
 
         IEnumerator HitsTakenTimer() { 
             while(hitsElapsed < F7_RefManager.BPSO.punishDecayTime) {

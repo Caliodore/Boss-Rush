@@ -8,9 +8,11 @@ namespace Cali7
         public F7_Chase() : base("Chase") { }
 
         public bool requestedChange;
+        public float randomTime;
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            randomTime = UnityEngine.Random.Range(2,6);
         }
 
         public override void OnStateUpdate() { 
@@ -25,11 +27,14 @@ namespace Cali7
                 dirVec.y = 0;
                 dirVec.Normalize();
                 F7_RefManager.BANM.gameObject.transform.rotation.SetLookRotation(dirVec);
+                if(currentStateDuration >= randomTime)
+                    F7_RefManager.BCNT.StateChangeRequest();
             }
         }
 
         public override void OnStateExit() { 
             base.OnStateExit();
+            F7_RefManager.BNMA.SetDestination(F7_RefManager.BGOJ.transform.position);
         }
 
 

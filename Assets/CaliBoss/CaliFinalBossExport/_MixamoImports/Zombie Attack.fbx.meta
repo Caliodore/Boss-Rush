@@ -62,6 +62,27 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.46721312
+        functionName: StartRotatingClaws
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.45491803
+        functionName: EnableClaws
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5778689
+        functionName: DisableClaws
+        data: 
+        objectReferenceParameter: {fileID: 11500000, guid: b0c2a3d9850ae524588cc93a93b98e63, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

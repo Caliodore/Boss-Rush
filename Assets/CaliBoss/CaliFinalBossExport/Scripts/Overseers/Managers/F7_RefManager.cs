@@ -40,12 +40,16 @@ namespace Cali7
 
             GOBB = barrierPrefab;
             GOPP = pillarPrefab;
+            GORP = rightPunch;
+            GOLP = leftPunch;
             GORR = ringObject;
+            GORS = ringStartPoint;
+            GORE = ringEndPoint;
             GOSS = shardPrefab;
             GOSL = slamObject;
             GOSW = swipeObject;
             GOBW = wallPrefab;
-            GOLP = meleePivot;
+            GOMP = meleePivot;
 
             BACT = bossActor;
             BDGL = bossDamageable;
@@ -93,12 +97,16 @@ namespace Cali7
 //      |> Prefab Objects
         public static GameObject GOBB;
         public static GameObject GOPP;
+        public static GameObject GORP;
+        public static GameObject GOLP;
         public static GameObject GORR;
+        public static GameObject GORS;
+        public static GameObject GORE;
         public static GameObject GOSS;
         public static GameObject GOSL;
         public static GameObject GOSW;
         public static GameObject GOBW;
-        public static GameObject GOLP;
+        public static GameObject GOMP;
 
 //      |> Brolive Components
         public static Actor BACT;
@@ -146,7 +154,11 @@ namespace Cali7
         [Header("Action Prefabs")]
         [SerializeField] private GameObject barrierPrefab;
         [SerializeField] private GameObject pillarPrefab;
+        [SerializeField] private GameObject rightPunch;
+        [SerializeField] private GameObject leftPunch;
         [SerializeField] private GameObject ringObject;
+        [SerializeField] private GameObject ringStartPoint;
+        [SerializeField] private GameObject ringEndPoint;
         [SerializeField] private GameObject shardPrefab;
         [SerializeField] private GameObject slamObject;
         [SerializeField] private GameObject swipeObject;

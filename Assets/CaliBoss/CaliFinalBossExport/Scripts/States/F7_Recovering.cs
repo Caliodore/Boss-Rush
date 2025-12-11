@@ -8,7 +8,7 @@ namespace Cali7
     {
         public F7_Recovering() : base("Recovering") { }
 
-        public float recoveryTime;
+        public float recoveryTime = 5f;
         public int recoveryType;
 
         private void Start()

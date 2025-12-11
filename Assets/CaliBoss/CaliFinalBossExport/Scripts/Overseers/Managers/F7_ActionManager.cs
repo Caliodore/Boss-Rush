@@ -13,7 +13,7 @@ namespace Cali7
         [Header("Testing")]
         public bool testCall;
         public bool printDebugLogs = true;
-        [SerializeField] public ActionChoice actionToTest;
+        [SerializeField] public UnityEvent<ActionChoice> actionToTest;
 
         [Header("ActualVars")]
         public static F7_ActionManager Instance;
@@ -81,11 +81,24 @@ namespace Cali7
             else
                 actOps = readyActions.FindAll(actTry => (actTry.choiceType == typeIn));
 
+            var tryCombo = actOps.Find(actTry => actTry.actionName == comboFinish.actionName);
+            if(F7_RefManager.BCNT.currentCombo < F7_RefManager.BPSO.maxCombo && tryCombo != null)
+                actOps.Remove(tryCombo);
+
             F7_Help.DebugPrint(printDebugLogs, $"There are {actOps.Count} actions of the type {typeIn} available at this moment.");
 
             if(actOps.Count <= 0) {
-                F7_Help.DebugPrint(printDebugLogs, $"There are no attacks ready at this moment.");
-                F7_RefManager.BEVM.OnForceIdle?.Invoke();
+                if(typeIn == ActionType.Attack && isMelee) { 
+                    actOps = readyActions.FindAll(actTry => (actTry.isMelee == false && actTry.choiceType == typeIn));
+                    if(actOps.Count <= 0) {
+                        F7_Help.DebugPrint(printDebugLogs, $"There are no attacks ready at this moment.");
+                        F7_RefManager.BEVM.OnForceIdle?.Invoke();
+                    }
+                    else { 
+                        int randInd = UnityEngine.Random.Range(0,actOps.Count);
+                        choiceOut = actOps[randInd];
+                    }
+                }
             }
             else { 
                 int randInd = UnityEngine.Random.Range(0,actOps.Count);
@@ -103,6 +116,11 @@ namespace Cali7
             }
             else
                 return actOut;
+        }
+
+        public int ActionsOnCooldown(ActionType actionIn) { 
+            var actsFound = actionsOnCooldown.FindAll(actTry => actTry.choiceType == actionIn);
+            return actsFound.Count;
         }
         
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -122,26 +140,26 @@ namespace Cali7
         }
 
         private void SetActions() { 
-            slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), "SlamAttack");
+            slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), 8f, "SlamAttack");
             slamAttack.isMelee = true;
-            swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), "SwipeAttack");
+            swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), 8f, "SwipeAttack");
             swipeAttack.isMelee = true;
-            comboFinish = new ActionChoice(1, (() => Instance.ComboFinisher()), "ComboFinisher");
+            comboFinish = new ActionChoice(1, (() => Instance.ComboFinisher()), 48f, "ComboFinisher");
             comboFinish.isMelee = true;
-            shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), "ShardSpray");
+            shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), 6f, "ShardSpray");
             shardSpray.isMelee = false;
-            pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), "PillarRise");
+            pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), 14f, "PillarRise");
             pillarRise.isMelee = false;
-            raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), "RaiseRing");
+            raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), 32f, "RaiseRing");
             raiseRing.isMelee = false;
-            bloodBarrier = new ActionChoice(2, (() => Instance.BloodBarrier()), "BloodBarrier");
-            aoePunish = new ActionChoice(3, (() => Instance.AoEPunish()), "AoEPunish");
-            enragedMode = new ActionChoice(3, (() => Instance.EnragedMode()), "EnragedMode");
-            leapSwipe = new ActionChoice(3, (() => Instance.LeapSwipe()), "LeapSwipe");
-            bloodWall = new ActionChoice(2, (() => Instance.BloodWall()), "BloodWall");
-            barrierBroken = new ActionChoice(5, (() => Instance.BarrierBrokenRecover()), "BarrierBroken");
-            reelingBack = new ActionChoice(5, (() => Instance.ReelingBackRecover()), "ReelingBack");
-            enragedExit = new ActionChoice(5, (() => Instance.EnragedExitRecover()), "EnragedExit");
+            bloodBarrier = new ActionChoice(2, (() => Instance.BloodBarrier()), 4f, "BloodBarrier");
+            aoePunish = new ActionChoice(3, (() => Instance.AoEPunish()), 12f, "AoEPunish");
+            enragedMode = new ActionChoice(3, (() => Instance.EnragedMode()), 12f, "EnragedMode");
+            leapSwipe = new ActionChoice(3, (() => Instance.LeapSwipe()), 16f, "LeapSwipe");
+            bloodWall = new ActionChoice(2, (() => Instance.BloodWall()), 8f, "BloodWall");
+            barrierBroken = new ActionChoice(5, (() => Instance.BarrierBrokenRecover()), 1f, "BarrierBroken");
+            reelingBack = new ActionChoice(5, (() => Instance.ReelingBackRecover()), 1f, "ReelingBack");
+            enragedExit = new ActionChoice(5, (() => Instance.EnragedExitRecover()), 1f, "EnragedExit");
 
         }
 
@@ -217,6 +235,11 @@ namespace Cali7
         private void BarrierBrokenRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(1); }
         private void ReelingBackRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(2); }
         private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); }
+
+        //----------------------------------------------------------------------------------------------------------------
+
+        [ContextMenu("InvokeActionTest")]
+        public void InvokeActionTest(ActionChoice actionChoiceIn) { actionToTest?.Invoke(actionChoiceIn); }
 
     }
 

@@ -145,6 +145,9 @@ MonoBehaviour:
   OnArenaEntered:
     m_PersistentCalls:
       m_Calls: []
+  OnForceIdle:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3671370057724227577
 GameObject:
   m_ObjectHideFlags: 0
@@ -222,6 +225,116 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cali7.F7_ActionManager
   testCall: 0
   printDebugLogs: 1
+  actionToTest:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7215974026902816316}
+        m_TargetAssemblyTypeName: Cali7.F7_ActionManager, Assembly-CSharp
+        m_MethodName: InvokeActionTest
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  readyActions: []
+  actionsOnCooldown: []
+  readyCount: 0
+  cooldownCount: 0
+  readyAttacks: 0
+  testChoice:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  slamAttack:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  swipeAttack:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  comboFinish:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  shardSpray:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  pillarRise:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  raiseRing:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  bloodBarrier:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  aoePunish:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  enragedMode:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  leapSwipe:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  bloodWall:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  barrierBroken:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  reelingBack:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
+  enragedExit:
+    actionName: 
+    choiceType: 0
+    isReady: 1
+    isMelee: 0
+    cooldownTime: 0
 --- !u!1 &6019528188814480081
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20cc190d2f14b84c89a1613bb056ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali7.F7_AnimManager
+  printDebugLogs: 1
 --- !u!1 &8112925163692867728
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,6 +535,8 @@ MonoBehaviour:
   barrierPrefab: {fileID: 8853335751478946984, guid: def269b09df88a14cbd44bcbadaa51fe, type: 3}
   pillarPrefab: {fileID: 7325677535944694128, guid: a81d91bb68321ed4b9aa66d7dc9ab43a, type: 3}
   ringObject: {fileID: 0}
+  ringStartPoint: {fileID: 0}
+  ringEndPoint: {fileID: 0}
   shardPrefab: {fileID: 4755542339521085347, guid: b1bb0321bd2c0e44bb06c225a1dada6b, type: 3}
   slamObject: {fileID: 0}
   swipeObject: {fileID: 0}

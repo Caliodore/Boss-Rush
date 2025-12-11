@@ -19,14 +19,13 @@ namespace Cali7
             base.OnStateEnter();
             F7_RefManager.BEVM.OnStartAttack?.Invoke();
 
-            //if(!wantsToCombo && !wantsToPunish) { 
-            //    attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
-            //}
+            wantsToCombo = F7_RefManager.BCNT.CheckIfComboReady();
+            wantsToPunish = F7_RefManager.BCNT.CheckIfPunishReady();
 
             if(attackChoice == null)
                 attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Attack);
             else if((wantsToCombo && !wantsToPunish) || (wantsToCombo && wantsToPunish)) { 
-                attackChoice = F7_RefManager.BACM.GetSpecificAction("ComboFinisher");
+                attackChoice = F7_RefManager.BACM.GetSpecificAction(F7_RefManager.BACM.comboFinish.actionName);
             }
             else if(!wantsToCombo && wantsToPunish) { 
                 attackChoice = F7_RefManager.BACM.DecideAction(ActionType.Punish);

@@ -98,7 +98,7 @@ namespace Cali7
                     if(F7_RefManager.BCNT.playerInMelee)
                         outputState = F7_RefManager.BSTA;
                     else
-                        outputState = F7_RefManager.BSTC;
+                        outputState = F7_RefManager.BSTI;
                     break;
             }
 

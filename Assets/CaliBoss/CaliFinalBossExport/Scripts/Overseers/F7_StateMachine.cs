@@ -14,10 +14,13 @@ namespace Cali7
         public F7_StateBase CurrentState;
         private Transform animatorTransform;
 
+        [SerializeField] public float currentStateDuration;
+
         private void Awake()
         {
             if(Instance == null)
                 Instance = this;
+            F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => ReactToDamage());
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => F7_EventManager.Instance.OnBossTakesDamage?.RemoveListener(dmgIn => ReactToDamage()));
         }
@@ -29,8 +32,10 @@ namespace Cali7
 
         private void Update()
         {
-            if(CurrentState != null)
+            if(CurrentState != null) { 
                 CurrentState.OnStateUpdate();
+                currentStateDuration = CurrentState.currentStateDuration;
+            }
             if(testRandomStateSwap) { 
                 testRandomStateSwap = false;
                 if(CurrentState.Equals(F7_RefManager.BSTI))
@@ -45,7 +50,7 @@ namespace Cali7
 
         public void ChangeState(F7_StateBase stateTo) { 
             bool canSwitch = CheckIfDiffState(stateTo);
-            F7_Help.DebugPrint(printDebugLogs, $"Attempting swap to: {stateTo.ToString()} State");
+            F7_Help.DebugPrint(printDebugLogs, $"Attempting swap to: {stateTo.ToString()} State from {CurrentState?.ToString()} State.");
             if(!canSwitch) { 
                 F7_Help.DebugPrint(printDebugLogs, "The requested state is already running.");
                 return;
