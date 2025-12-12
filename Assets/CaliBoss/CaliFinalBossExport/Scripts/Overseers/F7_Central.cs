@@ -160,8 +160,9 @@ namespace Cali7
             F7_Help.DebugPrint(printDebugLogs, "Central PillarRise");
             for(int i = 0; i < F7_RefManager.BPSO.numberOfPillars; i++) { 
                 Vector3 vecOut = F7_RefManager.PLGS.gameObject.transform.position;
+                vecOut.y = 0;
                 float randX = UnityEngine.Random.Range(-15f,15f);
-                float randY = -9;
+                float randY = F7_PillarHolder.Instance.pillarsLowerLimit;
                 float randZ = UnityEngine.Random.Range(-15f,15f);
                 vecOut += new Vector3(randX, randY, randZ);
                 F7_PillarHolder.Instance.SetPillarPos(i, vecOut);
