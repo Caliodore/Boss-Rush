@@ -6,24 +6,47 @@ using System.Collections.Generic;
 namespace Cali7 { 
     public class F7_PillarHolder : MonoBehaviour
     {
+        public bool printDebugLogs = true;
+        public static F7_PillarHolder Instance;
         [SerializeField] List<GameObject> pillarsHeld;
+        [SerializeField] List<F7_PillarScript> pillarScripts;
+        public int pillarsDoneRising;
 
-        public void StartRaisingPillars(int pillInd) {
-            foreach(GameObject pillarGO in pillarsHeld) { 
-                float randX = UnityEngine.Random.Range(-12f,12f);
-                float randZ = UnityEngine.Random.Range(-12f,12f);
-                Vector3 randPillPos = new Vector3(randX, 0, randZ);
-                randPillPos += F7_RefManager.PLGS.gameObject.transform.position;
-                randPillPos.y = -9;
-                pillarGO.transform.position = randPillPos;
-                pillarGO.SetActive(true);
-            }
-            pillarsHeld[pillInd].SetActive(true);
-            pillarsHeld[pillInd].GetComponent<F7_PillarScript>().StartRising();
+        private void Awake()
+        {
+            if(Instance == null)
+                Instance = this;
         }
 
-        public void StartLowerPillar() { 
+        public void ActivatePillars() {
+            pillarsDoneRising = 0;
+            StartCoroutine(PillarRaiseLimiter());
+            //StartCoroutine(WaitToStartCooldown());
+        }
 
+        IEnumerator PillarRaiseLimiter() { 
+            int currentIndex = 0;
+            while(currentIndex < pillarsHeld.Count) { 
+                pillarsHeld[currentIndex].SetActive(true);
+                pillarScripts[currentIndex].StartRising();
+                currentIndex++;
+                yield return new WaitForSeconds(F7_RefManager.BPSO.pillarFirerate);
+            }
+            if(currentIndex >= pillarsHeld.Count)
+                F7_Help.DebugPrint(printDebugLogs, "Each pillar has been signalled to start raising");
+        }
+
+        /*IEnumerator WaitToStartCooldown() { 
+            bool allPillarsDone = pillarsDoneRising == pillarsHeld.Count;
+            while(!allPillarsDone) { 
+                yield return null;
+            }
+            if(allPillarsDone)
+                F7_EventManager.Instance.OnLastPillarDone?.Invoke();
+        }*/
+
+        public void SetPillarPos(int pillInd, Vector3 toPos) {
+            pillarsHeld[pillInd].transform.position = toPos;
         }
     }
 }

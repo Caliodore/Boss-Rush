@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Cali7 { 
     public static class F7_Help

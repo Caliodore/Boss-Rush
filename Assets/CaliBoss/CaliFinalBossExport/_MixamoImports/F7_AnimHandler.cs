@@ -13,12 +13,14 @@ namespace Cali7
         public Quaternion meleePivotDefaultRotation;
         private void Start()
         {
-            meleePivotDefaultRotation = meleePivotTransform.localRotation;
-            StartCoroutine(InitialLoadWait());
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
         }
 
-        IEnumerator InitialLoadWait() { yield return new WaitForSeconds(2f); SetRefs(); }
-        private void SetRefs() { 
+        public void SetReferences() { 
+            meleePivotDefaultRotation = meleePivotTransform.localRotation;
             F7_RefManager.BEVM.OnStartAttack?.AddListener(() => ResetPivotRotation());
         }
 

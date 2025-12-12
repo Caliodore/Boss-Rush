@@ -6,6 +6,7 @@ namespace Cali7
 { 
     public class F7_Recovering : F7_StateBase
     {
+        public bool refsLoaded = false;
         public bool printDebugLogs = true;
         public F7_Recovering() : base("Recovering") { }
 
@@ -14,8 +15,16 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => DamageTakenDuringRecovery(dmgIn));
             F7_RefManager.BEVM.OnRecoveryStart?.AddListener(typeInt => RecoveryTimeUpdate(typeInt));
+            refsLoaded = true;
         }
 
         public override void OnStateEnter() { 

@@ -27,16 +27,18 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             bossAnim = F7_RefManager.BAIM;
             bossEmptyTransform = F7_RefManager.BGOJ.transform;
             animatorTransform = bossAnim.gameObject.transform;
             playerTransform = F7_RefManager.PLGS.gameObject.transform;
             SetEvents();
-        }
-
-        private void Update()
-        {
-            
         }
 
         private void SetEvents() { 

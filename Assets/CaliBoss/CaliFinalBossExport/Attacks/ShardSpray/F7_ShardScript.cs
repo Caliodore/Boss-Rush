@@ -7,6 +7,7 @@ namespace Cali7
 { 
     public class F7_ShardScript : MonoBehaviour
     {
+        public bool refsLoaded = false;
         public bool printDebugLogs = true;
         [SerializeField] public float flightSpeed = 15;
         [Range(0f, 60f)] [SerializeField] public float turnSpeed = 6f;
@@ -23,18 +24,20 @@ namespace Cali7
         private GameObject playerObj;
         private LayerMask playerLayer;
         private LayerMask environLayer;
+        private LayerMask eDmgLayer;
 
         public bool inFlight = false;
 
         private void Start()
         {
-            attachedDamager.OnSuccessfulHit?.AddListener(() => DeactivateShard());
-            //gameObject.SetActive(false);
-            StartCoroutine(WaitForRefLoad());
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
         }
 
-        IEnumerator WaitForRefLoad() { 
-            yield return new WaitForSeconds(0.25f);
+        public void SetReferences() { 
+            attachedDamager.OnSuccessfulHit?.AddListener(() => DeactivateShard());
             playerObj = FindAnyObjectByType<PlayerLogic>().gameObject;
             sTF = gameObject.transform;
             pTF = playerObj.transform;
@@ -42,12 +45,16 @@ namespace Cali7
             sTF.position = spawnPoint.position;
             playerLayer = LayerMask.GetMask(LayerMask.LayerToName(playerObj.layer));
             environLayer = LayerMask.GetMask("Environment");
+            eDmgLayer = LayerMask.GetMask("EnemyDamage");
+            refsLoaded = true;
             DeactivateShard();
         }
 
         private void Update() {
-            if(gameObject.activeSelf && !inFlight) { 
-                //sTF.LookAt(pTF.position);
+            if(refsLoaded) { 
+                if(gameObject.activeSelf && !inFlight) { 
+                    sTF.LookAt(pTF.position);
+                }
             }
         }
 
@@ -96,7 +103,7 @@ namespace Cali7
                 F7_Help.DebugPrint(printDebugLogs, $"Shard parent collided with environment, removing shard.");
                 DeactivateShard();
             }
-            else { 
+            else if(!otherLayer.Equals(eDmgLayer)){
                 F7_Help.DebugPrint(printDebugLogs, $"Shard parent collided with {other.gameObject.name} with layer name of {LayerMask.LayerToName(other.gameObject.layer)}.");
             }
         }

@@ -1,21 +1,26 @@
-using NUnit.Framework;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace Cali7
 { 
     public class F7_RefManager : MonoBehaviour
     {
         public bool printDebugLogs = true;
+        public bool gotRefs = false;
+        [Range (0f, 5f)] public float stopgapTime;
+
         public static F7_RefManager Instance;
+        public static UnityEvent OnRefsLoaded;
 
         private void Awake()
         {
             if(Instance == null)
                 Instance = this;
+            OnRefsLoaded ??= new();
         }
 
         private void Start()
@@ -72,6 +77,21 @@ namespace Cali7
             UIBC = enemyHealthCanvas;
             UIBT = bossNameText;
             UIBH = bossHealthBarScript;
+            F7_Help.DebugPrint(printDebugLogs, "Reached end of RefManager Start");
+            RefEventCatcher();
+        }
+
+        public void RefEventCatcher() { 
+            F7_Help.DebugPrint(printDebugLogs, "RefEventCatcher called");
+            StartCoroutine(InitializationStopGap());
+        }
+
+        IEnumerator InitializationStopGap() { 
+            F7_Help.DebugPrint(printDebugLogs, $"InitializationStopGap started for {stopgapTime} seconds.");
+            yield return new WaitForSeconds(stopgapTime);
+            F7_Help.DebugPrint(printDebugLogs, "InitializationStopGap finished waiting. GotRefs should be true now.");
+            gotRefs = true;
+            OnRefsLoaded?.Invoke();
         }
 
         //------Static Refs-------------------------------------

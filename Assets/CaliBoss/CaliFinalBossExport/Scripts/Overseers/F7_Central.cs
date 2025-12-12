@@ -14,6 +14,7 @@ namespace Cali7
         public static F7_Central Instance;
 
         public bool printDebugLogs = true;
+        public bool refsSet = false;
 
         [Header("Vars Used Externally and Internally")]
         public bool isEnraged = false;
@@ -52,6 +53,13 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             SetEvents();
             GetPillarScripts();
             currentHealth = F7_RefManager.BPSO.maxHealth;
@@ -59,9 +67,10 @@ namespace Cali7
 
         private void Update()
         {
-            CheckIfMoving();
-            CheckIfMelee();
-            //gameObject.transform.position = F7_RefManager.BNMA.gameObject.transform.localToWorldMatrix.GetPosition();
+            if(refsSet) { 
+                CheckIfMoving();
+                CheckIfMelee();
+            }
         }
 
 
@@ -151,7 +160,15 @@ namespace Cali7
 
         public void PillarHandlerPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central PillarRise");
-            StartCoroutine(TimingPillars());
+            for(int i = 0; i < F7_RefManager.BPSO.numberOfPillars; i++) { 
+                Vector3 vecOut = F7_RefManager.PLGS.gameObject.transform.position;
+                float randX = UnityEngine.Random.Range(-15f,15f);
+                float randY = -9;
+                float randZ = UnityEngine.Random.Range(-15f,15f);
+                vecOut += new Vector3(randX, randY, randZ);
+                F7_PillarHolder.Instance.SetPillarPos(i, vecOut);
+            }
+            F7_PillarHolder.Instance.ActivatePillars();
         }
 
         public void RaiseRingPhys() { 
@@ -291,25 +308,6 @@ namespace Cali7
                 }
                 yield return new WaitForSeconds(F7_RefManager.BPSO.shardFirerate);
             }
-        }
-
-        IEnumerator TimingPillars() {
-            foreach(F7_PillarScript currentScript in pillarScripts) { 
-                currentScript.StartRising();
-                yield return new WaitForSeconds(F7_RefManager.BPSO.pillarFirerate);
-            }
-
-            raisingPillars = false;
-
-            if(!raisingPillars) {
-                yield return new WaitForSeconds(F7_RefManager.BPSO.pillarUptime);
-                loweringPillars = true;
-                foreach(F7_PillarScript currentScript in pillarScripts) { 
-                    currentScript.StartLowering();
-                    yield return new WaitForSeconds(F7_RefManager.BPSO.pillarFirerate);
-                }
-            }
-            yield return null;
         }
         
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------

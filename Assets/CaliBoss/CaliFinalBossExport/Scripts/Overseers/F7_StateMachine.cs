@@ -9,6 +9,7 @@ namespace Cali7
 { 
     public class F7_StateMachine : MonoBehaviour
     {
+        public bool refsLoaded = false;
         public bool printDebugLogs = true;
         public bool testRandomStateSwap = false;
         public static F7_StateMachine Instance;
@@ -25,31 +26,40 @@ namespace Cali7
         private void Awake()
         {
             if(Instance == null)
-                Instance = this;
-            F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
-            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => ReactToDamage());
-            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => F7_EventManager.Instance.OnBossTakesDamage?.RemoveListener(dmgIn => ReactToDamage()));
-        }
+                Instance = this;}
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
+            F7_EventManager.Instance.OnArenaEntered?.AddListener(() => ChangeState(F7_RefManager.BSTI));
+            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => ReactToDamage());
+            F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => F7_EventManager.Instance.OnBossTakesDamage?.RemoveListener(dmgIn => ReactToDamage()));
+            refsLoaded = true;
         }
 
         private void Update()
         {
-            if(CurrentState != null) { 
-                CurrentState.OnStateUpdate();
-                currentStateDuration = CurrentState.currentStateDuration;
+            if(refsLoaded) {
+                if(CurrentState != null) { 
+                    CurrentState.OnStateUpdate();
+                    currentStateDuration = CurrentState.currentStateDuration;
 
-                if(currentStateDuration >= changeLimiterTimer) { 
+                    if(currentStateDuration >= changeLimiterTimer) { 
+                        rateBeingLimited = false;
+                    }
+                    else if(currentStateDuration < changeLimiterTimer){ 
+                        rateBeingLimited = true;
+                    }
+                }
+                else { 
                     rateBeingLimited = false;
                 }
-                else if(currentStateDuration < changeLimiterTimer){ 
-                    rateBeingLimited = true;
-                }
-            }
-            else { 
-                rateBeingLimited = false;
             }
         }
 

@@ -39,6 +39,7 @@ namespace Cali7
         public UnityEvent OnShardStart;
         public UnityEvent OnShardsReady;
         public UnityEvent OnPillarStart;
+        public UnityEvent OnLastPillarDone;
         public UnityEvent OnRingStart;
 
         public UnityEvent OnEnrageStart;
@@ -52,6 +53,13 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             F7_RefManager.BDGL.OnHit?.AddListener(dmgIn => OnBossTakesDamage?.Invoke(dmgIn.amount));
         }
 

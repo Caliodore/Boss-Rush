@@ -18,6 +18,13 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             SetEvents();
             F7_RefManager.UIBT.text = "Hostellus, Eternal Martyr";
         }

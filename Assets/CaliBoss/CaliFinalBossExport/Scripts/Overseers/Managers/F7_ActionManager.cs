@@ -13,6 +13,7 @@ namespace Cali7
         [Header("Testing")]
         public bool testCall;
         public bool printDebugLogs = true;
+        public bool refsSet = false;
         [SerializeField] public UnityEvent<ActionChoice> actionToTest;
 
         [Header("ActualVars")]
@@ -48,16 +49,25 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             testChoice = new ActionChoice(0, (() => Instance.PrintHello()), "TestCall");
             actionToTest = new();
             readyActions.Clear();
             readyActions.Add(testChoice);
             SetActions();
             GenerateCollection();
+            refsSet = true;
         }
 
         private void Update()
         {
+        if(refsSet) { 
             readyCount = readyActions.Count;
             cooldownCount = actionsOnCooldown.Count;
             readyAttacks = readyActions.FindAll(actTry => actTry.choiceType == ActionType.Attack).Count;
@@ -66,6 +76,7 @@ namespace Cali7
                 testCall = false;
                 StartAction(testChoice.actionName);
             }
+        }
         }
 
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -147,7 +158,7 @@ namespace Cali7
             comboFinish.isMelee = true;
             shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), 6f, "ShardSpray");
             shardSpray.isMelee = false;
-            pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), 14f, "PillarRise");
+            pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), 24f, "PillarRise");
             pillarRise.isMelee = false;
             raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), 32f, "RaiseRing");
             raiseRing.isMelee = false;
