@@ -341,7 +341,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 1141
+  m_VersionIndex: 1144
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -427,6 +427,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e2ab65f85b5e8e4ea4911ffc3a5156a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cali7.F7_ShardScript
+  refsLoaded: 0
+  printDebugLogs: 1
   flightSpeed: 15
   turnSpeed: 6
   spawnPoint: {fileID: 0}
@@ -436,6 +438,18 @@ MonoBehaviour:
   OnFinishTrajectory:
     m_PersistentCalls:
       m_Calls: []
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  environLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  eDmgLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  otLayer:
+    serializedVersion: 2
+    m_Bits: 2048
   inFlight: 0
 --- !u!33 &1281721020151362823
 MeshFilter:

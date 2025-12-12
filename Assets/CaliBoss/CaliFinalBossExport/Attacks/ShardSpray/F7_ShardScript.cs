@@ -22,9 +22,10 @@ namespace Cali7
         private Transform sTF;
         private Transform pTF;
         private GameObject playerObj;
-        private LayerMask playerLayer;
-        private LayerMask environLayer;
-        private LayerMask eDmgLayer;
+        public LayerMask playerLayer;
+        public LayerMask environLayer;
+        public LayerMask eDmgLayer;
+        public LayerMask otLayer;
 
         public bool inFlight = false;
 
@@ -43,9 +44,10 @@ namespace Cali7
             pTF = playerObj.transform;
             startRot = transform.localRotation;
             sTF.position = spawnPoint.position;
-            playerLayer = LayerMask.GetMask(LayerMask.LayerToName(playerObj.layer));
-            environLayer = LayerMask.GetMask("Environment");
-            eDmgLayer = LayerMask.GetMask("EnemyDamage");
+            //playerLayer = LayerMask.GetMask(LayerMask.LayerToName(playerObj.layer));
+            //environLayer = LayerMask.GetMask("Environment");
+            //eDmgLayer = LayerMask.GetMask("EnemyDamage");
+            //otLayer = LayerMask.GetMask("Other");
             refsLoaded = true;
             DeactivateShard();
         }
@@ -76,11 +78,8 @@ namespace Cali7
             if(pTF == null)
                 F7_Help.DebugPrint(printDebugLogs, $"pTF is null.");
             while(inFlight) { 
-                sRB.AddForce((transform.forward * flightSpeed * Time.deltaTime),ForceMode.Force);
-                Quaternion lookAtRot = transform.rotation;
-                lookAtRot.SetLookRotation(pTF.position);
-                Vector3 rotOut = lookAtRot.eulerAngles;
-                sTF.transform.DORotate(rotOut, 1/turnSpeed);
+                transform.DOLookAt(playerObj.transform.position, 1/turnSpeed);
+                sRB.AddForce((transform.forward * flightSpeed),ForceMode.Acceleration);
                 yield return null;
             }
         }
@@ -95,16 +94,27 @@ namespace Cali7
 
         private void OnTriggerEnter(Collider other)
         {
-            string otherLayer = LayerMask.LayerToName(other.gameObject.layer);
-            if(otherLayer.Equals(playerLayer)) {
-                F7_Help.DebugPrint(printDebugLogs, $"The shard parent collided with the player in case the damager didn't realize. Otherwise, the shard should be being disabled.");
-            }
-            else if(otherLayer.Equals(environLayer)) { 
-                F7_Help.DebugPrint(printDebugLogs, $"Shard parent collided with environment, removing shard.");
-                DeactivateShard();
-            }
-            else if(!otherLayer.Equals(eDmgLayer)){
-                F7_Help.DebugPrint(printDebugLogs, $"Shard parent collided with {other.gameObject.name} with layer name of {LayerMask.LayerToName(other.gameObject.layer)}.");
+            string otherLayerName = LayerMask.LayerToName(other.gameObject.layer);
+            LayerMask otherLayer = other.gameObject.layer;
+
+            switch(otherLayerName) { 
+                case(nameof(otLayer)): 
+                case(nameof(eDmgLayer)):
+                    break;
+                    
+                case(nameof(environLayer)): 
+                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with environment.");
+                    DeactivateShard();
+                    break;
+                    
+                case(nameof(playerLayer)): 
+                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with player.");
+                    DeactivateShard();
+                    break;
+                    
+                default:
+                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with {other.gameObject.name}.");
+                    break;
             }
         }
     }

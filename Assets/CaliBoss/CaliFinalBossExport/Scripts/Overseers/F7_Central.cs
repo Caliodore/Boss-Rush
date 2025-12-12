@@ -15,6 +15,7 @@ namespace Cali7
 
         public bool printDebugLogs = true;
         public bool refsSet = false;
+        public Vector3 debugVar = Vector3.zero;
 
         [Header("Vars Used Externally and Internally")]
         public bool isEnraged = false;
@@ -63,6 +64,7 @@ namespace Cali7
             SetEvents();
             GetPillarScripts();
             currentHealth = F7_RefManager.BPSO.maxHealth;
+            refsSet = true;
         }
 
         private void Update()
@@ -70,6 +72,7 @@ namespace Cali7
             if(refsSet) { 
                 CheckIfMoving();
                 CheckIfMelee();
+                debugVar = new Vector3(F7_RefManager.PLGS.gameObject.transform.position.x, 0, F7_RefManager.PLGS.gameObject.transform.position.z);
             }
         }
 
@@ -161,10 +164,11 @@ namespace Cali7
             for(int i = 0; i < F7_RefManager.BPSO.numberOfPillars; i++) { 
                 Vector3 vecOut = F7_RefManager.PLGS.gameObject.transform.position;
                 vecOut.y = 0;
-                float randX = UnityEngine.Random.Range(-15f,15f);
+                float randX = UnityEngine.Random.Range(-25f,25f);
                 float randY = F7_PillarHolder.Instance.pillarsLowerLimit;
-                float randZ = UnityEngine.Random.Range(-15f,15f);
+                float randZ = UnityEngine.Random.Range(-25f,25f);
                 vecOut += new Vector3(randX, randY, randZ);
+                F7_Help.DebugPrint(printDebugLogs,$"Setting Pillar {i} position to ({vecOut.x},{vecOut.y},{vecOut.z})");
                 F7_PillarHolder.Instance.SetPillarPos(i, vecOut);
             }
             F7_PillarHolder.Instance.ActivatePillars();
