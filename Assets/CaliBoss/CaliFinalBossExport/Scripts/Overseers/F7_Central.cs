@@ -93,11 +93,9 @@ namespace Cali7
         private void CheckIfMoving() { 
             if(F7_RefManager.BSTM.CurrentState == F7_RefManager.BSTC) { 
                 isMoving = true;
-                F7_RefManager.BEVM.OnStartMoving?.Invoke();
             }
             else { 
                 isMoving = false;
-                F7_RefManager.BEVM.OnStopMoving?.Invoke();
             }
         }
 

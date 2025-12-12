@@ -13,6 +13,7 @@ namespace Cali7
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            F7_RefManager.BEVM.OnStartMoving?.Invoke();
             requestedChange = false;
             randomTime = UnityEngine.Random.Range(2,6);
         }
@@ -43,6 +44,7 @@ namespace Cali7
 
         public override void OnStateExit() { 
             base.OnStateExit();
+            F7_RefManager.BEVM.OnStopMoving?.Invoke();
             F7_RefManager.BNMA.SetDestination(F7_RefManager.BGOJ.transform.position);
         }
 

@@ -9,6 +9,7 @@ namespace Cali7
 { 
     public class F7_StateDeterminer : MonoBehaviour
     {
+        public bool refsLoaded = false;
         public static F7_StateDeterminer Instance;
 
         private F7_StateBase stateFrom;
@@ -27,6 +28,13 @@ namespace Cali7
 
         private void Start()
         {
+            if(!F7_RefManager.Instance.gotRefs)
+                F7_RefManager.OnRefsLoaded?.AddListener(() => SetReferences());
+            else
+                SetReferences();
+        }
+
+        public void SetReferences() { 
             possibleStates.Add(F7_RefManager.BSTA);
             possibleStates.Add(F7_RefManager.BSTC);
             possibleStates.Add(F7_RefManager.BSTD);

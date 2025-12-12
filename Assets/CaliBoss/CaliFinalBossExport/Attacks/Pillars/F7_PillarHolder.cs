@@ -11,11 +11,26 @@ namespace Cali7 {
         [SerializeField] List<GameObject> pillarsHeld;
         [SerializeField] List<F7_PillarScript> pillarScripts;
         public int pillarsDoneRising;
+        public float pillarsUpperLimit = -5f;
+        public float pillarsLowerLimit = -20f;
 
         private void Awake()
         {
             if(Instance == null)
                 Instance = this;
+        }
+
+        private void Start()
+        {
+            SetChildrenRefs();
+        }
+
+        private void SetChildrenRefs() { 
+            foreach(F7_PillarScript indSc in pillarScripts) { 
+                indSc.SetParentRef(this);
+                indSc.gameObject.transform.position = new Vector3(0, pillarsLowerLimit, 0);
+                indSc.gameObject.SetActive(false);
+            }
         }
 
         public void ActivatePillars() {

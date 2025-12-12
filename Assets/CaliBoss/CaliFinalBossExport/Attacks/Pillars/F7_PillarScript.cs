@@ -7,19 +7,20 @@ namespace Cali7
     public class F7_PillarScript : MonoBehaviour
     {
         public bool doneRaising;
-        private void Start()
-        {
-            gameObject.SetActive(false);
+        public F7_PillarHolder parentScript;
+
+        public void SetParentRef(F7_PillarHolder refIn) { 
+            parentScript = refIn;
         }
 
-        public void StartRising() { transform.DOMoveY(3,F7_RefManager.BPSO.pillarRaiseSpeed); StartCoroutine(WaitForTop()); }
-        public void StartLowering() { transform.DOMoveY(-9,F7_RefManager.BPSO.pillarLoweringSpeed); StartCoroutine(WaitToDisable()); }
+        public void StartRising() { transform.DOMoveY(parentScript.pillarsUpperLimit,F7_RefManager.BPSO.pillarRaiseSpeed); StartCoroutine(WaitForTop()); }
+        public void StartLowering() { transform.DOMoveY(parentScript.pillarsLowerLimit,F7_RefManager.BPSO.pillarLoweringSpeed); StartCoroutine(WaitToDisable()); }
 
         IEnumerator WaitForTop() { 
             bool isRaising = true;
             doneRaising = false;
             while(isRaising) {
-                if(transform.position.y >= 3) { 
+                if(transform.position.y >= parentScript.pillarsUpperLimit) { 
                     isRaising = false;
                 }
                 yield return null;
@@ -34,7 +35,7 @@ namespace Cali7
         IEnumerator WaitToDisable() { 
             bool isLowering = true;
             while (isLowering) {
-                if(transform.position.y <= -9) { 
+                if(transform.position.y <= parentScript.pillarsLowerLimit) { 
                     isLowering = false;
                 }
                 yield return null;
