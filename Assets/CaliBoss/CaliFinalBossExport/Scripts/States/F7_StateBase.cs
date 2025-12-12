@@ -5,6 +5,7 @@ namespace Cali7
 { 
     public abstract class F7_StateBase : MonoBehaviour
     {
+        //public virtual bool printDebugLogs = false;
         public bool stateComplete;
         public float currentStateDuration;
         public UnityEvent OnStateEnding;

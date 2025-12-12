@@ -66,6 +66,7 @@ namespace Cali7
             bool inMelee = F7_RefManager.BCNT.playerInMelee;
             bool comboReady = F7_RefManager.BCNT.CheckIfComboReady();
             bool punishReady = F7_RefManager.BCNT.CheckIfPunishReady();
+            bool attackCheck = F7_RefManager.BACM.CheckActionAvailable(ActionType.Attack.ToString());
 
             F7_StateBase outputState = null;
 
@@ -87,7 +88,7 @@ namespace Cali7
 
                 case("Idling"):
                     //Currently idling, needs to either chase or attack.
-                    if(F7_RefManager.BCNT.playerInMelee)
+                    if(F7_RefManager.BCNT.playerInMelee || attackCheck)
                         outputState = F7_RefManager.BSTA;
                     else
                         outputState = F7_RefManager.BSTC;
@@ -101,6 +102,10 @@ namespace Cali7
                         outputState = F7_RefManager.BSTI;
                     break;
             }
+            
+            /*if(outputState == F7_RefManager.BSTA && !attackCheck) { 
+                outputState = outputState = F7_RefManager.BSTC;
+            }*/
 
             return outputState;
         }

@@ -26,13 +26,12 @@ namespace Cali7
         public int currentHealth;
 
         [Header("Vars Used Internally")]
-        public int currentCombo;
-        public int currentHitsTaken;
-        public int hitsTakenRecently;
-
-        private List<F7_ShardScript> shardScripts;
+        public int currentCombo = 0;
+        public int currentHitsTaken = 0;
+        public int hitsTakenRecently = 0;
         private List<F7_PillarScript> pillarScripts;
-        private bool firingShards;
+        public bool settingShards;
+        public bool firingShards;
         private bool raisingPillars, loweringPillars;
 
         private float hitsElapsed;
@@ -48,14 +47,12 @@ namespace Cali7
         {
             if(Instance == null)
                 Instance = this;
-            shardScripts = new();
             pillarScripts = new();
         }
 
         private void Start()
         {
             SetEvents();
-            GetShardScripts();
             GetPillarScripts();
             currentHealth = F7_RefManager.BPSO.maxHealth;
         }
@@ -96,7 +93,7 @@ namespace Cali7
         }
 
         private void CheckIfMelee() {
-            DistToPlayerCalc();
+            distToPlayer = DistToPlayerCalc();
 
             if(distToPlayer < F7_RefManager.BPSO.meleeRange) { 
                 if(!playerInMelee)
@@ -124,20 +121,12 @@ namespace Cali7
             return (F7_RefManager.PLGS.gameObject.transform.position - F7_RefManager.BGOJ.transform.position).normalized;
         }
 
-//
-
-        private void GetShardScripts() { 
-            foreach(GameObject currentShard in F7_RefManager.GOSO) { 
-                F7_ShardScript currentScript = currentShard.GetComponent<F7_ShardScript>();
-                shardScripts.Add(currentScript);
-            }
-        }
-
         private void GetPillarScripts() {
             foreach(GameObject currentPillar in F7_RefManager.GOPO) { 
                 F7_PillarScript currentScript = currentPillar.GetComponent<F7_PillarScript>();
                 pillarScripts.Add(currentScript);
             }
+            F7_Help.DebugPrint(printDebugLogs,$"Stored {pillarScripts.Count} pillar scripts.");
         }
         
 //------[ Action Methods ]------------------------------------------------------------------------------------------------------------------------------------------
@@ -156,21 +145,12 @@ namespace Cali7
 
         public void ShardSprayPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central ShardSpray");
-            foreach(F7_ShardScript shSc in shardScripts) { 
-                shSc.SpawnAndHold();
-            }
+            //StartCoroutine(SetupShards());
             StartCoroutine(SendShards());
         }
 
         public void PillarHandlerPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central PillarRise");
-            foreach(GameObject pillarGO in F7_RefManager.GOPO) { 
-                float randX = UnityEngine.Random.Range(-12f,12f);
-                float randZ = UnityEngine.Random.Range(-12f,12f);
-                Vector3 randPillPos = new Vector3(randX, -9, randZ);
-                pillarGO.transform.position = randPillPos;
-                pillarGO.SetActive(true);
-            }
             StartCoroutine(TimingPillars());
         }
 
@@ -232,7 +212,7 @@ namespace Cali7
             F7_EventManager.Instance.OnSwipeStart?.AddListener(() => SwipeAttackPhys());
             F7_EventManager.Instance.OnReachMaxCombo?.AddListener(() => ComboFinisherPhys());
 
-            F7_EventManager.Instance.OnShardStart?.AddListener(() => ShardSprayPhys());
+            F7_EventManager.Instance.OnShardsReady?.AddListener(() => ShardSprayPhys());
             F7_EventManager.Instance.OnPillarStart?.AddListener(() => PillarHandlerPhys());
             F7_EventManager.Instance.OnRingStart?.AddListener(() => RaiseRingPhys());
 
@@ -300,16 +280,16 @@ namespace Cali7
         }
 
         IEnumerator SendShards() { 
-            yield return new WaitForSeconds(2f);
+            firingShards = true;
             int shardInd = 0;
             while(firingShards) {
-                shardScripts[shardInd].StartMoving();
-                if(shardInd >= shardScripts.Count) { 
-                    firingShards = true;
+                F7_RefManager.GOSA[shardInd].GetComponent<F7_SIP>().attachedShardScript.StartMoving();
+                shardInd++;
+                if(shardInd >= F7_RefManager.GOSA.Count) { 
+                    firingShards = false;
                     yield break;
                 }
                 yield return new WaitForSeconds(F7_RefManager.BPSO.shardFirerate);
-                shardInd++;
             }
         }
 

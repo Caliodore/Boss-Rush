@@ -5,6 +5,7 @@ namespace Cali7
 { 
     public class F7_Idling : F7_StateBase
     {
+        public bool printDebugLogs = true;
         public F7_Idling() : base("Idling") { }
 
 

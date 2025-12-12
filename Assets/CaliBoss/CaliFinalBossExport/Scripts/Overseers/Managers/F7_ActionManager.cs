@@ -82,7 +82,7 @@ namespace Cali7
                 actOps = readyActions.FindAll(actTry => (actTry.choiceType == typeIn));
 
             var tryCombo = actOps.Find(actTry => actTry.actionName == comboFinish.actionName);
-            if(F7_RefManager.BCNT.currentCombo < F7_RefManager.BPSO.maxCombo && tryCombo != null)
+            if(F7_RefManager.BCNT.CheckIfComboReady() && tryCombo != null)
                 actOps.Remove(tryCombo);
 
             F7_Help.DebugPrint(printDebugLogs, $"There are {actOps.Count} actions of the type {typeIn} available at this moment.");
@@ -143,7 +143,7 @@ namespace Cali7
             slamAttack.isMelee = true;
             swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), 8f, "SwipeAttack");
             swipeAttack.isMelee = true;
-            comboFinish = new ActionChoice(1, (() => Instance.ComboFinisher()), 48f, "ComboFinisher");
+            comboFinish = new ActionChoice(6, (() => Instance.ComboFinisher()), 48f, "ComboFinisher");
             comboFinish.isMelee = true;
             shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), 6f, "ShardSpray");
             shardSpray.isMelee = false;
@@ -190,6 +190,7 @@ namespace Cali7
                 }
                 if(elapsedTime >= choiceCooling.cooldownTime) { 
                     actionsOnCooldown.Remove(choiceSelect);
+                    F7_Help.DebugPrint(printDebugLogs, $"{choiceSelect.actionName} came off cooldown.");
                     choiceSelect.isReady = true;
                     readyActions.Add(choiceSelect);
                 }
@@ -262,6 +263,7 @@ namespace Cali7
         Defense = 2,
         Punish = 3,
         Movement = 4,
-        Recovery = 5
+        Recovery = 5,
+        Special = 6
     }
 }

@@ -37,6 +37,7 @@ namespace Cali7
         public UnityEvent OnSwipeStart;
         public UnityEvent OnSlamStart;
         public UnityEvent OnShardStart;
+        public UnityEvent OnShardsReady;
         public UnityEvent OnPillarStart;
         public UnityEvent OnRingStart;
 
@@ -72,6 +73,7 @@ namespace Cali7
             OnSwipeStart ??= new();
             OnSlamStart ??= new();
             OnShardStart ??= new();
+            OnShardsReady ??= new();
             OnPillarStart ??= new();
             OnRingStart ??= new();
             

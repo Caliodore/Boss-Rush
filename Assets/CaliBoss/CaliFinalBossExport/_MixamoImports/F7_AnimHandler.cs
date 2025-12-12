@@ -7,6 +7,7 @@ namespace Cali7
 { 
     public class F7_AnimHandler : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public static F7_AnimHandler Instance;
         public Transform meleePivotTransform;
         public Quaternion meleePivotDefaultRotation;
@@ -30,6 +31,8 @@ namespace Cali7
         public void DisableFists() { F7_RefManager.GORP.SetActive(false); F7_RefManager.GOLP.SetActive(false); }
         public void StartRotatingSlammer() { F7_RefManager.GOMP.transform.DOLocalRotate(new Vector3(89,0,0), 0.37f); }
         public void StartRotatingClaws() { F7_RefManager.GOMP.transform.DOLocalRotate(new Vector3(0,-179,0), 0.35f); }
+        public void StartThisShard(int shardNum) { F7_RefManager.GOSA[shardNum].GetComponent<F7_SIP>().EnableShard(); }
+        public void ShardsReady() { F7_EventManager.Instance.OnShardsReady?.Invoke(); F7_Help.DebugPrint(printDebugLogs, "ShardsReady Invoked by AnimHandler."); }
         public void ResetPivotRotation() { meleePivotTransform.localRotation = meleePivotDefaultRotation; }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 
 namespace Cali7
 { 
@@ -12,7 +13,12 @@ namespace Cali7
         public bool testRandomStateSwap = false;
         public static F7_StateMachine Instance;
         public F7_StateBase CurrentState;
+        public F7_StateBase lastRequested;
+        public float changeLimiterTimer = 0.75f;
+        public bool rateBeingLimited;
         private Transform animatorTransform;
+        public float stateTimeOut = 20f;
+        Coroutine limiterCoro;
 
         [SerializeField] public float currentStateDuration;
 
@@ -27,7 +33,6 @@ namespace Cali7
 
         private void Start()
         {
-            
         }
 
         private void Update()
@@ -35,24 +40,38 @@ namespace Cali7
             if(CurrentState != null) { 
                 CurrentState.OnStateUpdate();
                 currentStateDuration = CurrentState.currentStateDuration;
-            }
-            if(testRandomStateSwap) { 
-                testRandomStateSwap = false;
-                if(CurrentState.Equals(F7_RefManager.BSTI))
-                    ChangeState(F7_RefManager.BSTI);
-                else
-                    ChangeState(F7_RefManager.BSTR);
-            }
 
+                if(currentStateDuration >= changeLimiterTimer) { 
+                    rateBeingLimited = false;
+                }
+                else if(currentStateDuration < changeLimiterTimer){ 
+                    rateBeingLimited = true;
+                }
+            }
+            else { 
+                rateBeingLimited = false;
+            }
         }
 
         public void ReactToDamage() { ChangeState(F7_RefManager.BSTA); }
 
         public void ChangeState(F7_StateBase stateTo) { 
-            bool canSwitch = CheckIfDiffState(stateTo);
+
+            lastRequested = stateTo;
             F7_Help.DebugPrint(printDebugLogs, $"Attempting swap to: {stateTo.ToString()} State from {CurrentState?.ToString()} State.");
+
+            if(rateBeingLimited) { 
+                F7_Help.DebugPrint(printDebugLogs,"The rate of state changes is being limited currently. State will change in a moment.");
+                return;
+            }
+            else { 
+                F7_Help.DebugPrint(printDebugLogs,"The rate is NOT being limited.");
+            }
+
+            bool canSwitch = CheckIfDiffState(stateTo) && !rateBeingLimited;
+
             if(!canSwitch) { 
-                F7_Help.DebugPrint(printDebugLogs, "The requested state is already running.");
+                F7_Help.DebugPrint(printDebugLogs, "The requested state is already running, or it is being limited atm.");
                 return;
             }
             else if(stateTo == null) { 
@@ -73,8 +92,9 @@ namespace Cali7
             if(stateTo == CurrentState) { 
                 return false;
             }
-            else
+            else { 
                 return true;
+            }
         }
     }
 }

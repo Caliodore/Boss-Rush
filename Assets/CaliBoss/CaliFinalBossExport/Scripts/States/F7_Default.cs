@@ -5,6 +5,7 @@ namespace Cali7
 { 
     public abstract class F7_Default : F7_StateBase
     {
+        public bool printDebugLogs = true;
         public F7_Default() : base("Default") { }
 
 

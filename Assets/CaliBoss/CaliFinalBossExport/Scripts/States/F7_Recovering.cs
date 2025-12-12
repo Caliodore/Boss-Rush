@@ -6,6 +6,7 @@ namespace Cali7
 { 
     public class F7_Recovering : F7_StateBase
     {
+        public bool printDebugLogs = true;
         public F7_Recovering() : base("Recovering") { }
 
         public float recoveryTime = 5f;
