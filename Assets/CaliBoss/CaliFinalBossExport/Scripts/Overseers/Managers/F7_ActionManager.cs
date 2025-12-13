@@ -37,6 +37,7 @@ namespace Cali7
         public ActionChoice enragedMode;
         public ActionChoice leapSwipe;
         public ActionChoice bloodWall;
+        public ActionChoice genericRecovery;
         public ActionChoice barrierBroken;
         public ActionChoice reelingBack;
         public ActionChoice enragedExit;
@@ -82,9 +83,25 @@ namespace Cali7
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
         public ActionChoice DecideAction(ActionType typeIn) { 
+            F7_Help.DebugPrint(printDebugLogs, $"DecideAction called for {typeIn.ToString()} type of action.");
             ActionChoice choiceOut = null;
             
             bool isMelee = F7_RefManager.BCNT.playerInMelee;
+            bool wantDefend = F7_RefManager.BCNT.CheckIfWantDefense();
+            bool wantPunish = F7_RefManager.BCNT.CheckIfPunishReady();
+            bool reactReady = CheckActionAvailable(ActionType.Defense.ToString(), isMelee) || CheckActionAvailable(ActionType.Punish.ToString(), isMelee);
+
+            if(((wantDefend || wantPunish) && reactReady) || typeIn == ActionType.Defense) {
+                F7_Help.DebugPrint(printDebugLogs, $"DecideAction determined boss wanted to defend or punish.");
+                return DetermineReaction(wantDefend, wantPunish);
+            }
+
+            if(typeIn == ActionType.Recovery) { 
+                return genericRecovery;
+            }
+
+            F7_Help.DebugPrint(printDebugLogs, $"DecideAction determined boss did NOT want to defend or punish.");
+
             List<ActionChoice> actOps = new();
 
             if(typeIn == ActionType.Attack)
@@ -110,6 +127,17 @@ namespace Cali7
                         choiceOut = actOps[randInd];
                     }
                 }
+                if(typeIn == ActionType.Attack && !isMelee) { 
+                    actOps = readyActions.FindAll(actTry => (actTry.isMelee == true && actTry.choiceType == typeIn));
+                    if(actOps.Count <= 0) {
+                        F7_Help.DebugPrint(printDebugLogs, $"There are no attacks ready at this moment.");
+                        F7_RefManager.BEVM.OnForceIdle?.Invoke();
+                    }
+                    else { 
+                        int randInd = UnityEngine.Random.Range(0,actOps.Count);
+                        choiceOut = actOps[randInd];
+                    }
+                }
             }
             else { 
                 int randInd = UnityEngine.Random.Range(0,actOps.Count);
@@ -118,6 +146,58 @@ namespace Cali7
 
             return choiceOut;
         }
+
+        private ActionChoice DetermineReaction(bool defBool, bool punBool) { 
+            ActionChoice choiceOut = null;
+            bool meleeCheck = F7_RefManager.BCNT.playerInMelee;
+
+            if((punBool && !defBool) || (punBool && defBool)) {
+                if(F7_RefManager.BCNT.currentHealth <= (F7_RefManager.BPSO.maxHealth/2)) { 
+                    if(enragedMode.isReady) { 
+                        choiceOut = enragedMode;
+                    }
+                    else if(aoePunish.isReady){ 
+                        choiceOut = aoePunish;
+                    }
+                }
+                else {
+                    if(meleeCheck) {
+                        if(bloodBarrier.isReady) { 
+                            choiceOut = bloodBarrier;
+                        }
+                        else if(bloodWall.isReady) { 
+                            choiceOut = bloodWall;
+                        }
+                    }
+                }
+            }
+            else if(defBool && !punBool) { 
+                if(meleeCheck) { 
+                    if(bloodBarrier.isReady)
+                        choiceOut = bloodBarrier;
+                }
+                else
+                    if(bloodWall.isReady)
+                        choiceOut = bloodWall;
+            }
+            else if(!punBool && !defBool) { 
+                if(meleeCheck) { 
+                    if(bloodBarrier.isReady)
+                        choiceOut = bloodBarrier;
+                }
+                else
+                    if(bloodWall.isReady)
+                        choiceOut = bloodWall;
+            }
+
+            if(choiceOut != null)
+                return choiceOut;
+            else
+                return swipeAttack;
+        }
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
         public ActionChoice GetSpecificAction(string tryName) { 
             ActionChoice actOut = readyActions.Find(actTry => (actTry.actionName == tryName && actTry.isReady == true));
@@ -136,12 +216,13 @@ namespace Cali7
         
 //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        public bool CheckActionAvailable(string tryName) { ActionChoice tryOut = readyActions.Find(actTry => actTry.actionName == tryName); return tryOut != null; }
+        public bool CheckActionAvailable(string tryName, bool meleeState) { ActionChoice tryOut = readyActions.Find(actTry => actTry.actionName == tryName && actTry.isMelee == meleeState); return tryOut != null; }
 
         public void StartAction(string tryName) { 
             ActionChoice selectedAct = readyActions.Find(actTry => actTry.actionName == tryName);
             if(selectedAct == null) {
-                F7_Help.DebugPrint(printDebugLogs, $"The requested action is either on cooldown or not a possible action: {tryName}");
+                tryName = "null";
+                F7_Help.DebugPrint(printDebugLogs, $"The requested action is either on cooldown or not a possible action/null, the name is: {tryName}");
                 return;
             }
             else { 
@@ -150,23 +231,29 @@ namespace Cali7
         }
 
         private void SetActions() { 
-            slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), 8f, "SlamAttack");
+            slamAttack = new ActionChoice(1, (() => Instance.SlamAttack()), 5f, "SlamAttack");
             slamAttack.isMelee = true;
-            swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), 8f, "SwipeAttack");
+            swipeAttack = new ActionChoice(1, (() => Instance.SwipeAttack()), 5f, "SwipeAttack");
             swipeAttack.isMelee = true;
             comboFinish = new ActionChoice(6, (() => Instance.ComboFinisher()), 48f, "ComboFinisher");
             comboFinish.isMelee = true;
-            shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), 6f, "ShardSpray");
+            shardSpray = new ActionChoice(1, (() => Instance.ShardSpray()), 18f, "ShardSpray");
             shardSpray.isMelee = false;
             pillarRise = new ActionChoice(1, (() => Instance.PillarRise()), 24f, "PillarRise");
             pillarRise.isMelee = false;
             raiseRing = new ActionChoice(1, (() => Instance.RaiseRing()), 32f, "RaiseRing");
             raiseRing.isMelee = false;
             bloodBarrier = new ActionChoice(2, (() => Instance.BloodBarrier()), 4f, "BloodBarrier");
+            bloodBarrier.isMelee = true;
             aoePunish = new ActionChoice(3, (() => Instance.AoEPunish()), 12f, "AoEPunish");
+            aoePunish.isMelee = true;
             enragedMode = new ActionChoice(3, (() => Instance.EnragedMode()), 12f, "EnragedMode");
+            enragedMode.isMelee = true;
             leapSwipe = new ActionChoice(3, (() => Instance.LeapSwipe()), 16f, "LeapSwipe");
+            leapSwipe.isMelee = false;
             bloodWall = new ActionChoice(2, (() => Instance.BloodWall()), 8f, "BloodWall");
+            bloodWall.isMelee = false;
+            genericRecovery = new ActionChoice(5, (() => Instance.GenericRecovery()), 1f, "GenericRecovery");
             barrierBroken = new ActionChoice(5, (() => Instance.BarrierBrokenRecover()), 1f, "BarrierBroken");
             reelingBack = new ActionChoice(5, (() => Instance.ReelingBackRecover()), 1f, "ReelingBack");
             enragedExit = new ActionChoice(5, (() => Instance.EnragedExitRecover()), 1f, "EnragedExit");
@@ -243,6 +330,7 @@ namespace Cali7
 //--------------------------------------------------------
 //      Recoveries
 
+        private void GenericRecovery() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(0); }
         private void BarrierBrokenRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(1); }
         private void ReelingBackRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(2); }
         private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); }

@@ -429,7 +429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Cali7.F7_ShardScript
   refsLoaded: 0
   printDebugLogs: 1
-  flightSpeed: 15
+  flightSpeed: 50
   turnSpeed: 6
   spawnPoint: {fileID: 0}
   sRB: {fileID: 5370417739529971448}

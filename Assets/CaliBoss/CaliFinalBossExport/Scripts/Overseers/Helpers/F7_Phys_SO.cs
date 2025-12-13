@@ -28,6 +28,7 @@ namespace Cali7
         [SerializeField] public int midCombo = 3;
         [SerializeField] public int maxCombo = 5;
         [SerializeField] public int hitsUntilPunish = 5;
+        [SerializeField] public int safeHitsUntilReact = 4;
         [SerializeField] public int hitsUntilBarrierBreak = 7;
         [SerializeField] public int maxHealth = 20;
         [SerializeField] public int numberOfPillars = 5;

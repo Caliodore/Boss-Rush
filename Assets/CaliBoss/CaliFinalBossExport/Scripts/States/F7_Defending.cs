@@ -19,10 +19,9 @@ namespace Cali7
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
-            if(defenseChoice == null) { 
-                defenseChoice = F7_RefManager.BACM.DecideAction(ActionType.Defense);
-            }
+            defenseChoice = F7_RefManager.BACM.DecideAction(ActionType.Defense);
             F7_RefManager.BACM.StartAction(defenseChoice.actionName);
+            holdingDefense = true;
         }
 
         public override void OnStateUpdate() { 

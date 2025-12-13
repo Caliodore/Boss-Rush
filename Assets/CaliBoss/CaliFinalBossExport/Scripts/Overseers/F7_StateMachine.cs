@@ -63,7 +63,7 @@ namespace Cali7
             }
         }
 
-        public void ReactToDamage() { ChangeState(F7_RefManager.BSTA); }
+        public void ReactToDamage() { F7_RefManager.BCNT.StateChangeRequest(); }
 
         public void ChangeState(F7_StateBase stateTo) { 
 

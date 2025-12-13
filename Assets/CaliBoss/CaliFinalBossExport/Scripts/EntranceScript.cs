@@ -9,7 +9,7 @@ namespace Cali7
         {
             F7_Help.DebugPrint(printDebugLogs, "Object collided with trigger.");
             if(other.gameObject.GetComponent<PlayerLogic>() != null) {
-                print("Object is player.");
+                F7_Help.DebugPrint(printDebugLogs, "Object is player.");
                 F7_EventManager.Instance.OnArenaEntered?.Invoke();
                 Destroy(gameObject);
             }

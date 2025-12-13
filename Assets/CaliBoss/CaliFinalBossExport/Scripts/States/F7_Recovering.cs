@@ -11,7 +11,8 @@ namespace Cali7
         public F7_Recovering() : base("Recovering") { }
 
         public float recoveryTime = 5f;
-        public int recoveryType;
+        public int recoveryType = 0;
+        public ActionChoice recoveryChoice = null;
 
         private void Start()
         {
@@ -23,12 +24,17 @@ namespace Cali7
 
         public void SetReferences() { 
             F7_EventManager.Instance.OnBossTakesDamage?.AddListener(dmgIn => DamageTakenDuringRecovery(dmgIn));
-            F7_RefManager.BEVM.OnRecoveryStart?.AddListener(typeInt => RecoveryTimeUpdate(typeInt));
+            //F7_RefManager.BEVM.OnRecoveryStart?.AddListener(typeInt => RecoveryTimeUpdate(typeInt));
             refsLoaded = true;
         }
 
         public override void OnStateEnter() { 
             base.OnStateEnter();
+            if(recoveryChoice == null) { 
+                recoveryChoice = F7_RefManager.BACM.DecideAction(ActionType.Recovery);
+                F7_RefManager.BACM.StartAction(recoveryChoice.actionName);
+            }
+            RecoveryTimeUpdate();
         }
 
         public override void OnStateUpdate() { 
@@ -44,11 +50,9 @@ namespace Cali7
 
         public override void StopThisState() { }
 
-        private void RecoveryTimeUpdate(int typeInt) {
-            recoveryType = typeInt;
+        private void RecoveryTimeUpdate() {
             switch(recoveryType) { 
                 case(1):
-                default:
                     recoveryTime = F7_RefManager.BPSO.brokenBarrierRecoveryTime;
                     break;
                     
@@ -59,7 +63,11 @@ namespace Cali7
                 case(3):
                     recoveryTime = F7_RefManager.BPSO.enragedExitRecoveryTime;
                     break;
-
+                    
+                default:
+                case(0):
+                    recoveryTime = 1f;
+                    break;
             }
         }
 

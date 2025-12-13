@@ -95,26 +95,22 @@ namespace Cali7
         private void OnTriggerEnter(Collider other)
         {
             string otherLayerName = LayerMask.LayerToName(other.gameObject.layer);
-            LayerMask otherLayer = other.gameObject.layer;
+            LayerMask otherLayer = LayerMask.GetMask(LayerMask.LayerToName(other.gameObject.layer));
 
-            switch(otherLayerName) { 
-                case(nameof(otLayer)): 
-                case(nameof(eDmgLayer)):
-                    break;
-                    
-                case(nameof(environLayer)): 
-                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with environment.");
+            if(otherLayer == environLayer) { 
+                F7_Help.DebugPrint(printDebugLogs, $"ENVIRON: {gameObject.name} collided with environment. {gameObject.name} should be deactivated after this message.");
+                DeactivateShard();
+            }
+            else if(otherLayer == playerLayer) { 
+                F7_Help.DebugPrint(printDebugLogs, $"PLAYER: {gameObject.name} collided with player, in case Damager didn't register it.");
+                if(gameObject != null)
                     DeactivateShard();
-                    break;
-                    
-                case(nameof(playerLayer)): 
-                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with player.");
-                    DeactivateShard();
-                    break;
-                    
-                default:
-                    F7_Help.DebugPrint(printDebugLogs, $"{gameObject.name} collided with {other.gameObject.name}.");
-                    break;
+            }
+            else if(otherLayer == otLayer || otherLayer == eDmgLayer) { 
+                //Nothing
+            }
+            else { 
+                F7_Help.DebugPrint(printDebugLogs, $"FALLTHROUGH: {gameObject.name} collided with {other.gameObject.name}.");
             }
         }
     }

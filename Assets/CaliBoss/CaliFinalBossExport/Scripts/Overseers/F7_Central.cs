@@ -31,6 +31,7 @@ namespace Cali7
         public int currentCombo = 0;
         public int currentHitsTaken = 0;
         public int hitsTakenRecently = 0;
+        public int hitsDoneSafely = 0;
         private List<F7_PillarScript> pillarScripts;
         public bool settingShards;
         public bool firingShards;
@@ -72,7 +73,8 @@ namespace Cali7
             if(refsSet) { 
                 CheckIfMoving();
                 CheckIfMelee();
-                debugVar = new Vector3(F7_RefManager.PLGS.gameObject.transform.position.x, 0, F7_RefManager.PLGS.gameObject.transform.position.z);
+                //debugVar = GetDirToPlayer();
+                //Debug.DrawRay(transform.position, debugVar * 2, Color.azure, 0.25f);
             }
         }
 
@@ -85,13 +87,20 @@ namespace Cali7
         
 //------[ Checking Methods ]-----------------------------------------------------------------------------------------------------------------------------------------
 
-        public void CheckHitsTakenRecently() { if(punishCoro == null) punishCoro = StartCoroutine(HitsTakenTimer()); hitsElapsed = 0; hitsTakenRecently++; }
+        public void CheckHitsTakenRecently() { if(punishCoro == null) punishCoro = StartCoroutine(HitsTakenTimer()); hitsElapsed = 0; hitsTakenRecently++; hitsDoneSafely++; }
+        public void ResetSafeHits() { hitsDoneSafely = 0; }
         public void CheckCombo() { if(comboCoro == null) comboCoro = StartCoroutine(ComboTimer()); comboElapsed = 0; currentCombo++; }
 
         public bool CheckIfComboReady() { return (currentCombo >= F7_RefManager.BPSO.maxCombo); }
         public bool CheckIfPunishReady() { return (hitsTakenRecently >= F7_RefManager.BPSO.hitsUntilPunish); }
 
         public void CheckHealthAndPhase() { }
+
+        public bool CheckIfWantDefense() { 
+            bool wantToBlock = playerInMelee || hitsTakenRecently > 1;
+            bool defensesReady = F7_RefManager.BACM.CheckActionAvailable(ActionType.Defense.ToString(), playerInMelee);
+            return wantToBlock && defensesReady;
+        }
 
         private void CheckIfMoving() { 
             if(F7_RefManager.BSTM.CurrentState == F7_RefManager.BSTC) { 
@@ -128,7 +137,15 @@ namespace Cali7
         }
 
         public Vector3 GetDirToPlayer() { 
-            return (F7_RefManager.PLGS.gameObject.transform.position - F7_RefManager.BGOJ.transform.position).normalized;
+            Vector3 bossFlatY = F7_RefManager.BGOJ.transform.position;
+            Vector3 playerFlatY = F7_RefManager.PLGS.gameObject.transform.position;
+
+            playerFlatY.y = 0;
+            bossFlatY.y = 0;
+
+            Vector3 distOut = (playerFlatY - bossFlatY).normalized;
+            F7_Help.DebugPrint(printDebugLogs, $"DirToPlayer: ({distOut})");
+            return distOut;
         }
 
         private void GetPillarScripts() {
@@ -205,11 +222,25 @@ namespace Cali7
 
         public void BloodWallPhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central BloodWall");
-            Vector3 dirToPlayer = GetDirToPlayer();
+            Vector3 dirToPlayer = GetDirToPlayer();     //Correct
             Vector3 halfwayPoint = dirToPlayer * (DistToPlayerCalc()/2);
-            if(Physics.Raycast(halfwayPoint, Vector3.down, out RaycastHit hitOut, 20f, LayerMask.GetMask("Environment"))) { 
-                F7_RefManager.GOBB.transform.position = hitOut.point;
-                transform.forward = dirToPlayer;
+
+            Vector3 rayPos = halfwayPoint + transform.position;
+            rayPos.y = 2f;
+
+            /*//Correct
+            Instantiate(F7_RefManager.TTTT, F7_RefManager.PLGS.gameObject.transform.position, Quaternion.identity, null);
+            //Correct
+            Instantiate(F7_RefManager.TTTT, transform.position + dirToPlayer, Quaternion.identity, null);
+            //Correct
+            Instantiate(F7_RefManager.TTTT, transform.position + halfwayPoint, Quaternion.identity, null);*/
+
+            if(Physics.Raycast(rayPos, Vector3.down, out RaycastHit hitOut, 20f, LayerMask.GetMask("Environment"))) { 
+                F7_RefManager.GOBW.transform.position = hitOut.point;
+                F7_RefManager.GOBW.transform.forward = dirToPlayer;
+                F7_RefManager.GOBW.SetActive(true);
+                F7_Help.DebugPrint(printDebugLogs, "BloodWall has been placed.");
+                StateChangeRequest();
             }
             else
                 F7_Help.DebugPrint(printDebugLogs, "BloodWall can't find a halfway spot between boss and player.");
@@ -243,6 +274,7 @@ namespace Cali7
             F7_EventManager.Instance.OnLeapSwipeStart?.AddListener(() => LeapSwipePhys());
             F7_EventManager.Instance.OnWallStart?.AddListener(() => BloodWallPhys());
 
+            F7_RefManager.PDGL.OnHit?.AddListener(dmgNum => ResetSafeHits());
             //F7_EventManager.Instance.OnRecoveryStart?.AddListener(typeIn => DetermineRecoveryType(typeIn));
         }
 

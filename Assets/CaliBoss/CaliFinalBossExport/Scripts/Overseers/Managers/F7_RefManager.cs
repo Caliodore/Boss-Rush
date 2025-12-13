@@ -70,8 +70,10 @@ namespace Cali7
             BMSR = bossMeleeSensor;
 
             PLGS = playerScript;
+            PDGL = playerDamageable;
 
             BPSO = bossPhysSO;
+            TTTT = testSphere;
 
             UIPC = playerHealthCanvas;
             UIBC = enemyHealthCanvas;
@@ -137,14 +139,16 @@ namespace Cali7
         public static List<GameObject> GOSA;
         public static List<GameObject> GOSO;
         public static List<GameObject> GOPO;
+        public static GameObject TTTT;
 
 //      |> Brolive Components
         public static Actor BACT;
         public static Damageable BDGL;
-        //public static Damager BDGR;
+        //public static Damager BDRC;
         public static Navigator BNGT;
         public static Sensor BMSR;
         public static PlayerLogic PLGS;
+        public static Damageable PDGL;
 
 //      |> UI Components
         public static Canvas UIPC;
@@ -197,6 +201,7 @@ namespace Cali7
         [SerializeField] private List<GameObject> shardIPs;
         [SerializeField] private List<GameObject> shardObjs;
         [SerializeField] private List<GameObject> pillarObjs;
+        [SerializeField] private GameObject testSphere;
 
         [Header("Brolive Components")]
         [SerializeField] private Actor bossActor;
@@ -205,6 +210,7 @@ namespace Cali7
         [SerializeField] private Navigator bossNavigator;
         [SerializeField] private Sensor bossMeleeSensor;
         [SerializeField] private PlayerLogic playerScript;
+        [SerializeField] private Damageable playerDamageable;
 
         [Header("UI Components")]
         [SerializeField] private Canvas playerHealthCanvas;

@@ -9,6 +9,7 @@ namespace Cali7
 { 
     public class F7_StateDeterminer : MonoBehaviour
     {
+        public bool printDebugLogs = true;
         public bool refsLoaded = false;
         public static F7_StateDeterminer Instance;
 
@@ -45,8 +46,10 @@ namespace Cali7
         public F7_StateBase DetermineNextState() {
             F7_StateBase stateOut = null;
             stateOut = AwarenessCheck();
-            if(stateOut == null)
+            if(stateOut == null) { 
                 stateOut = F7_RefManager.BSTC;
+                F7_Help.DebugPrint(printDebugLogs, "StateDeterminer returned chase because AwarenessCheck returned null");
+            }
             return stateOut;
         }
 
@@ -74,46 +77,57 @@ namespace Cali7
             bool inMelee = F7_RefManager.BCNT.playerInMelee;
             bool comboReady = F7_RefManager.BCNT.CheckIfComboReady();
             bool punishReady = F7_RefManager.BCNT.CheckIfPunishReady();
-            bool attackCheck = F7_RefManager.BACM.CheckActionAvailable(ActionType.Attack.ToString());
+            bool attackCheck = F7_RefManager.BACM.CheckActionAvailable(ActionType.Attack.ToString(), inMelee);
+            bool defenseCheck = F7_RefManager.BCNT.CheckIfWantDefense();
 
             F7_StateBase outputState = null;
-
+            
+            F7_Help.DebugPrint(printDebugLogs, "StateDeterminer read CurrentState as: " + F7_RefManager.BSTM.CurrentState.ToString());
             switch(F7_RefManager.BSTM.CurrentState.ToString()) { 
-                case("Attack"):
+                case("Attacking"):
                     //Currently attacking, should go to a recovery.
+                    //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Attacking to Recovering.");
                     outputState = F7_RefManager.BSTR;
                     break;
                     
                 case("Chase"):
                     //Currently chasing, is ending because it either got in melee or decided to punish.
-                    outputState = F7_RefManager.BSTA;
+                    //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Chase to Attacking.");
+                    if(attackCheck)
+                        outputState = F7_RefManager.BSTA;
+                    else
+                        outputState = F7_RefManager.BSTD;
                     break;
 
                 case("Defending"):
                     //Currently defending, most likely recovering or chasing next.
+                    //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Defending to Recovering.");
                     outputState = F7_RefManager.BSTR;
                     break;
 
                 case("Idling"):
                     //Currently idling, needs to either chase or attack.
-                    if(F7_RefManager.BCNT.playerInMelee || attackCheck)
+                    if(F7_RefManager.BCNT.playerInMelee || attackCheck) { 
+                        //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Idling to Attacking.");
                         outputState = F7_RefManager.BSTA;
-                    else
+                    }
+                    else { 
+                        //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Idling to Chase.");
                         outputState = F7_RefManager.BSTC;
+                    }
                     break;
 
                 case("Recovering"):
                     //Currently recovering, can go to any state realistically
-                    if(F7_RefManager.BCNT.playerInMelee)
+                    //F7_Help.DebugPrint(printDebugLogs, "StateDeterminer decided on Recovering to Idling.");
+                    if(inMelee && !defenseCheck)
                         outputState = F7_RefManager.BSTA;
+                    else if(defenseCheck)
+                        outputState = F7_RefManager.BSTD;
                     else
-                        outputState = F7_RefManager.BSTI;
+                        outputState = F7_RefManager.BSTC;
                     break;
             }
-            
-            /*if(outputState == F7_RefManager.BSTA && !attackCheck) { 
-                outputState = outputState = F7_RefManager.BSTC;
-            }*/
 
             return outputState;
         }
