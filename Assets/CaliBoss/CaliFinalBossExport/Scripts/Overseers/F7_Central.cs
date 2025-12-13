@@ -214,6 +214,7 @@ namespace Cali7
 
         public void EnragedModePhys() { 
             F7_Help.DebugPrint(printDebugLogs, "Central EnragedMode");
+            F7_MatSwapper.Instance.OnSwapMaterials?.Invoke(true);
         }
 
         public void LeapSwipePhys() { 
@@ -239,6 +240,7 @@ namespace Cali7
                 F7_RefManager.GOBW.transform.position = hitOut.point;
                 F7_RefManager.GOBW.transform.forward = dirToPlayer;
                 F7_RefManager.GOBW.SetActive(true);
+                F7_RefManager.GOBW.GetComponent<F7_BloodWall>().TurnOffObj();
                 F7_Help.DebugPrint(printDebugLogs, "BloodWall has been placed.");
                 StateChangeRequest();
             }

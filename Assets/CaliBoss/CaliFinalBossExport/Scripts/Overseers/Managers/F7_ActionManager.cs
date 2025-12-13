@@ -333,7 +333,7 @@ namespace Cali7
         private void GenericRecovery() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(0); }
         private void BarrierBrokenRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(1); }
         private void ReelingBackRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(2); }
-        private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); }
+        private void EnragedExitRecover() { F7_EventManager.Instance.OnRecoveryStart?.Invoke(3); F7_MatSwapper.Instance.OnSwapMaterials?.Invoke(false); }
 
 //----------------------------------------------------------------------------------------------------------------
 
